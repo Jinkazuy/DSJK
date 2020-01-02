@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "test",
+  "usingComponents": {
+    "van-button": "/wxcomponents/vant/button/index"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "login",
+  "usingComponents": {
+    "van-button": "/wxcomponents/vant/button/index"
+  }
+}

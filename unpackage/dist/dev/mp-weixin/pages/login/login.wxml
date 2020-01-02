@@ -1,0 +1,1 @@
+<block wx:if="{{onLoginBTN}}"><van-button vue-id="1" type="primary" open-type="getUserInfo" data-event-opts="{{[['^getuserinfo',[['bindGetUserInfo']]]]}}" data-com-type="wx" bind:getuserinfo="__e" bind:__l="__l" vue-slots="{{['default']}}">登录大善健康</van-button></block>
