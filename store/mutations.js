@@ -8,10 +8,30 @@ const matutaions = {
   setUserInfo(state, userInfo) {
     state.store_UserInfo = userInfo
   },
+	// 设置用户手机号
+	setUserPhone(state, userPhone) {
+	  state.store_UserPhone = userPhone
+	},
 	// 设置token
-	setToken(state, store_token) {
-	  state.store_token = store_token
-	}
+	setToken(state, storeToken) {
+	  state.store_token = storeToken
+	},
+	// 设置用户基本体征 - 性别
+	setUserBaseSignGander(state, signGander) {
+	  state.store_userBaseSign['gander'] = signGander
+	},
+	// 设置用户基本体征 - 出生日期
+	setUserBaseSignBirthDate(state, birthDate) {
+	  state.store_userBaseSign['birthDate'] = birthDate
+	},
+	// 设置用户基本体征 - 身高
+	setUserBaseSignHeight(state, height) {
+	  state.store_userBaseSign['height'] = height
+	},
+	// 设置用户基本体征 - 体重
+	setUserBaseSignWeight(state, weight) {
+	  state.store_userBaseSign['weight'] = weight
+	},
 }
 
 // 将 matutaions 导出，在store/index.js引入

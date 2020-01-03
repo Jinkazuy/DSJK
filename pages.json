@@ -29,6 +29,18 @@
 					"van-button": "/wxcomponents/vant/button/index"
 				}
 			}
+		},
+		{
+			"path": "pages/init_set_baseSign/init_set_baseSign",
+			"style": {
+				"navigationBarTitleText": "完善个人信息",
+				// 下方是使用有赞团队的移动UI框架的button样式
+				"usingComponents":{
+					// 这里指向的就是button的组件的文件，它会自动去找index.wxml
+					// 然后在这个test页面就能用 <van-button>标签使用这个组件了；
+					"van-button": "/wxcomponents/vant/button/index"
+				}
+			}
 		}
 	],
 	"tabBar": {

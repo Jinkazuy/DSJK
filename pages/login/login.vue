@@ -1,7 +1,10 @@
 <template>
-	<!-- 这个@getuserinfo是uniapp提供的处理事件，只适用于微信小程序，在点击这个按钮后，会触发bindGetUserInfo，然后拿到用户点击弹窗授权的回调函数 -->
-	<!-- 不同于@click，这个@getuserinfo只能在用户授权的弹窗，当用户点击拒绝或接受才会触发这个事件，并且这个事件只能用在小程序 -->
-	<van-button type="primary" open-type="getUserInfo" @getuserinfo="bindGetUserInfo" v-if="onLoginBTN">登录大善健康</van-button>
+	<div id="page-login">
+		<!-- 这个@getuserinfo是uniapp提供的处理事件，只适用于微信小程序，在点击这个按钮后，会触发bindGetUserInfo，然后拿到用户点击弹窗授权的回调函数 -->
+		<!-- 不同于@click，这个@getuserinfo只能在用户授权的弹窗，当用户点击拒绝或接受才会触发这个事件，并且这个事件只能用在小程序 -->
+		<van-button type="primary" open-type="getUserInfo" @getuserinfo="bindGetUserInfo" v-if="onLoginBTN">登录大善健康</van-button>
+		<van-button type="primary" open-type="getPhoneNumber" @getphonenumber="bindgetphonenumber" v-if="getPhoneBTN">获取手机号</van-button>
+	</div>
 </template>
 
 <script>
@@ -15,11 +18,14 @@
 	import {mapGetters, mapMutations} from 'vuex'
 	// 引入自己封装的发送http请求的函数
 	import {http_login_setToken} from '../../utils/http_login_setToken.js'
+	import {http_getPhone} from '../../utils/http_getPhone.js'
 	export default {
 		data () {
 			return {
 				// 授权按钮是否显示，当没有获取用户授权时，显示授权按钮
-				onLoginBTN: false
+				onLoginBTN: false,
+				// 获取用户手机号按钮
+				getPhoneBTN: false
 			}
 		},
 		// 监听页面显示。
@@ -31,8 +37,8 @@
 			  success: (loginRes) => {
 					// 拿到用户登录Code，发送给后台，后台返回token值，将token存储到本地中；
 					if (loginRes.code) {
-						console.log('login-------------')
-						http_login_setToken()
+						console.log('登录，获取token')
+						http_login_setToken(loginRes.code)
 					}
 			  }
 			})
@@ -49,12 +55,11 @@
 				this.getSetting()
 				// #endif
 				
-			} else if (!this.store_UserData.openid) { // 判断是否能够拿到包含敏感信息的用户信息
-				console.log('用户基本信息')
-				console.log(this.store_UserData)
-				
-			} else { // 用户数据和用户信息都可以拿到，允许进入其他页面
-				
+			}  else { // 用户数据和用户信息都可以拿到，允许进入其他页面
+				// 用户已授权，隐藏登录按钮
+				this.onLoginBTN = false
+				console.log('拿到用户信息，检测用户手机号是否存在')
+				this.ifStoreUserPhone()
 			}
 			
 			
@@ -75,10 +80,6 @@
 							// 未授权用户信息,显示授权用户信息按钮，隐藏其他按钮；
 							this.onLoginBTN = true
 						}
-				    // res.authSetting = {
-				    //   "scope.userInfo": true,
-				    //   "scope.userLocation": true
-				    // }
 				  }
 				})
 			},
@@ -87,18 +88,18 @@
 			// 获取用户信息授权
 			// 获取用户信息
 			getUserInfo () {
-				console.log('用户已授权，获取用户信息↓↓↓')
+				let that = this
 				uni.getUserInfo({
 				  success: (res) => {
 						// 获取成功，存本地
-					  console.log(res)
-				    var userInfo = res.userInfo
-				    var nickName = userInfo.nickName
-				    var avatarUrl = userInfo.avatarUrl
-				    var gender = userInfo.gender //性别 0：未知、1：男、2：女
-				    var province = userInfo.province
-				    var city = userInfo.city
-				    var country = userInfo.country
+						console.log('用户已授权，获取用户信息↓↓↓')
+					  console.log(res.userInfo)
+						console.log('将信息存储到本地')
+						that.setUserInfo(res.userInfo)
+						console.log('当前本地用户信息↓')
+						console.log(that.store_UserInfo)
+						// 然后检测本地用户手机号
+						that.ifStoreUserPhone()
 				  }
 				})
 			},
@@ -114,17 +115,67 @@
 					console.log(e)
 					if (e.target.userInfo) {
 						console.log('用户已授权-获取用户信息')
-						console.log(e.target)
+						console.log(e.target.userInfo)
 						// 拿到用户基本信息此时的操作，
-						// 1将用户基本信息储存到本地 
-						this.setUserInfo()
-						// 2 - 将 rawData 和 signature 发送给后台进行效验，然后拿到返回值：用户敏感信息
-						// 使用util下自己封装的发送请求的函数 http_getUserInfo
-						// 参数对象，格式是{rawData:xxx, signature: ''}
-						http_getUserInfo ({rawData: e.target.rawData, signature: e.target.signature})
+						// 将用户基本信息储存到本地 
+						console.log('将信息存储到本地')
+						this.setUserInfo(e.target.userInfo)
+						console.log('当前本地用户信息↓')
+						console.log(this.store_UserInfo)
+						// 用户已授权，隐藏登录按钮
+						this.onLoginBTN = false
+						// 然后检测本地用户手机号
+						this.ifStoreUserPhone()
+						
 					} else {
 						console.log('用户拒接登录，此时应显示弹窗告知用户“授权登录后才能使用xxx功能”')
 					}
+			},
+			// 检查本地是否能获取用户手机号
+			ifStoreUserPhone () {
+				console.log(this.$store)
+				if (this.store_UserPhone!=='') {
+					console.log('拿到手机号，本地用户手机号↓')
+					console.log(this.store_UserPhone)
+					console.log('单独判断用户基本体征数据(性别,出生日期,身高,体重)')
+					console.log('全部(性别,出生日期,身高,体重)都有，跳转至首页')
+					
+					if (this.store_userBaseSign['gander'] !== '' && this.store_userBaseSign['birthDate'] !== '' && this.store_userBaseSign['height'] !== '' && this.store_userBaseSign['weight'] !== '') {
+						// 全部都有数据，跳转至首页
+						uni.switchTab({
+							url: '../index/index',
+							complete (res) {
+								console.log(res)
+							}
+						})
+					} else {
+						// 重定向到设置用户基本体征数据
+						uni.redirectTo({
+							url: '../init_set_baseSign/init_set_baseSign',
+							complete (res) {
+								console.log(res)
+							}
+						})
+					}
+					
+				} else {
+					// 本地用户手机号为空
+					console.log('本地手机号获取为空，显示获取手机号按钮')
+					this.getPhoneBTN = true
+				}
+			},
+			// 获取用户手机号事件的回调函数
+			async bindgetphonenumber (e) {
+				console.log('用户点击获取手机号按钮')
+				console.log(e)
+				if (e.detail.encryptedData) {
+					console.log('用户授权手机号，拿到加密数据，发送给后台换取手机号')
+					await http_getPhone(e.detail.encryptedData)
+					// 等待换取手机号结束，检测本地手机号
+					this.ifStoreUserPhone()
+				} else {
+					console.log('用户拒绝授权获取手机号')
+				}
 			},
 			...mapMutations({
 			        // 这里映射了这个方法，那么在调用x的时候，就等于使用了this.$store.commit('SET_SINGER', value)这个方法；
@@ -136,7 +187,9 @@
 			// vuex提供的辅助函数，拿到store/getters.js向外暴露的内容；
       ...mapGetters([
         'store_UserInfo',
-				'store_token'
+				'store_token',
+				'store_UserPhone',
+				'store_userBaseSign'
       ])
     },
 	}

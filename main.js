@@ -8,6 +8,9 @@ Vue.config.productionTip = false
 
 App.mpType = 'app'
 
+// 解决axios真机调试报错
+require('promise.prototype.finally').shim()
+
 // 因为使用mpvue，子组件是拿不到this.$store的对象，所以挂载在vue的原型对象中，就能拿到了
 Vue.prototype.$store = store
 

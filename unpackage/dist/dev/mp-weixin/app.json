@@ -2,7 +2,8 @@
   "pages": [
     "pages/index/index",
     "pages/test/test",
-    "pages/login/login"
+    "pages/login/login",
+    "pages/init_set_baseSign/init_set_baseSign"
   ],
   "subPackages": [],
   "window": {
@@ -31,5 +32,6 @@
       }
     ]
   },
-  "usingComponents": {}
+  "usingComponents": {},
+  "sitemapLocation": "sitemap23.json"
 }

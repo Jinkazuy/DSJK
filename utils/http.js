@@ -10,6 +10,8 @@ import axios from '../js_sdk/gangdiedao-uni-axios'
 import store from '../store/index.js';
 
 
+import {baseUrl} from '@/utils/http_req_list.js'
+
 
 /**
  * 请求接口日志记录
@@ -36,7 +38,7 @@ function _reslog(res) {
 const http = axios.create({
 	
 	  // 路由前缀,如果请求地址经常变化,可以不设置
-    baseURL: 'https://api.douban.com',
+    baseURL: baseUrl,
 		
     timeout: 6000,  // 不可超过 manifest.json 中配置 networkTimeout的超时时间
     // #ifdef H5

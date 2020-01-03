@@ -8434,7 +8434,7 @@ module.exports = {"_from":"@dcloudio/uni-stat@^2.0.0-alpha-24420191128001","_id"
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/index/index": { "navigationBarTitleText": "uni-app" }, "pages/test/test": { "navigationBarTitleText": "test" }, "pages/login/login": { "navigationBarTitleText": "login" } }, "globalStyle": { "navigationBarTextStyle": "black", "navigationBarTitleText": "uni-app", "navigationBarBackgroundColor": "#F8F8F8", "backgroundColor": "#F8F8F8" } };exports.default = _default;
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/index/index": { "navigationBarTitleText": "uni-app" }, "pages/test/test": { "navigationBarTitleText": "test" }, "pages/login/login": { "navigationBarTitleText": "login" }, "pages/init_set_baseSign/init_set_baseSign": { "navigationBarTitleText": "完善个人信息" } }, "globalStyle": { "navigationBarTextStyle": "black", "navigationBarTitleText": "uni-app", "navigationBarBackgroundColor": "#F8F8F8", "backgroundColor": "#F8F8F8" } };exports.default = _default;
 
 /***/ }),
 /* 8 */
@@ -9613,14 +9613,20 @@ var setUserInfo = function setUserInfo(_ref, _ref2) {var commit = _ref.commit,st
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.store_token = exports.store_UserInfo = void 0; // 这里的 getters， 只负责 将state中的数据，对外提供展示数据，
+Object.defineProperty(exports, "__esModule", { value: true });exports.store_userBaseSign = exports.store_token = exports.store_UserPhone = exports.store_UserInfo = void 0; // 这里的 getters， 只负责 将state中的数据，对外提供展示数据，
 // 向外导出数据，只能展示不能修改；
 
 // 用户信息(不含敏感信息)
 var store_UserInfo = function store_UserInfo(state) {return state.store_UserInfo;};
 
+// 手机号
+exports.store_UserInfo = store_UserInfo;var store_UserPhone = function store_UserPhone(state) {return state.store_UserPhone;};
+
 // token
-exports.store_UserInfo = store_UserInfo;var store_token = function store_token(state) {return state.store_token;};exports.store_token = store_token;
+exports.store_UserPhone = store_UserPhone;var store_token = function store_token(state) {return state.store_token;};
+
+// 用户基本体征数据(性别,出生日期,身高,体重)
+exports.store_token = store_token;var store_userBaseSign = function store_userBaseSign(state) {return state.store_userBaseSign;};exports.store_userBaseSign = store_userBaseSign;
 
 /***/ }),
 /* 19 */
@@ -9634,8 +9640,17 @@ exports.store_UserInfo = store_UserInfo;var store_token = function store_token(s
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var state = {
   // 用户基本数据,不包含敏感信息;
   store_UserInfo: {},
+  // 用户手机号
+  store_UserPhone: '',
   // 用户登录后,后台返回的token值,用于每次发送请求时判断用户是否属于真的登录状态;
-  store_token: '' };var _default =
+  store_token: '',
+  // 用户基本体征数据(性别,出生日期,身高,体重)
+  store_userBaseSign: {
+    gander: '',
+    birthDate: '',
+    height: '',
+    weight: '' } };var _default =
+
 
 
 state;exports.default = _default;
@@ -9659,9 +9674,29 @@ var matutaions = {
   setUserInfo: function setUserInfo(state, userInfo) {
     state.store_UserInfo = userInfo;
   },
+  // 设置用户手机号
+  setUserPhone: function setUserPhone(state, userPhone) {
+    state.store_UserPhone = userPhone;
+  },
   // 设置token
-  setToken: function setToken(state, store_token) {
-    state.store_token = store_token;
+  setToken: function setToken(state, storeToken) {
+    state.store_token = storeToken;
+  },
+  // 设置用户基本体征 - 性别
+  setUserBaseSignGander: function setUserBaseSignGander(state, signGander) {
+    state.store_userBaseSign['gander'] = signGander;
+  },
+  // 设置用户基本体征 - 出生日期
+  setUserBaseSignBirthDate: function setUserBaseSignBirthDate(state, birthDate) {
+    state.store_userBaseSign['birthDate'] = birthDate;
+  },
+  // 设置用户基本体征 - 身高
+  setUserBaseSignHeight: function setUserBaseSignHeight(state, height) {
+    state.store_userBaseSign['height'] = height;
+  },
+  // 设置用户基本体征 - 体重
+  setUserBaseSignWeight: function setUserBaseSignWeight(state, weight) {
+    state.store_userBaseSign['weight'] = weight;
   } };
 
 
@@ -9669,40 +9704,1021 @@ var matutaions = {
 var _default = matutaions;exports.default = _default;
 
 /***/ }),
-/* 21 */,
-/* 22 */,
-/* 23 */,
-/* 24 */,
-/* 25 */,
-/* 26 */,
-/* 27 */,
-/* 28 */,
-/* 29 */,
-/* 30 */,
-/* 31 */,
-/* 32 */,
-/* 33 */,
-/* 34 */,
-/* 35 */,
-/* 36 */,
-/* 37 */,
-/* 38 */,
-/* 39 */,
+/* 21 */
+/*!*****************************************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/promise.prototype.finally/index.js ***!
+  \*****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var bind = __webpack_require__(/*! function-bind */ 22);
+var define = __webpack_require__(/*! define-properties */ 24);
+
+var implementation = __webpack_require__(/*! ./implementation */ 27);
+var getPolyfill = __webpack_require__(/*! ./polyfill */ 38);
+var shim = __webpack_require__(/*! ./shim */ 39);
+
+var bound = bind.call(Function.call, getPolyfill());
+
+define(bound, {
+  getPolyfill: getPolyfill,
+  implementation: implementation,
+  shim: shim });
+
+
+module.exports = bound;
+
+/***/ }),
+/* 22 */
+/*!*********************************************!*\
+  !*** ./node_modules/function-bind/index.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var implementation = __webpack_require__(/*! ./implementation */ 23);
+
+module.exports = Function.prototype.bind || implementation;
+
+
+/***/ }),
+/* 23 */
+/*!******************************************************!*\
+  !*** ./node_modules/function-bind/implementation.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/* eslint no-invalid-this: 1 */
+
+var ERROR_MESSAGE = 'Function.prototype.bind called on incompatible ';
+var slice = Array.prototype.slice;
+var toStr = Object.prototype.toString;
+var funcType = '[object Function]';
+
+module.exports = function bind(that) {
+    var target = this;
+    if (typeof target !== 'function' || toStr.call(target) !== funcType) {
+        throw new TypeError(ERROR_MESSAGE + target);
+    }
+    var args = slice.call(arguments, 1);
+
+    var bound;
+    var binder = function () {
+        if (this instanceof bound) {
+            var result = target.apply(
+                this,
+                args.concat(slice.call(arguments))
+            );
+            if (Object(result) === result) {
+                return result;
+            }
+            return this;
+        } else {
+            return target.apply(
+                that,
+                args.concat(slice.call(arguments))
+            );
+        }
+    };
+
+    var boundLength = Math.max(0, target.length - args.length);
+    var boundArgs = [];
+    for (var i = 0; i < boundLength; i++) {
+        boundArgs.push('$' + i);
+    }
+
+    bound = Function('binder', 'return function (' + boundArgs.join(',') + '){ return binder.apply(this,arguments); }')(binder);
+
+    if (target.prototype) {
+        var Empty = function Empty() {};
+        Empty.prototype = target.prototype;
+        bound.prototype = new Empty();
+        Empty.prototype = null;
+    }
+
+    return bound;
+};
+
+
+/***/ }),
+/* 24 */
+/*!*************************************************!*\
+  !*** ./node_modules/define-properties/index.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var keys = __webpack_require__(/*! object-keys */ 25);
+var hasSymbols = typeof Symbol === 'function' && typeof Symbol('foo') === 'symbol';
+
+var toStr = Object.prototype.toString;
+var concat = Array.prototype.concat;
+var origDefineProperty = Object.defineProperty;
+
+var isFunction = function (fn) {
+	return typeof fn === 'function' && toStr.call(fn) === '[object Function]';
+};
+
+var arePropertyDescriptorsSupported = function () {
+	var obj = {};
+	try {
+		origDefineProperty(obj, 'x', { enumerable: false, value: obj });
+		// eslint-disable-next-line no-unused-vars, no-restricted-syntax
+		for (var _ in obj) { // jscs:ignore disallowUnusedVariables
+			return false;
+		}
+		return obj.x === obj;
+	} catch (e) { /* this is IE 8. */
+		return false;
+	}
+};
+var supportsDescriptors = origDefineProperty && arePropertyDescriptorsSupported();
+
+var defineProperty = function (object, name, value, predicate) {
+	if (name in object && (!isFunction(predicate) || !predicate())) {
+		return;
+	}
+	if (supportsDescriptors) {
+		origDefineProperty(object, name, {
+			configurable: true,
+			enumerable: false,
+			value: value,
+			writable: true
+		});
+	} else {
+		object[name] = value;
+	}
+};
+
+var defineProperties = function (object, map) {
+	var predicates = arguments.length > 2 ? arguments[2] : {};
+	var props = keys(map);
+	if (hasSymbols) {
+		props = concat.call(props, Object.getOwnPropertySymbols(map));
+	}
+	for (var i = 0; i < props.length; i += 1) {
+		defineProperty(object, props[i], map[props[i]], predicates[props[i]]);
+	}
+};
+
+defineProperties.supportsDescriptors = !!supportsDescriptors;
+
+module.exports = defineProperties;
+
+
+/***/ }),
+/* 25 */
+/*!*******************************************!*\
+  !*** ./node_modules/object-keys/index.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// modified from https://github.com/es-shims/es5-shim
+var has = Object.prototype.hasOwnProperty;
+var toStr = Object.prototype.toString;
+var slice = Array.prototype.slice;
+var isArgs = __webpack_require__(/*! ./isArguments */ 26);
+var isEnumerable = Object.prototype.propertyIsEnumerable;
+var hasDontEnumBug = !isEnumerable.call({ toString: null }, 'toString');
+var hasProtoEnumBug = isEnumerable.call(function () {}, 'prototype');
+var dontEnums = [
+	'toString',
+	'toLocaleString',
+	'valueOf',
+	'hasOwnProperty',
+	'isPrototypeOf',
+	'propertyIsEnumerable',
+	'constructor'
+];
+var equalsConstructorPrototype = function (o) {
+	var ctor = o.constructor;
+	return ctor && ctor.prototype === o;
+};
+var excludedKeys = {
+	$applicationCache: true,
+	$console: true,
+	$external: true,
+	$frame: true,
+	$frameElement: true,
+	$frames: true,
+	$innerHeight: true,
+	$innerWidth: true,
+	$outerHeight: true,
+	$outerWidth: true,
+	$pageXOffset: true,
+	$pageYOffset: true,
+	$parent: true,
+	$scrollLeft: true,
+	$scrollTop: true,
+	$scrollX: true,
+	$scrollY: true,
+	$self: true,
+	$webkitIndexedDB: true,
+	$webkitStorageInfo: true,
+	$window: true
+};
+var hasAutomationEqualityBug = (function () {
+	/* global window */
+	if (typeof window === 'undefined') { return false; }
+	for (var k in window) {
+		try {
+			if (!excludedKeys['$' + k] && has.call(window, k) && window[k] !== null && typeof window[k] === 'object') {
+				try {
+					equalsConstructorPrototype(window[k]);
+				} catch (e) {
+					return true;
+				}
+			}
+		} catch (e) {
+			return true;
+		}
+	}
+	return false;
+}());
+var equalsConstructorPrototypeIfNotBuggy = function (o) {
+	/* global window */
+	if (typeof window === 'undefined' || !hasAutomationEqualityBug) {
+		return equalsConstructorPrototype(o);
+	}
+	try {
+		return equalsConstructorPrototype(o);
+	} catch (e) {
+		return false;
+	}
+};
+
+var keysShim = function keys(object) {
+	var isObject = object !== null && typeof object === 'object';
+	var isFunction = toStr.call(object) === '[object Function]';
+	var isArguments = isArgs(object);
+	var isString = isObject && toStr.call(object) === '[object String]';
+	var theKeys = [];
+
+	if (!isObject && !isFunction && !isArguments) {
+		throw new TypeError('Object.keys called on a non-object');
+	}
+
+	var skipProto = hasProtoEnumBug && isFunction;
+	if (isString && object.length > 0 && !has.call(object, 0)) {
+		for (var i = 0; i < object.length; ++i) {
+			theKeys.push(String(i));
+		}
+	}
+
+	if (isArguments && object.length > 0) {
+		for (var j = 0; j < object.length; ++j) {
+			theKeys.push(String(j));
+		}
+	} else {
+		for (var name in object) {
+			if (!(skipProto && name === 'prototype') && has.call(object, name)) {
+				theKeys.push(String(name));
+			}
+		}
+	}
+
+	if (hasDontEnumBug) {
+		var skipConstructor = equalsConstructorPrototypeIfNotBuggy(object);
+
+		for (var k = 0; k < dontEnums.length; ++k) {
+			if (!(skipConstructor && dontEnums[k] === 'constructor') && has.call(object, dontEnums[k])) {
+				theKeys.push(dontEnums[k]);
+			}
+		}
+	}
+	return theKeys;
+};
+
+keysShim.shim = function shimObjectKeys() {
+	if (Object.keys) {
+		var keysWorksWithArguments = (function () {
+			// Safari 5.0 bug
+			return (Object.keys(arguments) || '').length === 2;
+		}(1, 2));
+		if (!keysWorksWithArguments) {
+			var originalKeys = Object.keys;
+			Object.keys = function keys(object) { // eslint-disable-line func-name-matching
+				if (isArgs(object)) {
+					return originalKeys(slice.call(object));
+				} else {
+					return originalKeys(object);
+				}
+			};
+		}
+	} else {
+		Object.keys = keysShim;
+	}
+	return Object.keys || keysShim;
+};
+
+module.exports = keysShim;
+
+
+/***/ }),
+/* 26 */
+/*!*************************************************!*\
+  !*** ./node_modules/object-keys/isArguments.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var toStr = Object.prototype.toString;
+
+module.exports = function isArguments(value) {
+	var str = toStr.call(value);
+	var isArgs = str === '[object Arguments]';
+	if (!isArgs) {
+		isArgs = str !== '[object Array]' &&
+			value !== null &&
+			typeof value === 'object' &&
+			typeof value.length === 'number' &&
+			value.length >= 0 &&
+			toStr.call(value.callee) === '[object Function]';
+	}
+	return isArgs;
+};
+
+
+/***/ }),
+/* 27 */
+/*!**************************************************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/promise.prototype.finally/implementation.js ***!
+  \**************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var requirePromise = __webpack_require__(/*! ./requirePromise */ 28);
+
+requirePromise();
+
+var IsCallable = __webpack_require__(/*! es-abstract/2018/IsCallable */ 29);
+var SpeciesConstructor = __webpack_require__(/*! es-abstract/2018/SpeciesConstructor */ 31);
+var Type = __webpack_require__(/*! es-abstract/2018/Type */ 36);
+
+var promiseResolve = function PromiseResolve(C, value) {
+  return new C(function (resolve) {
+    resolve(value);
+  });
+};
+
+var OriginalPromise = Promise;
+
+var createThenFinally = function CreateThenFinally(C, onFinally) {
+  return function (value) {
+    var result = onFinally();
+    var promise = promiseResolve(C, result);
+    var valueThunk = function valueThunk() {
+      return value;
+    };
+    return promise.then(valueThunk);
+  };
+};
+
+var createCatchFinally = function CreateCatchFinally(C, onFinally) {
+  return function (reason) {
+    var result = onFinally();
+    var promise = promiseResolve(C, result);
+    var thrower = function thrower() {
+      throw reason;
+    };
+    return promise.then(thrower);
+  };
+};
+
+var promiseFinally = function finally_(onFinally) {
+  /* eslint no-invalid-this: 0 */
+
+  var promise = this;
+
+  if (Type(promise) !== 'Object') {
+    throw new TypeError('receiver is not an Object');
+  }
+
+  var C = SpeciesConstructor(promise, OriginalPromise); // may throw
+
+  var thenFinally = onFinally;
+  var catchFinally = onFinally;
+  if (IsCallable(onFinally)) {
+    thenFinally = createThenFinally(C, onFinally);
+    catchFinally = createCatchFinally(C, onFinally);
+  }
+
+  return promise.then(thenFinally, catchFinally);
+};
+
+if (Object.getOwnPropertyDescriptor) {
+  var descriptor = Object.getOwnPropertyDescriptor(promiseFinally, 'name');
+  if (descriptor && descriptor.configurable) {
+    Object.defineProperty(promiseFinally, 'name', { configurable: true, value: 'finally' });
+  }
+}
+
+module.exports = promiseFinally;
+
+/***/ }),
+/* 28 */
+/*!**************************************************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/promise.prototype.finally/requirePromise.js ***!
+  \**************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function requirePromise() {
+  if (typeof Promise !== 'function') {
+    throw new TypeError('`Promise.prototype.finally` requires a global `Promise` be available.');
+  }
+};
+
+/***/ }),
+/* 29 */
+/*!*************************************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/es-abstract/2018/IsCallable.js ***!
+  \*************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// http://www.ecma-international.org/ecma-262/5.1/#sec-9.11
+
+module.exports = __webpack_require__(/*! is-callable */ 30);
+
+/***/ }),
+/* 30 */
+/*!*******************************************!*\
+  !*** ./node_modules/is-callable/index.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var fnToStr = Function.prototype.toString;
+
+var constructorRegex = /^\s*class\b/;
+var isES6ClassFn = function isES6ClassFunction(value) {
+	try {
+		var fnStr = fnToStr.call(value);
+		return constructorRegex.test(fnStr);
+	} catch (e) {
+		return false; // not a function
+	}
+};
+
+var tryFunctionObject = function tryFunctionToStr(value) {
+	try {
+		if (isES6ClassFn(value)) { return false; }
+		fnToStr.call(value);
+		return true;
+	} catch (e) {
+		return false;
+	}
+};
+var toStr = Object.prototype.toString;
+var fnClass = '[object Function]';
+var genClass = '[object GeneratorFunction]';
+var hasToStringTag = typeof Symbol === 'function' && typeof Symbol.toStringTag === 'symbol';
+
+module.exports = function isCallable(value) {
+	if (!value) { return false; }
+	if (typeof value !== 'function' && typeof value !== 'object') { return false; }
+	if (typeof value === 'function' && !value.prototype) { return true; }
+	if (hasToStringTag) { return tryFunctionObject(value); }
+	if (isES6ClassFn(value)) { return false; }
+	var strClass = toStr.call(value);
+	return strClass === fnClass || strClass === genClass;
+};
+
+
+/***/ }),
+/* 31 */
+/*!*********************************************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/es-abstract/2018/SpeciesConstructor.js ***!
+  \*********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var GetIntrinsic = __webpack_require__(/*! ../GetIntrinsic */ 32);
+
+var $species = GetIntrinsic('%Symbol.species%', true);
+var $TypeError = GetIntrinsic('%TypeError%');
+
+var IsConstructor = __webpack_require__(/*! ./IsConstructor */ 35);
+var Type = __webpack_require__(/*! ./Type */ 36);
+
+// https://ecma-international.org/ecma-262/6.0/#sec-speciesconstructor
+
+module.exports = function SpeciesConstructor(O, defaultConstructor) {
+  if (Type(O) !== 'Object') {
+    throw new $TypeError('Assertion failed: Type(O) is not Object');
+  }
+  var C = O.constructor;
+  if (typeof C === 'undefined') {
+    return defaultConstructor;
+  }
+  if (Type(C) !== 'Object') {
+    throw new $TypeError('O.constructor is not an Object');
+  }
+  var S = $species ? C[$species] : void 0;
+  if (S == null) {
+    return defaultConstructor;
+  }
+  if (IsConstructor(S)) {
+    return S;
+  }
+  throw new $TypeError('no constructor found');
+};
+
+/***/ }),
+/* 32 */
+/*!**********************************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/es-abstract/GetIntrinsic.js ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/* globals
+              	Atomics,
+              	SharedArrayBuffer,
+              */
+
+var undefined;
+
+var $TypeError = TypeError;
+
+var $gOPD = Object.getOwnPropertyDescriptor;
+if ($gOPD) {
+  try {
+    $gOPD({}, '');
+  } catch (e) {
+    $gOPD = null; // this is IE 8, which has a broken gOPD
+  }
+}
+
+var throwTypeError = function throwTypeError() {throw new $TypeError();};
+var ThrowTypeError = $gOPD ?
+function () {
+  try {
+    // eslint-disable-next-line no-unused-expressions, no-caller, no-restricted-properties
+    arguments.callee; // IE 8 does not throw here
+    return throwTypeError;
+  } catch (calleeThrows) {
+    try {
+      // IE 8 throws on Object.getOwnPropertyDescriptor(arguments, '')
+      return $gOPD(arguments, 'callee').get;
+    } catch (gOPDthrows) {
+      return throwTypeError;
+    }
+  }
+}() :
+throwTypeError;
+
+var hasSymbols = __webpack_require__(/*! has-symbols */ 33)();
+
+var getProto = Object.getPrototypeOf || function (x) {return x.__proto__;}; // eslint-disable-line no-proto
+
+var generator; // = function * () {};
+var generatorFunction = generator ? getProto(generator) : undefined;
+var asyncFn; // async function() {};
+var asyncFunction = asyncFn ? asyncFn.constructor : undefined;
+var asyncGen; // async function * () {};
+var asyncGenFunction = asyncGen ? getProto(asyncGen) : undefined;
+var asyncGenIterator = asyncGen ? asyncGen() : undefined;
+
+var TypedArray = typeof Uint8Array === 'undefined' ? undefined : getProto(Uint8Array);
+
+var INTRINSICS = {
+  '%Array%': Array,
+  '%ArrayBuffer%': typeof ArrayBuffer === 'undefined' ? undefined : ArrayBuffer,
+  '%ArrayBufferPrototype%': typeof ArrayBuffer === 'undefined' ? undefined : ArrayBuffer.prototype,
+  '%ArrayIteratorPrototype%': hasSymbols ? getProto([][Symbol.iterator]()) : undefined,
+  '%ArrayPrototype%': Array.prototype,
+  '%ArrayProto_entries%': Array.prototype.entries,
+  '%ArrayProto_forEach%': Array.prototype.forEach,
+  '%ArrayProto_keys%': Array.prototype.keys,
+  '%ArrayProto_values%': Array.prototype.values,
+  '%AsyncFromSyncIteratorPrototype%': undefined,
+  '%AsyncFunction%': asyncFunction,
+  '%AsyncFunctionPrototype%': asyncFunction ? asyncFunction.prototype : undefined,
+  '%AsyncGenerator%': asyncGen ? getProto(asyncGenIterator) : undefined,
+  '%AsyncGeneratorFunction%': asyncGenFunction,
+  '%AsyncGeneratorPrototype%': asyncGenFunction ? asyncGenFunction.prototype : undefined,
+  '%AsyncIteratorPrototype%': asyncGenIterator && hasSymbols && Symbol.asyncIterator ? asyncGenIterator[Symbol.asyncIterator]() : undefined,
+  '%Atomics%': typeof Atomics === 'undefined' ? undefined : Atomics,
+  '%Boolean%': Boolean,
+  '%BooleanPrototype%': Boolean.prototype,
+  '%DataView%': typeof DataView === 'undefined' ? undefined : DataView,
+  '%DataViewPrototype%': typeof DataView === 'undefined' ? undefined : DataView.prototype,
+  '%Date%': Date,
+  '%DatePrototype%': Date.prototype,
+  '%decodeURI%': decodeURI,
+  '%decodeURIComponent%': decodeURIComponent,
+  '%encodeURI%': encodeURI,
+  '%encodeURIComponent%': encodeURIComponent,
+  '%Error%': Error,
+  '%ErrorPrototype%': Error.prototype,
+  '%eval%': eval, // eslint-disable-line no-eval
+  '%EvalError%': EvalError,
+  '%EvalErrorPrototype%': EvalError.prototype,
+  '%Float32Array%': typeof Float32Array === 'undefined' ? undefined : Float32Array,
+  '%Float32ArrayPrototype%': typeof Float32Array === 'undefined' ? undefined : Float32Array.prototype,
+  '%Float64Array%': typeof Float64Array === 'undefined' ? undefined : Float64Array,
+  '%Float64ArrayPrototype%': typeof Float64Array === 'undefined' ? undefined : Float64Array.prototype,
+  '%Function%': Function,
+  '%FunctionPrototype%': Function.prototype,
+  '%Generator%': generator ? getProto(generator()) : undefined,
+  '%GeneratorFunction%': generatorFunction,
+  '%GeneratorPrototype%': generatorFunction ? generatorFunction.prototype : undefined,
+  '%Int8Array%': typeof Int8Array === 'undefined' ? undefined : Int8Array,
+  '%Int8ArrayPrototype%': typeof Int8Array === 'undefined' ? undefined : Int8Array.prototype,
+  '%Int16Array%': typeof Int16Array === 'undefined' ? undefined : Int16Array,
+  '%Int16ArrayPrototype%': typeof Int16Array === 'undefined' ? undefined : Int8Array.prototype,
+  '%Int32Array%': typeof Int32Array === 'undefined' ? undefined : Int32Array,
+  '%Int32ArrayPrototype%': typeof Int32Array === 'undefined' ? undefined : Int32Array.prototype,
+  '%isFinite%': isFinite,
+  '%isNaN%': isNaN,
+  '%IteratorPrototype%': hasSymbols ? getProto(getProto([][Symbol.iterator]())) : undefined,
+  '%JSON%': typeof JSON === 'object' ? JSON : undefined,
+  '%JSONParse%': typeof JSON === 'object' ? JSON.parse : undefined,
+  '%Map%': typeof Map === 'undefined' ? undefined : Map,
+  '%MapIteratorPrototype%': typeof Map === 'undefined' || !hasSymbols ? undefined : getProto(new Map()[Symbol.iterator]()),
+  '%MapPrototype%': typeof Map === 'undefined' ? undefined : Map.prototype,
+  '%Math%': Math,
+  '%Number%': Number,
+  '%NumberPrototype%': Number.prototype,
+  '%Object%': Object,
+  '%ObjectPrototype%': Object.prototype,
+  '%ObjProto_toString%': Object.prototype.toString,
+  '%ObjProto_valueOf%': Object.prototype.valueOf,
+  '%parseFloat%': parseFloat,
+  '%parseInt%': parseInt,
+  '%Promise%': typeof Promise === 'undefined' ? undefined : Promise,
+  '%PromisePrototype%': typeof Promise === 'undefined' ? undefined : Promise.prototype,
+  '%PromiseProto_then%': typeof Promise === 'undefined' ? undefined : Promise.prototype.then,
+  '%Promise_all%': typeof Promise === 'undefined' ? undefined : Promise.all,
+  '%Promise_reject%': typeof Promise === 'undefined' ? undefined : Promise.reject,
+  '%Promise_resolve%': typeof Promise === 'undefined' ? undefined : Promise.resolve,
+  '%Proxy%': typeof Proxy === 'undefined' ? undefined : Proxy,
+  '%RangeError%': RangeError,
+  '%RangeErrorPrototype%': RangeError.prototype,
+  '%ReferenceError%': ReferenceError,
+  '%ReferenceErrorPrototype%': ReferenceError.prototype,
+  '%Reflect%': typeof Reflect === 'undefined' ? undefined : Reflect,
+  '%RegExp%': RegExp,
+  '%RegExpPrototype%': RegExp.prototype,
+  '%Set%': typeof Set === 'undefined' ? undefined : Set,
+  '%SetIteratorPrototype%': typeof Set === 'undefined' || !hasSymbols ? undefined : getProto(new Set()[Symbol.iterator]()),
+  '%SetPrototype%': typeof Set === 'undefined' ? undefined : Set.prototype,
+  '%SharedArrayBuffer%': typeof SharedArrayBuffer === 'undefined' ? undefined : SharedArrayBuffer,
+  '%SharedArrayBufferPrototype%': typeof SharedArrayBuffer === 'undefined' ? undefined : SharedArrayBuffer.prototype,
+  '%String%': String,
+  '%StringIteratorPrototype%': hasSymbols ? getProto(''[Symbol.iterator]()) : undefined,
+  '%StringPrototype%': String.prototype,
+  '%Symbol%': hasSymbols ? Symbol : undefined,
+  '%SymbolPrototype%': hasSymbols ? Symbol.prototype : undefined,
+  '%SyntaxError%': SyntaxError,
+  '%SyntaxErrorPrototype%': SyntaxError.prototype,
+  '%ThrowTypeError%': ThrowTypeError,
+  '%TypedArray%': TypedArray,
+  '%TypedArrayPrototype%': TypedArray ? TypedArray.prototype : undefined,
+  '%TypeError%': $TypeError,
+  '%TypeErrorPrototype%': $TypeError.prototype,
+  '%Uint8Array%': typeof Uint8Array === 'undefined' ? undefined : Uint8Array,
+  '%Uint8ArrayPrototype%': typeof Uint8Array === 'undefined' ? undefined : Uint8Array.prototype,
+  '%Uint8ClampedArray%': typeof Uint8ClampedArray === 'undefined' ? undefined : Uint8ClampedArray,
+  '%Uint8ClampedArrayPrototype%': typeof Uint8ClampedArray === 'undefined' ? undefined : Uint8ClampedArray.prototype,
+  '%Uint16Array%': typeof Uint16Array === 'undefined' ? undefined : Uint16Array,
+  '%Uint16ArrayPrototype%': typeof Uint16Array === 'undefined' ? undefined : Uint16Array.prototype,
+  '%Uint32Array%': typeof Uint32Array === 'undefined' ? undefined : Uint32Array,
+  '%Uint32ArrayPrototype%': typeof Uint32Array === 'undefined' ? undefined : Uint32Array.prototype,
+  '%URIError%': URIError,
+  '%URIErrorPrototype%': URIError.prototype,
+  '%WeakMap%': typeof WeakMap === 'undefined' ? undefined : WeakMap,
+  '%WeakMapPrototype%': typeof WeakMap === 'undefined' ? undefined : WeakMap.prototype,
+  '%WeakSet%': typeof WeakSet === 'undefined' ? undefined : WeakSet,
+  '%WeakSetPrototype%': typeof WeakSet === 'undefined' ? undefined : WeakSet.prototype };
+
+
+var bind = __webpack_require__(/*! function-bind */ 22);
+var $replace = bind.call(Function.call, String.prototype.replace);
+
+/* adapted from https://github.com/lodash/lodash/blob/4.17.15/dist/lodash.js#L6735-L6744 */
+var rePropName = /[^%.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|%$))/g;
+var reEscapeChar = /\\(\\)?/g; /** Used to match backslashes in property paths. */
+var stringToPath = function stringToPath(string) {
+  var result = [];
+  $replace(string, rePropName, function (match, number, quote, subString) {
+    result[result.length] = quote ? $replace(subString, reEscapeChar, '$1') : number || match;
+  });
+  return result;
+};
+/* end adaptation */
+
+var getBaseIntrinsic = function getBaseIntrinsic(name, allowMissing) {
+  if (!(name in INTRINSICS)) {
+    throw new SyntaxError('intrinsic ' + name + ' does not exist!');
+  }
+
+  // istanbul ignore if // hopefully this is impossible to test :-)
+  if (typeof INTRINSICS[name] === 'undefined' && !allowMissing) {
+    throw new $TypeError('intrinsic ' + name + ' exists, but is not available. Please file an issue!');
+  }
+
+  return INTRINSICS[name];
+};
+
+module.exports = function GetIntrinsic(name, allowMissing) {
+  if (typeof name !== 'string' || name.length === 0) {
+    throw new TypeError('intrinsic name must be a non-empty string');
+  }
+  if (arguments.length > 1 && typeof allowMissing !== 'boolean') {
+    throw new TypeError('"allowMissing" argument must be a boolean');
+  }
+
+  var parts = stringToPath(name);
+
+  var value = getBaseIntrinsic('%' + (parts.length > 0 ? parts[0] : '') + '%', allowMissing);
+  for (var i = 1; i < parts.length; i += 1) {
+    if (value != null) {
+      if ($gOPD && i + 1 >= parts.length) {
+        var desc = $gOPD(value, parts[i]);
+        value = desc ? desc.get || desc.value : value[parts[i]];
+      } else {
+        value = value[parts[i]];
+      }
+    }
+  }
+  return value;
+};
+
+/***/ }),
+/* 33 */
+/*!*******************************************!*\
+  !*** ./node_modules/has-symbols/index.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global) {
+
+var origSymbol = global.Symbol;
+var hasSymbolSham = __webpack_require__(/*! ./shams */ 34);
+
+module.exports = function hasNativeSymbols() {
+	if (typeof origSymbol !== 'function') { return false; }
+	if (typeof Symbol !== 'function') { return false; }
+	if (typeof origSymbol('foo') !== 'symbol') { return false; }
+	if (typeof Symbol('bar') !== 'symbol') { return false; }
+
+	return hasSymbolSham();
+};
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ 3)))
+
+/***/ }),
+/* 34 */
+/*!*******************************************!*\
+  !*** ./node_modules/has-symbols/shams.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/* eslint complexity: [2, 17], max-statements: [2, 33] */
+module.exports = function hasSymbols() {
+	if (typeof Symbol !== 'function' || typeof Object.getOwnPropertySymbols !== 'function') { return false; }
+	if (typeof Symbol.iterator === 'symbol') { return true; }
+
+	var obj = {};
+	var sym = Symbol('test');
+	var symObj = Object(sym);
+	if (typeof sym === 'string') { return false; }
+
+	if (Object.prototype.toString.call(sym) !== '[object Symbol]') { return false; }
+	if (Object.prototype.toString.call(symObj) !== '[object Symbol]') { return false; }
+
+	// temp disabled per https://github.com/ljharb/object.assign/issues/17
+	// if (sym instanceof Symbol) { return false; }
+	// temp disabled per https://github.com/WebReflection/get-own-property-symbols/issues/4
+	// if (!(symObj instanceof Symbol)) { return false; }
+
+	// if (typeof Symbol.prototype.toString !== 'function') { return false; }
+	// if (String(sym) !== Symbol.prototype.toString.call(sym)) { return false; }
+
+	var symVal = 42;
+	obj[sym] = symVal;
+	for (sym in obj) { return false; } // eslint-disable-line no-restricted-syntax
+	if (typeof Object.keys === 'function' && Object.keys(obj).length !== 0) { return false; }
+
+	if (typeof Object.getOwnPropertyNames === 'function' && Object.getOwnPropertyNames(obj).length !== 0) { return false; }
+
+	var syms = Object.getOwnPropertySymbols(obj);
+	if (syms.length !== 1 || syms[0] !== sym) { return false; }
+
+	if (!Object.prototype.propertyIsEnumerable.call(obj, sym)) { return false; }
+
+	if (typeof Object.getOwnPropertyDescriptor === 'function') {
+		var descriptor = Object.getOwnPropertyDescriptor(obj, sym);
+		if (descriptor.value !== symVal || descriptor.enumerable !== true) { return false; }
+	}
+
+	return true;
+};
+
+
+/***/ }),
+/* 35 */
+/*!****************************************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/es-abstract/2018/IsConstructor.js ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// https://www.ecma-international.org/ecma-262/6.0/#sec-isconstructor
+
+module.exports = function IsConstructor(argument) {
+  return typeof argument === 'function' && !!argument.prototype; // unfortunately there's no way to truly check this without try/catch `new argument`
+};
+
+/***/ }),
+/* 36 */
+/*!*******************************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/es-abstract/2018/Type.js ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var ES5Type = __webpack_require__(/*! ../5/Type */ 37);
+
+// https://www.ecma-international.org/ecma-262/6.0/#sec-tostring
+
+module.exports = function Type(x) {
+  if (typeof x === 'symbol') {
+    return 'Symbol';
+  }
+  return ES5Type(x);
+};
+
+/***/ }),
+/* 37 */
+/*!****************************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/es-abstract/5/Type.js ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// https://www.ecma-international.org/ecma-262/5.1/#sec-8
+
+module.exports = function Type(x) {
+  if (x === null) {
+    return 'Null';
+  }
+  if (typeof x === 'undefined') {
+    return 'Undefined';
+  }
+  if (typeof x === 'function' || typeof x === 'object') {
+    return 'Object';
+  }
+  if (typeof x === 'number') {
+    return 'Number';
+  }
+  if (typeof x === 'boolean') {
+    return 'Boolean';
+  }
+  if (typeof x === 'string') {
+    return 'String';
+  }
+};
+
+/***/ }),
+/* 38 */
+/*!********************************************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/promise.prototype.finally/polyfill.js ***!
+  \********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var requirePromise = __webpack_require__(/*! ./requirePromise */ 28);
+
+var implementation = __webpack_require__(/*! ./implementation */ 27);
+
+module.exports = function getPolyfill() {
+  requirePromise();
+  return typeof Promise.prototype['finally'] === 'function' ? Promise.prototype['finally'] : implementation;
+};
+
+/***/ }),
+/* 39 */
+/*!****************************************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/promise.prototype.finally/shim.js ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var requirePromise = __webpack_require__(/*! ./requirePromise */ 28);
+
+var getPolyfill = __webpack_require__(/*! ./polyfill */ 38);
+var define = __webpack_require__(/*! define-properties */ 24);
+
+module.exports = function shimPromiseFinally() {
+  requirePromise();
+
+  var polyfill = getPolyfill();
+  define(Promise.prototype, { 'finally': polyfill }, {
+    'finally': function testFinally() {
+      return Promise.prototype['finally'] !== polyfill;
+    } });
+
+  return polyfill;
+};
+
+/***/ }),
 /* 40 */,
 /* 41 */,
 /* 42 */,
-/* 43 */
+/* 43 */,
+/* 44 */,
+/* 45 */,
+/* 46 */,
+/* 47 */,
+/* 48 */,
+/* 49 */,
+/* 50 */,
+/* 51 */,
+/* 52 */,
+/* 53 */,
+/* 54 */,
+/* 55 */,
+/* 56 */,
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */
 /*!**********************************************************!*\
   !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
   \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! regenerator-runtime */ 44);
+module.exports = __webpack_require__(/*! regenerator-runtime */ 63);
 
 
 /***/ }),
-/* 44 */
+/* 63 */
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -9733,7 +10749,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(/*! ./runtime */ 45);
+module.exports = __webpack_require__(/*! ./runtime */ 64);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -9749,7 +10765,7 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 45 */
+/* 64 */
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/
@@ -10480,7 +11496,64 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 46 */
+/* 65 */
+/*!**********************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http_login_setToken.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.http_login_setToken = void 0;
+
+var _index = _interopRequireDefault(__webpack_require__(/*! @/store/index.js */ 15));
+
+var _http = _interopRequireDefault(__webpack_require__(/*! @/utils/http.js */ 66));
+
+var _http_req_list = __webpack_require__(/*! @/utils/http_req_list.js */ 99);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 由于不是vue组件,所以不能拿到this的vue实例,
+// 所以这里操作store就用原始的方法,直接操作文件;
+// login后,将code发送给后台,换取token,将token存储到本地
+var http_login_setToken = function http_login_setToken(loginCode) {
+
+  console.log('loginCode' + loginCode);
+
+
+  // 注意,这里用get请求,如果是要修改请求头,那么就需要在http.js中if (config.method == 'get') {config.data = 'true'} ,并且,get请求的第二个参数,是设置请求头;
+
+  // 由于想要在get请求时修改请求头,所以参数2是设置请求头,如果要传参就直接加到URL里
+  // 测试get请求
+  var URLD = 'https://api.douban.com/v2/book/isbn/9787506394864?apikey=0df993c66c0c636e29ecbb5344252a4a&start=0&count=10';
+  _http.default.get(URLD, { headers: { 'Content-Type': 'application/text' } }).then(function (res) {
+    console.log(res);
+  }).catch(function (error) {
+  }).finally(function () {
+  });
+
+  // 测试post请求
+  // 如果是post请求,参数1是URL,那么参数2是数据,参数3个设置请求头;
+  // http.post(URL, [data], {potion}).then(res => {
+  // }).catch(error => {
+  // }).finally(() => {
+  // })
+
+  // http.post(url_login_getToken, [{code:loginCode}]).then(res => {
+
+  // 	// 由于不是vue组件,所以不能拿到this的vue实例,
+  // 	// 所以这里操作store就用原始的方法,直接操作文件;
+  // 	// 其他vue文件还是用...mutations映射方法操作
+  // 	console.log('登录,换取token' + res)
+  // 	store.commit('setToken', 'tototototo')
+  // 	console.log(store.getters.store_token)
+
+  // }).catch(error => {
+  // }).finally(() => {
+  // })
+
+
+};exports.http_login_setToken = http_login_setToken;
+
+/***/ }),
+/* 66 */
 /*!*******************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http.js ***!
   \*******************************************************/
@@ -10491,21 +11564,23 @@ if (hadRuntime) {
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
 
-var _gangdiedaoUniAxios = _interopRequireDefault(__webpack_require__(/*! ../js_sdk/gangdiedao-uni-axios */ 47));
+var _gangdiedaoUniAxios = _interopRequireDefault(__webpack_require__(/*! ../js_sdk/gangdiedao-uni-axios */ 67));
 
 
 
 
 
-var _index = _interopRequireDefault(__webpack_require__(/*! ../store/index.js */ 15));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 使用第三方插件, 基于uniapp的axios, https://ext.dcloud.net.cn/plugin?id=558 
+var _index = _interopRequireDefault(__webpack_require__(/*! ../store/index.js */ 15));
+
+
+var _http_req_list = __webpack_require__(/*! @/utils/http_req_list.js */ 99);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 使用第三方插件, 基于uniapp的axios, https://ext.dcloud.net.cn/plugin?id=558 
 // 在网站下载使用或者在网站上点击导入HBuilder,会自动成js_sdk文件夹,否则手动创建
 // 并且在项目中安装 axios  npm install --save axios
 // 由于不是vue组件,所以不能拿到this的vue实例,
 // 所以这里操作store就用原始的方法,直接操作文件;
 /**
  * 请求接口日志记录
- */function _reqlog(req) {
-  if (true) {
+ */function _reqlog(req) {if (true) {
     console.log("请求地址：" + req.url, req.data || req.params);
   }
   //TODO 调接口异步写入日志数据库
@@ -10526,7 +11601,7 @@ function _reslog(res) {
 var http = _gangdiedaoUniAxios.default.create({
 
   // 路由前缀,如果请求地址经常变化,可以不设置
-  baseURL: 'https://api.douban.com',
+  baseURL: _http_req_list.baseUrl,
 
   timeout: 6000, // 不可超过 manifest.json 中配置 networkTimeout的超时时间
 
@@ -10558,7 +11633,7 @@ http.interceptors.request.use(function (config) {
 http;exports.default = _default;
 
 /***/ }),
-/* 47 */
+/* 67 */
 /*!******************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/js_sdk/gangdiedao-uni-axios/index.js ***!
   \******************************************************************************/
@@ -10566,11 +11641,11 @@ http;exports.default = _default;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _uniAxios = __webpack_require__(/*! ./uni-axios */ 48);var _default =
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _uniAxios = __webpack_require__(/*! ./uni-axios */ 68);var _default =
 _uniAxios.axios;exports.default = _default;
 
 /***/ }),
-/* 48 */
+/* 68 */
 /*!**********************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/js_sdk/gangdiedao-uni-axios/uni-axios.js ***!
   \**********************************************************************************/
@@ -10578,7 +11653,7 @@ _uniAxios.axios;exports.default = _default;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });var _exportNames = { axios: true };Object.defineProperty(exports, "axios", { enumerable: true, get: function get() {return _axios.default;} });var _axios = _interopRequireWildcard(__webpack_require__(/*! axios */ 49));
+Object.defineProperty(exports, "__esModule", { value: true });var _exportNames = { axios: true };Object.defineProperty(exports, "axios", { enumerable: true, get: function get() {return _axios.default;} });var _axios = _interopRequireWildcard(__webpack_require__(/*! axios */ 69));
 
 
 
@@ -10620,10 +11695,10 @@ Object.defineProperty(exports, "__esModule", { value: true });var _exportNames =
 
 
 
-Object.keys(_axios).forEach(function (key) {if (key === "default" || key === "__esModule") return;if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;Object.defineProperty(exports, key, { enumerable: true, get: function get() {return _axios[key];} });});var _utils = _interopRequireDefault(__webpack_require__(/*! axios/lib/utils */ 51));var _adapter = __webpack_require__(/*! ./adapter */ 77);var _normalizeHeaderName = _interopRequireDefault(__webpack_require__(/*! axios/lib/helpers/normalizeHeaderName */ 63));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) {var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {};if (desc.get || desc.set) {Object.defineProperty(newObj, key, desc);} else {newObj[key] = obj[key];}}}}newObj.default = obj;return newObj;}}function setContentTypeIfUnset(headers, value) {if (!_utils.default.isUndefined(headers) && _utils.default.isUndefined(headers['Content-Type'])) {headers['Content-Type'] = value;}}_axios.default.defaults.transformRequest = [function transformRequest(data, headers) {(0, _normalizeHeaderName.default)(headers, 'Accept');(0, _normalizeHeaderName.default)(headers, 'Content-Type');if (_utils.default.isFormData(data) || _utils.default.isArrayBuffer(data) || _utils.default.isBuffer(data) || _utils.default.isStream(data) || _utils.default.isFile(data) || _utils.default.isBlob(data)) {return data;}if (_utils.default.isArrayBufferView(data)) {return data.buffer;}if (_utils.default.isURLSearchParams(data)) {setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');return data.toString();}if (_utils.default.isObject(data)) {setContentTypeIfUnset(headers, 'application/json;charset=utf-8');return JSON.stringify(data);}return data;}];_axios.default.defaults.adapter = _adapter.adapter;
+Object.keys(_axios).forEach(function (key) {if (key === "default" || key === "__esModule") return;if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;Object.defineProperty(exports, key, { enumerable: true, get: function get() {return _axios[key];} });});var _utils = _interopRequireDefault(__webpack_require__(/*! axios/lib/utils */ 71));var _adapter = __webpack_require__(/*! ./adapter */ 97);var _normalizeHeaderName = _interopRequireDefault(__webpack_require__(/*! axios/lib/helpers/normalizeHeaderName */ 83));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) {var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {};if (desc.get || desc.set) {Object.defineProperty(newObj, key, desc);} else {newObj[key] = obj[key];}}}}newObj.default = obj;return newObj;}}function setContentTypeIfUnset(headers, value) {if (!_utils.default.isUndefined(headers) && _utils.default.isUndefined(headers['Content-Type'])) {headers['Content-Type'] = value;}}_axios.default.defaults.transformRequest = [function transformRequest(data, headers) {(0, _normalizeHeaderName.default)(headers, 'Accept');(0, _normalizeHeaderName.default)(headers, 'Content-Type');if (_utils.default.isFormData(data) || _utils.default.isArrayBuffer(data) || _utils.default.isBuffer(data) || _utils.default.isStream(data) || _utils.default.isFile(data) || _utils.default.isBlob(data)) {return data;}if (_utils.default.isArrayBufferView(data)) {return data.buffer;}if (_utils.default.isURLSearchParams(data)) {setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');return data.toString();}if (_utils.default.isObject(data)) {setContentTypeIfUnset(headers, 'application/json;charset=utf-8');return JSON.stringify(data);}return data;}];_axios.default.defaults.adapter = _adapter.adapter;
 
 /***/ }),
-/* 49 */
+/* 69 */
 /*!*********************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/index.js ***!
   \*********************************************************************/
@@ -10631,10 +11706,10 @@ Object.keys(_axios).forEach(function (key) {if (key === "default" || key === "__
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-module.exports = __webpack_require__(/*! ./lib/axios */ 50);
+module.exports = __webpack_require__(/*! ./lib/axios */ 70);
 
 /***/ }),
-/* 50 */
+/* 70 */
 /*!*************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/axios.js ***!
   \*************************************************************************/
@@ -10644,11 +11719,11 @@ module.exports = __webpack_require__(/*! ./lib/axios */ 50);
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./utils */ 51);
-var bind = __webpack_require__(/*! ./helpers/bind */ 52);
-var Axios = __webpack_require__(/*! ./core/Axios */ 54);
-var mergeConfig = __webpack_require__(/*! ./core/mergeConfig */ 73);
-var defaults = __webpack_require__(/*! ./defaults */ 60);
+var utils = __webpack_require__(/*! ./utils */ 71);
+var bind = __webpack_require__(/*! ./helpers/bind */ 72);
+var Axios = __webpack_require__(/*! ./core/Axios */ 74);
+var mergeConfig = __webpack_require__(/*! ./core/mergeConfig */ 93);
+var defaults = __webpack_require__(/*! ./defaults */ 80);
 
 /**
                                        * Create an instance of Axios
@@ -10681,15 +11756,15 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(/*! ./cancel/Cancel */ 74);
-axios.CancelToken = __webpack_require__(/*! ./cancel/CancelToken */ 75);
-axios.isCancel = __webpack_require__(/*! ./cancel/isCancel */ 59);
+axios.Cancel = __webpack_require__(/*! ./cancel/Cancel */ 94);
+axios.CancelToken = __webpack_require__(/*! ./cancel/CancelToken */ 95);
+axios.isCancel = __webpack_require__(/*! ./cancel/isCancel */ 79);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(/*! ./helpers/spread */ 76);
+axios.spread = __webpack_require__(/*! ./helpers/spread */ 96);
 
 module.exports = axios;
 
@@ -10697,7 +11772,7 @@ module.exports = axios;
 module.exports.default = axios;
 
 /***/ }),
-/* 51 */
+/* 71 */
 /*!*************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/utils.js ***!
   \*************************************************************************/
@@ -10707,8 +11782,8 @@ module.exports.default = axios;
 "use strict";
 
 
-var bind = __webpack_require__(/*! ./helpers/bind */ 52);
-var isBuffer = __webpack_require__(/*! is-buffer */ 53);
+var bind = __webpack_require__(/*! ./helpers/bind */ 72);
+var isBuffer = __webpack_require__(/*! is-buffer */ 73);
 
 /*global toString:true*/
 
@@ -11040,7 +12115,7 @@ module.exports = {
   trim: trim };
 
 /***/ }),
-/* 52 */
+/* 72 */
 /*!********************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/helpers/bind.js ***!
   \********************************************************************************/
@@ -11061,7 +12136,7 @@ module.exports = function bind(fn, thisArg) {
 };
 
 /***/ }),
-/* 53 */
+/* 73 */
 /*!*****************************************!*\
   !*** ./node_modules/is-buffer/index.js ***!
   \*****************************************/
@@ -11092,7 +12167,7 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 54 */
+/* 74 */
 /*!******************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/core/Axios.js ***!
   \******************************************************************************/
@@ -11102,11 +12177,11 @@ function isSlowBuffer (obj) {
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ 51);
-var buildURL = __webpack_require__(/*! ../helpers/buildURL */ 55);
-var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ 56);
-var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ 57);
-var mergeConfig = __webpack_require__(/*! ./mergeConfig */ 73);
+var utils = __webpack_require__(/*! ./../utils */ 71);
+var buildURL = __webpack_require__(/*! ../helpers/buildURL */ 75);
+var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ 76);
+var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ 77);
+var mergeConfig = __webpack_require__(/*! ./mergeConfig */ 93);
 
 /**
                                              * Create a new instance of Axios
@@ -11188,7 +12263,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 module.exports = Axios;
 
 /***/ }),
-/* 55 */
+/* 75 */
 /*!************************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/helpers/buildURL.js ***!
   \************************************************************************************/
@@ -11198,7 +12273,7 @@ module.exports = Axios;
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ 51);
+var utils = __webpack_require__(/*! ./../utils */ 71);
 
 function encode(val) {
   return encodeURIComponent(val).
@@ -11269,7 +12344,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 };
 
 /***/ }),
-/* 56 */
+/* 76 */
 /*!*******************************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/core/InterceptorManager.js ***!
   \*******************************************************************************************/
@@ -11279,7 +12354,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ 51);
+var utils = __webpack_require__(/*! ./../utils */ 71);
 
 function InterceptorManager() {
   this.handlers = [];
@@ -11331,7 +12406,7 @@ InterceptorManager.prototype.forEach = function forEach(fn) {
 module.exports = InterceptorManager;
 
 /***/ }),
-/* 57 */
+/* 77 */
 /*!****************************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/core/dispatchRequest.js ***!
   \****************************************************************************************/
@@ -11341,12 +12416,12 @@ module.exports = InterceptorManager;
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ 51);
-var transformData = __webpack_require__(/*! ./transformData */ 58);
-var isCancel = __webpack_require__(/*! ../cancel/isCancel */ 59);
-var defaults = __webpack_require__(/*! ../defaults */ 60);
-var isAbsoluteURL = __webpack_require__(/*! ./../helpers/isAbsoluteURL */ 71);
-var combineURLs = __webpack_require__(/*! ./../helpers/combineURLs */ 72);
+var utils = __webpack_require__(/*! ./../utils */ 71);
+var transformData = __webpack_require__(/*! ./transformData */ 78);
+var isCancel = __webpack_require__(/*! ../cancel/isCancel */ 79);
+var defaults = __webpack_require__(/*! ../defaults */ 80);
+var isAbsoluteURL = __webpack_require__(/*! ./../helpers/isAbsoluteURL */ 91);
+var combineURLs = __webpack_require__(/*! ./../helpers/combineURLs */ 92);
 
 /**
                                                         * Throws a `Cancel` if cancellation has been requested.
@@ -11427,7 +12502,7 @@ module.exports = function dispatchRequest(config) {
 };
 
 /***/ }),
-/* 58 */
+/* 78 */
 /*!**************************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/core/transformData.js ***!
   \**************************************************************************************/
@@ -11437,7 +12512,7 @@ module.exports = function dispatchRequest(config) {
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ 51);
+var utils = __webpack_require__(/*! ./../utils */ 71);
 
 /**
                                     * Transform the data for a request or a response
@@ -11457,7 +12532,7 @@ module.exports = function transformData(data, headers, fns) {
 };
 
 /***/ }),
-/* 59 */
+/* 79 */
 /*!***********************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/cancel/isCancel.js ***!
   \***********************************************************************************/
@@ -11472,7 +12547,7 @@ module.exports = function isCancel(value) {
 };
 
 /***/ }),
-/* 60 */
+/* 80 */
 /*!****************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/defaults.js ***!
   \****************************************************************************/
@@ -11482,8 +12557,8 @@ module.exports = function isCancel(value) {
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var utils = __webpack_require__(/*! ./utils */ 51);
-var normalizeHeaderName = __webpack_require__(/*! ./helpers/normalizeHeaderName */ 63);
+var utils = __webpack_require__(/*! ./utils */ 71);
+var normalizeHeaderName = __webpack_require__(/*! ./helpers/normalizeHeaderName */ 83);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded' };
@@ -11500,10 +12575,10 @@ function getDefaultAdapter() {
   // Only Node.JS has a process variable that is of [[Class]] process
   if (typeof process !== 'undefined' && Object.prototype.toString.call(process) === '[object process]') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(/*! ./adapters/http */ 64);
+    adapter = __webpack_require__(/*! ./adapters/http */ 84);
   } else if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(/*! ./adapters/xhr */ 64);
+    adapter = __webpack_require__(/*! ./adapters/xhr */ 84);
   }
   return adapter;
 }
@@ -11578,10 +12653,10 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 });
 
 module.exports = defaults;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/node-libs-browser/mock/process.js */ 61)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/node-libs-browser/mock/process.js */ 81)))
 
 /***/ }),
-/* 61 */
+/* 81 */
 /*!********************************************************!*\
   !*** ./node_modules/node-libs-browser/mock/process.js ***!
   \********************************************************/
@@ -11608,7 +12683,7 @@ exports.binding = function (name) {
     var path;
     exports.cwd = function () { return cwd };
     exports.chdir = function (dir) {
-        if (!path) path = __webpack_require__(/*! path */ 62);
+        if (!path) path = __webpack_require__(/*! path */ 82);
         cwd = path.resolve(dir, cwd);
     };
 })();
@@ -11621,7 +12696,7 @@ exports.features = {};
 
 
 /***/ }),
-/* 62 */
+/* 82 */
 /*!***********************************************!*\
   !*** ./node_modules/path-browserify/index.js ***!
   \***********************************************/
@@ -11853,10 +12928,10 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 61)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 81)))
 
 /***/ }),
-/* 63 */
+/* 83 */
 /*!***********************************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/helpers/normalizeHeaderName.js ***!
   \***********************************************************************************************/
@@ -11866,7 +12941,7 @@ var substr = 'ab'.substr(-1) === 'b'
 "use strict";
 
 
-var utils = __webpack_require__(/*! ../utils */ 51);
+var utils = __webpack_require__(/*! ../utils */ 71);
 
 module.exports = function normalizeHeaderName(headers, normalizedName) {
   utils.forEach(headers, function processHeader(value, name) {
@@ -11878,7 +12953,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 };
 
 /***/ }),
-/* 64 */
+/* 84 */
 /*!********************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/adapters/xhr.js ***!
   \********************************************************************************/
@@ -11888,12 +12963,12 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ 51);
-var settle = __webpack_require__(/*! ./../core/settle */ 65);
-var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ 55);
-var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ 68);
-var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ 69);
-var createError = __webpack_require__(/*! ../core/createError */ 66);
+var utils = __webpack_require__(/*! ./../utils */ 71);
+var settle = __webpack_require__(/*! ./../core/settle */ 85);
+var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ 75);
+var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ 88);
+var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ 89);
+var createError = __webpack_require__(/*! ../core/createError */ 86);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -11985,7 +13060,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(/*! ./../helpers/cookies */ 70);
+      var cookies = __webpack_require__(/*! ./../helpers/cookies */ 90);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -12062,7 +13137,7 @@ module.exports = function xhrAdapter(config) {
 };
 
 /***/ }),
-/* 65 */
+/* 85 */
 /*!*******************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/core/settle.js ***!
   \*******************************************************************************/
@@ -12072,7 +13147,7 @@ module.exports = function xhrAdapter(config) {
 "use strict";
 
 
-var createError = __webpack_require__(/*! ./createError */ 66);
+var createError = __webpack_require__(/*! ./createError */ 86);
 
 /**
                                              * Resolve or reject a Promise based on response status.
@@ -12097,7 +13172,7 @@ module.exports = function settle(resolve, reject, response) {
 };
 
 /***/ }),
-/* 66 */
+/* 86 */
 /*!************************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/core/createError.js ***!
   \************************************************************************************/
@@ -12107,7 +13182,7 @@ module.exports = function settle(resolve, reject, response) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(/*! ./enhanceError */ 67);
+var enhanceError = __webpack_require__(/*! ./enhanceError */ 87);
 
 /**
                                                * Create an Error with the specified message, config, error code, request and response.
@@ -12125,7 +13200,7 @@ module.exports = function createError(message, config, code, request, response) 
 };
 
 /***/ }),
-/* 67 */
+/* 87 */
 /*!*************************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/core/enhanceError.js ***!
   \*************************************************************************************/
@@ -12177,7 +13252,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 };
 
 /***/ }),
-/* 68 */
+/* 88 */
 /*!****************************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/helpers/parseHeaders.js ***!
   \****************************************************************************************/
@@ -12187,7 +13262,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ 51);
+var utils = __webpack_require__(/*! ./../utils */ 71);
 
 // Headers whose duplicates are ignored by node
 // c.f. https://nodejs.org/api/http.html#http_message_headers
@@ -12240,7 +13315,7 @@ module.exports = function parseHeaders(headers) {
 };
 
 /***/ }),
-/* 69 */
+/* 89 */
 /*!*******************************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/helpers/isURLSameOrigin.js ***!
   \*******************************************************************************************/
@@ -12250,7 +13325,7 @@ module.exports = function parseHeaders(headers) {
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ 51);
+var utils = __webpack_require__(/*! ./../utils */ 71);
 
 module.exports =
 utils.isStandardBrowserEnv() ?
@@ -12317,7 +13392,7 @@ function nonStandardBrowserEnv() {
 }();
 
 /***/ }),
-/* 70 */
+/* 90 */
 /*!***********************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/helpers/cookies.js ***!
   \***********************************************************************************/
@@ -12327,7 +13402,7 @@ function nonStandardBrowserEnv() {
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ 51);
+var utils = __webpack_require__(/*! ./../utils */ 71);
 
 module.exports =
 utils.isStandardBrowserEnv() ?
@@ -12379,7 +13454,7 @@ function nonStandardBrowserEnv() {
 }();
 
 /***/ }),
-/* 71 */
+/* 91 */
 /*!*****************************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/helpers/isAbsoluteURL.js ***!
   \*****************************************************************************************/
@@ -12403,7 +13478,7 @@ module.exports = function isAbsoluteURL(url) {
 };
 
 /***/ }),
-/* 72 */
+/* 92 */
 /*!***************************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/helpers/combineURLs.js ***!
   \***************************************************************************************/
@@ -12427,7 +13502,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 };
 
 /***/ }),
-/* 73 */
+/* 93 */
 /*!************************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/core/mergeConfig.js ***!
   \************************************************************************************/
@@ -12437,7 +13512,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 "use strict";
 
 
-var utils = __webpack_require__(/*! ../utils */ 51);
+var utils = __webpack_require__(/*! ../utils */ 71);
 
 /**
                                   * Config-specific merge-function which creates a new config-object
@@ -12488,7 +13563,7 @@ module.exports = function mergeConfig(config1, config2) {
 };
 
 /***/ }),
-/* 74 */
+/* 94 */
 /*!*********************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/cancel/Cancel.js ***!
   \*********************************************************************************/
@@ -12517,7 +13592,7 @@ Cancel.prototype.__CANCEL__ = true;
 module.exports = Cancel;
 
 /***/ }),
-/* 75 */
+/* 95 */
 /*!**************************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/cancel/CancelToken.js ***!
   \**************************************************************************************/
@@ -12527,7 +13602,7 @@ module.exports = Cancel;
 "use strict";
 
 
-var Cancel = __webpack_require__(/*! ./Cancel */ 74);
+var Cancel = __webpack_require__(/*! ./Cancel */ 94);
 
 /**
                                    * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -12584,7 +13659,7 @@ CancelToken.source = function source() {
 module.exports = CancelToken;
 
 /***/ }),
-/* 76 */
+/* 96 */
 /*!**********************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/helpers/spread.js ***!
   \**********************************************************************************/
@@ -12621,7 +13696,7 @@ module.exports = function spread(callback) {
 };
 
 /***/ }),
-/* 77 */
+/* 97 */
 /*!********************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/js_sdk/gangdiedao-uni-axios/adapter.js ***!
   \********************************************************************************/
@@ -12629,15 +13704,15 @@ module.exports = function spread(callback) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.adapter = void 0;var _utils = __webpack_require__(/*! axios/lib/utils */ 51);
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.adapter = void 0;var _utils = __webpack_require__(/*! axios/lib/utils */ 71);
 
 
 
 
-var _createError = _interopRequireDefault(__webpack_require__(/*! axios/lib/core/createError */ 66));
-var _buildURL = _interopRequireDefault(__webpack_require__(/*! axios/lib/helpers/buildURL */ 55));
-var _settle = _interopRequireDefault(__webpack_require__(/*! axios/lib/core/settle */ 65));
-var _awaitTimeout = _interopRequireDefault(__webpack_require__(/*! ./await-timeout */ 78));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _createError = _interopRequireDefault(__webpack_require__(/*! axios/lib/core/createError */ 86));
+var _buildURL = _interopRequireDefault(__webpack_require__(/*! axios/lib/helpers/buildURL */ 75));
+var _settle = _interopRequireDefault(__webpack_require__(/*! axios/lib/core/settle */ 85));
+var _awaitTimeout = _interopRequireDefault(__webpack_require__(/*! ./await-timeout */ 98));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
 var timer = new _awaitTimeout.default();
 
@@ -12688,7 +13763,7 @@ var adapter = function adapter(config) {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
-/* 78 */
+/* 98 */
 /*!**************************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/js_sdk/gangdiedao-uni-axios/await-timeout.js ***!
   \**************************************************************************************/
@@ -12777,61 +13852,67 @@ function _classCallCheck(instance, Constructor) {if (!(instance instanceof Const
 });
 
 /***/ }),
-/* 79 */,
-/* 80 */,
-/* 81 */,
-/* 82 */
-/*!**********************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http_login_setToken.js ***!
-  \**********************************************************************/
+/* 99 */
+/*!****************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http_req_list.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.http_login_setToken = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });exports.url_getPhone = exports.url_login_getToken = exports.baseUrl = void 0;
+// URL汇总
+
+// 路由前缀
+var baseUrl = 'http://xx.xx.com';
+
+
+// # 首次登录 & 获取token
+exports.baseUrl = baseUrl;var url_login_getToken = '/';
+
+// # 获取手机号
+exports.url_login_getToken = url_login_getToken;var url_getPhone = '/';exports.url_getPhone = url_getPhone;
+
+/***/ }),
+/* 100 */
+/*!****************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http_getPhone.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.http_getPhone = void 0;
 
 var _index = _interopRequireDefault(__webpack_require__(/*! @/store/index.js */ 15));
 
-var _http = _interopRequireDefault(__webpack_require__(/*! @/utils/http.js */ 46));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 由于不是vue组件,所以不能拿到this的vue实例,
+var _http = _interopRequireDefault(__webpack_require__(/*! @/utils/http.js */ 66));
+
+var _http_req_list = __webpack_require__(/*! @/utils/http_req_list.js */ 99);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 由于不是vue组件,所以不能拿到this的vue实例,
 // 所以这里操作store就用原始的方法,直接操作文件;
-
-var url_login_getToken = 'http://xx.xx.com';
-
 // login后,将code发送给后台,换取token,将token存储到本地
-var http_login_setToken = function http_login_setToken(loginCode) {
+var http_getPhone = function http_getPhone(encryptedData) {
 
-  console.log(loginCode);
+  console.log('手机号加密数据' + encryptedData);
 
-  // 由于不是vue组件,所以不能拿到this的vue实例,
-  // 所以这里操作store就用原始的方法,直接操作文件;
-  // 其他vue文件还是用...mutations映射方法操作
-  _index.default.commit('setToken', 'tototototo');
-  console.log(_index.default.getters.store_token);
+  // 模拟换取成功
+  _index.default.commit('setUserPhone', '18801228710');
 
+  // http.post(url_getPhone, [{code:encryptedData}]).then(res => {
 
-  // let url = url_login_getToken
-
-  // 注意,这里用get请求,如果是要修改请求头,那么就需要在http.js中if (config.method == 'get') {config.data = 'true'} ,并且,get请求的第二个参数,是设置请求头;
-
-  // 由于想要在get请求时修改请求头,所以参数2是设置请求头,如果要传参就直接加到URL里
-  // 测试get请求
-  var URLD = 'https://api.douban.com/v2/book/isbn/9787506394864?apikey=0df993c66c0c636e29ecbb5344252a4a&start=0&count=10';
-  _http.default.get(URLD, { headers: { 'Content-Type': 'application/text' } }).then(function (res) {
-    console.log(res);
-  }).catch(function (error) {
-  }).finally(function () {
-  });
-
-  // 测试post请求
-  // 如果是post请求,参数1是URL,那么参数2是数据,参数3个设置请求头;
-  // http.post(URL, [data], {potion}).then(res => {
+  // 	// 由于不是vue组件,所以不能拿到this的vue实例,
+  // 	// 所以这里操作store就用原始的方法,直接操作文件;
+  // 	// 其他vue文件还是用...mutations映射方法操作
+  // 	console.log('换取用户手机号' + res)
+  // 	store.commit('setUserPhone', '18801228710')
+  // 	console.log(store.getters.store_UserPhone)
 
   // }).catch(error => {
-
   // }).finally(() => {
-
   // })
-};exports.http_login_setToken = http_login_setToken;
+
+
+};exports.http_getPhone = http_getPhone;
 
 /***/ })
 ]]);

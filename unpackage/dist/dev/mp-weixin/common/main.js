@@ -18,6 +18,9 @@ _vue.default.config.productionTip = false;
 
 _App.default.mpType = 'app';
 
+// 解决axios真机调试报错
+__webpack_require__(/*! promise.prototype.finally */ 21).shim();
+
 // 因为使用mpvue，子组件是拿不到this.$store的对象，所以挂载在vue的原型对象中，就能拿到了
 _vue.default.prototype.$store = _store.default;
 
