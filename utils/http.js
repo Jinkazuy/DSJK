@@ -56,9 +56,9 @@ http.interceptors.request.use(config => {
 
 	
 	// 解决使用get请求无法设置请求头为题
-	if (config.method == 'get') {
-	    config.data = 'true'
-	}
+	// if (config.method == 'get') {
+	//     config.data = 'true'
+	// }
 	
 	// 每次请求附加token值,用于后台监测当前用户是否属于登录状态;
   config.headers['token'] = store.getters.store_token || ''

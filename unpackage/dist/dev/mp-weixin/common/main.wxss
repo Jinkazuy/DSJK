@@ -32,3 +32,7 @@
 .van-hairline--surround:after{border-width:1px}
 
 
+/* page {
+	background-color: #000;
+} */
+

@@ -8,6 +8,7 @@ Vue.config.productionTip = false
 
 App.mpType = 'app'
 
+
 // 解决axios真机调试报错
 require('promise.prototype.finally').shim()
 

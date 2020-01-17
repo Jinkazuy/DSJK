@@ -1,23 +1,72 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	  // 首页
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "uni-app",
+				// 开启下拉刷新
+				"enablePullDownRefresh": true,
+				// 距离页面底部多少像素触发onReachBottom事件
+				"onReachBottomDistance": 50,
+				// 下方是使用有赞团队的移动UI框架
+				"usingComponents":{
+					// toast组件
+					"van-toast": "/wxcomponents/vant/toast/index",
+					"van-dialog": "/wxcomponents/vant/dialog/index"
+				}
 			}
 		},
+		// 健康
 		{
-			"path": "pages/test/test",
+			"path": "pages/health/health",
 			"style": {
-				"navigationBarTitleText": "test",
+				"navigationBarTitleText": "健康",
+				// 下方是使用有赞团队的移动UI框架
+				"usingComponents":{
+					// "van-tab": "/wxcomponents/vant/tab/index",
+					// "van-tabs": "/wxcomponents/vant/tabs/index"
+				}
+			}
+		},
+		// 发现
+		{
+			"path": "pages/discover/discover",
+			"style": {
+				"navigationBarTitleText": "发现",
+				// 下方是使用有赞团队的移动UI框架
+				"usingComponents":{
+					// "van-tab": "/wxcomponents/vant/tab/index",
+					// "van-tabs": "/wxcomponents/vant/tabs/index"
+				}
+			}
+		},
+		// 我的
+		{
+			"path": "pages/my/my",
+			"style": {
+				"navigationBarTitleText": "我的",
+				// 下方是使用有赞团队的移动UI框架
+				"usingComponents":{
+					// "van-tab": "/wxcomponents/vant/tab/index",
+					// "van-tabs": "/wxcomponents/vant/tabs/index"
+				}
+			}
+		},
+		// 蓝牙测试页
+		{
+			"path": "pages/bluetooth-modu/bluetooth-modu",
+			"style": {
+				"navigationBarTitleText": "bluetooth-modu",
 				// 下方是使用有赞团队的移动UI框架的button样式
 				"usingComponents":{
 					// 这里指向的就是button的组件的文件，它会自动去找index.wxml
-					// 然后在这个test页面就能用 <van-button>标签使用这个组件了；
+					// 然后在这个bluetooth-modu页面就能用 <van-button>标签使用这个组件了；
 					"van-button": "/wxcomponents/vant/button/index"
 				}
 			}
 		},
+		// 登录页
 		{
 			"path": "pages/login/login",
 			"style": {
@@ -25,20 +74,34 @@
 				// 下方是使用有赞团队的移动UI框架的button样式
 				"usingComponents":{
 					// 这里指向的就是button的组件的文件，它会自动去找index.wxml
-					// 然后在这个test页面就能用 <van-button>标签使用这个组件了；
-					"van-button": "/wxcomponents/vant/button/index"
+					// 然后在这个login页面就能用 <van-button>标签使用这个组件了；
+					"van-button": "/wxcomponents/vant/button/index",
+					"van-toast": "/wxcomponents/vant/toast/index"
 				}
 			}
 		},
+		// 完善个人信息
 		{
 			"path": "pages/init_set_baseSign/init_set_baseSign",
 			"style": {
 				"navigationBarTitleText": "完善个人信息",
-				// 下方是使用有赞团队的移动UI框架的button样式
+				// 下方是使用有赞团队的移动UI框架
 				"usingComponents":{
-					// 这里指向的就是button的组件的文件，它会自动去找index.wxml
-					// 然后在这个test页面就能用 <van-button>标签使用这个组件了；
-					"van-button": "/wxcomponents/vant/button/index"
+					"van-datetime-picker": "/wxcomponents/vant/datetime-picker/index",
+					"van-button": "/wxcomponents/vant/button/index",
+					"van-toast": "/wxcomponents/vant/toast/index"
+				}
+			}
+		},
+		// 杂项测试页
+		{
+			"path": "pages/test/test",
+			"style": {
+				"navigationBarTitleText": "test",
+				// 下方是使用有赞团队的移动UI框架
+				"usingComponents":{
+					"van-tab": "/wxcomponents/vant/tab/index",
+					"van-tabs": "/wxcomponents/vant/tabs/index"
 				}
 			}
 		}
@@ -50,20 +113,38 @@
 		"backgroundColor": "#ffffff",
 		"list": [{
 			"pagePath": "pages/index/index",
-			"iconPath": "static/tabs/home.png",
-			"selectedIconPath": "static/tabs/home-active.png",
+			"iconPath": "static/images/tabbar/tabbar-home-no.jpg",
+			"selectedIconPath": "static/images/tabbar/tabbar-home-select.jpg",
 			"text": "首页"
 		}, {
-			"pagePath": "pages/test/test",
-			"iconPath": "static/tabs/orders.png",
-			"selectedIconPath": "static/tabs/orders-active.png",
-			"text": "蓝牙测试页"
-		}]
+			"pagePath": "pages/health/health",
+			"iconPath": "static/images/tabbar/tabbar-health-no.jpg",
+			"selectedIconPath": "static/images/tabbar/tabbar-health-select.jpg",
+			"text": "健康"
+		}, {
+			"pagePath": "pages/discover/discover",
+			"iconPath": "static/images/tabbar/tabbar-faxian-no.jpg",
+			"selectedIconPath": "static/images/tabbar/tabbar-faxian-select.jpg",
+			"text": "发现"
+		}, {
+			"pagePath": "pages/my/my",
+			"iconPath": "static/images/tabbar/tabbar-my-no.jpg",
+			"selectedIconPath": "static/images/tabbar/tabbar-my-select.jpg",
+			"text": "我的"
+		}
+		
+		// , {
+		// 	"pagePath": "pages/bluetooth-modu/bluetooth-modu",
+		// 	"iconPath": "static/tabs/orders.png",
+		// 	"selectedIconPath": "static/tabs/orders-active.png",
+		// 	"text": "蓝牙测试页"
+		// }
+		]
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
+		"navigationBarBackgroundColor": "#ffffff",
 		"backgroundColor": "#F8F8F8"
 	}
 }

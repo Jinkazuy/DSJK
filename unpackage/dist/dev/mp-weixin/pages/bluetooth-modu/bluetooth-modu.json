@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "bluetooth-modu",
+  "usingComponents": {
+    "van-button": "/wxcomponents/vant/button/index"
+  }
+}

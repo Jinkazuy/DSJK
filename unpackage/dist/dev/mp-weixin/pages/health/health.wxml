@@ -1,0 +1,1 @@
+<view id="health" class="_div"><health-card vue-id="1" bind:__l="__l"></health-card></view>

@@ -1,6 +1,7 @@
 {
   "navigationBarTitleText": "login",
   "usingComponents": {
-    "van-button": "/wxcomponents/vant/button/index"
+    "van-button": "/wxcomponents/vant/button/index",
+    "van-toast": "/wxcomponents/vant/toast/index"
   }
 }

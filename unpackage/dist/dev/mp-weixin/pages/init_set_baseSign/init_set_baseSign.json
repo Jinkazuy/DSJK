@@ -1,6 +1,9 @@
 {
   "navigationBarTitleText": "完善个人信息",
   "usingComponents": {
-    "van-button": "/wxcomponents/vant/button/index"
+    "van-datetime-picker": "/wxcomponents/vant/datetime-picker/index",
+    "van-button": "/wxcomponents/vant/button/index",
+    "van-toast": "/wxcomponents/vant/toast/index",
+    "scroll-choose": "/components/scroll-choose/scroll-choose"
   }
 }

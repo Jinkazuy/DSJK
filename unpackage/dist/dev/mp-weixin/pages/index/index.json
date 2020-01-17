@@ -1,4 +1,11 @@
 {
   "navigationBarTitleText": "uni-app",
-  "usingComponents": {}
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 50,
+  "usingComponents": {
+    "van-toast": "/wxcomponents/vant/toast/index",
+    "van-dialog": "/wxcomponents/vant/dialog/index",
+    "special-banner": "/components/EtherealWheat-banner/specialBanner",
+    "news-card": "/components/news-card/newsCard"
+  }
 }

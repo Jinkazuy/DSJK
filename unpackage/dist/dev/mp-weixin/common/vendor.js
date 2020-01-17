@@ -354,6 +354,7 @@ var interceptors = {
 
 
 var baseApi = /*#__PURE__*/Object.freeze({
+  __proto__: null,
   upx2px: upx2px,
   interceptors: interceptors,
   addInterceptor: addInterceptor,
@@ -540,6 +541,7 @@ function getProvider(_ref2)
 }
 
 var extraApi = /*#__PURE__*/Object.freeze({
+  __proto__: null,
   getProvider: getProvider });
 
 
@@ -575,6 +577,7 @@ function $emit() {
 }
 
 var eventApi = /*#__PURE__*/Object.freeze({
+  __proto__: null,
   $on: $on,
   $off: $off,
   $once: $once,
@@ -583,8 +586,8 @@ var eventApi = /*#__PURE__*/Object.freeze({
 
 
 
-var api = /*#__PURE__*/Object.freeze({});
-
+var api = /*#__PURE__*/Object.freeze({
+  __proto__: null });
 
 
 var MPPage = Page;
@@ -1218,14 +1221,17 @@ var mocks = ['__route__', '__wxExparserNodeId__', '__wxWebviewId__'];
 
 function findVmByVueId(vm, vuePid) {
   var $children = vm.$children;
-  // 优先查找直属
-  var parentVm = $children.find(function (childVm) {return childVm.$scope._$vueId === vuePid;});
-  if (parentVm) {
-    return parentVm;
+  // 优先查找直属(反向查找:https://github.com/dcloudio/uni-app/issues/1200)
+  for (var i = $children.length - 1; i >= 0; i--) {
+    var childVm = $children[i];
+    if (childVm.$scope._$vueId === vuePid) {
+      return childVm;
+    }
   }
   // 反向递归查找
-  for (var i = $children.length - 1; i >= 0; i--) {
-    parentVm = findVmByVueId($children[i], vuePid);
+  var parentVm;
+  for (var _i = $children.length - 1; _i >= 0; _i--) {
+    parentVm = findVmByVueId($children[_i], vuePid);
     if (parentVm) {
       return parentVm;
     }
@@ -1537,7 +1543,7 @@ uni$1;exports.default = _default;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(global) {/*!
- * Vue.js v2.6.10
+ * Vue.js v2.6.11
  * (c) 2014-2019 Evan You
  * Released under the MIT License.
  */
@@ -2236,7 +2242,13 @@ var uid = 0;
  * directives subscribing to it.
  */
 var Dep = function Dep () {
-  this.id = uid++;
+  // fixed by xxxxxx (nvue vuex)
+  /* eslint-disable no-undef */
+  if(typeof SharedObject !== 'undefined'){
+    this.id = SharedObject.uid++;
+  } else {
+    this.id = uid++;
+  }
   this.subs = [];
 };
 
@@ -3500,7 +3512,7 @@ if (typeof Promise !== 'undefined' && isNative(Promise)) {
   };
 } else if (typeof setImmediate !== 'undefined' && isNative(setImmediate)) {
   // Fallback to setImmediate.
-  // Techinically it leverages the (macro) task queue,
+  // Technically it leverages the (macro) task queue,
   // but it is still a better choice than setTimeout.
   timerFunc = function () {
     setImmediate(flushCallbacks);
@@ -3566,7 +3578,7 @@ if (true) {
     warn(
       "Property \"" + key + "\" must be accessed with \"$data." + key + "\" because " +
       'properties starting with "$" or "_" are not proxied in the Vue instance to ' +
-      'prevent conflicts with Vue internals' +
+      'prevent conflicts with Vue internals. ' +
       'See: https://vuejs.org/v2/api/#data',
       target
     );
@@ -3766,17 +3778,48 @@ function updateListeners (
 
 /*  */
 
+// fixed by xxxxxx (mp properties)
+function extractPropertiesFromVNodeData(data, Ctor, res, context) {
+  var propOptions = Ctor.options.mpOptions && Ctor.options.mpOptions.properties;
+  if (isUndef(propOptions)) {
+    return res
+  }
+  var externalClasses = Ctor.options.mpOptions.externalClasses || [];
+  var attrs = data.attrs;
+  var props = data.props;
+  if (isDef(attrs) || isDef(props)) {
+    for (var key in propOptions) {
+      var altKey = hyphenate(key);
+      var result = checkProp(res, props, key, altKey, true) ||
+          checkProp(res, attrs, key, altKey, false);
+      // externalClass
+      if (
+        result &&
+        res[key] &&
+        externalClasses.indexOf(altKey) !== -1 &&
+        context[camelize(res[key])]
+      ) {
+        // 赋值 externalClass 真正的值(模板里 externalClass 的值可能是字符串)
+        res[key] = context[camelize(res[key])];
+      }
+    }
+  }
+  return res
+}
+
 function extractPropsFromVNodeData (
   data,
   Ctor,
-  tag
+  tag,
+  context// fixed by xxxxxx
 ) {
   // we are only extracting raw values here.
   // validation and default values are handled in the child
   // component itself.
   var propOptions = Ctor.options.props;
   if (isUndef(propOptions)) {
-    return
+    // fixed by xxxxxx
+    return extractPropertiesFromVNodeData(data, Ctor, {}, context)
   }
   var res = {};
   var attrs = data.attrs;
@@ -3804,7 +3847,8 @@ function extractPropsFromVNodeData (
       checkProp(res, attrs, key, altKey, false);
     }
   }
-  return res
+  // fixed by xxxxxx
+  return extractPropertiesFromVNodeData(data, Ctor, res, context)
 }
 
 function checkProp (
@@ -4137,12 +4181,12 @@ function renderList (
   if (Array.isArray(val) || typeof val === 'string') {
     ret = new Array(val.length);
     for (i = 0, l = val.length; i < l; i++) {
-      ret[i] = render(val[i], i);
+      ret[i] = render(val[i], i, i, i); // fixed by xxxxxx
     }
   } else if (typeof val === 'number') {
     ret = new Array(val);
     for (i = 0; i < val; i++) {
-      ret[i] = render(i + 1, i);
+      ret[i] = render(i + 1, i, i, i); // fixed by xxxxxx
     }
   } else if (isObject(val)) {
     if (hasSymbol && val[Symbol.iterator]) {
@@ -4150,7 +4194,7 @@ function renderList (
       var iterator = val[Symbol.iterator]();
       var result = iterator.next();
       while (!result.done) {
-        ret.push(render(result.value, ret.length));
+        ret.push(render(result.value, ret.length, i++, i)); // fixed by xxxxxx
         result = iterator.next();
       }
     } else {
@@ -4158,7 +4202,7 @@ function renderList (
       ret = new Array(keys.length);
       for (i = 0, l = keys.length; i < l; i++) {
         key = keys[i];
-        ret[i] = render(val[key], key, i);
+        ret[i] = render(val[key], key, i, i); // fixed by xxxxxx
       }
     }
   }
@@ -4193,7 +4237,8 @@ function renderSlot (
       }
       props = extend(extend({}, bindObject), props);
     }
-    nodes = scopedSlotFn(props) || fallback;
+    // fixed by xxxxxx app-plus scopedSlot
+    nodes = scopedSlotFn(props, this, props._i) || fallback;
   } else {
     nodes = this.$slots[name] || fallback;
   }
@@ -4421,7 +4466,7 @@ function bindDynamicKeys (baseObj, values) {
     if (typeof key === 'string' && key) {
       baseObj[values[i]] = values[i + 1];
     } else if ( true && key !== '' && key !== null) {
-      // null is a speical value for explicitly removing a binding
+      // null is a special value for explicitly removing a binding
       warn(
         ("Invalid value for dynamic directive argument (expected string or null): " + key),
         this
@@ -4645,6 +4690,8 @@ var componentVNodeHooks = {
     var context = vnode.context;
     var componentInstance = vnode.componentInstance;
     if (!componentInstance._isMounted) {
+      callHook(componentInstance, 'onServiceCreated');
+      callHook(componentInstance, 'onServiceAttached');
       componentInstance._isMounted = true;
       callHook(componentInstance, 'mounted');
     }
@@ -4734,7 +4781,7 @@ function createComponent (
   }
 
   // extract props
-  var propsData = extractPropsFromVNodeData(data, Ctor, tag);
+  var propsData = extractPropsFromVNodeData(data, Ctor, tag, context); // fixed by xxxxxx
 
   // functional component
   if (isTrue(Ctor.options.functional)) {
@@ -4917,6 +4964,12 @@ function _createElement (
     ns = (context.$vnode && context.$vnode.ns) || config.getTagNamespace(tag);
     if (config.isReservedTag(tag)) {
       // platform built-in elements
+      if ( true && isDef(data) && isDef(data.nativeOn)) {
+        warn(
+          ("The .native modifier for v-on is only valid on components but it was used on <" + tag + ">."),
+          context
+        );
+      }
       vnode = new VNode(
         config.parsePlatformTagName(tag), data, children,
         undefined, undefined, context
@@ -5042,7 +5095,7 @@ function renderMixin (Vue) {
     // render self
     var vnode;
     try {
-      // There's no need to maintain a stack becaues all render fns are called
+      // There's no need to maintain a stack because all render fns are called
       // separately from one another. Nested component's render fns are called
       // when parent component is patched.
       currentRenderingInstance = vm;
@@ -5577,7 +5630,10 @@ function updateChildComponent (
     // keep a copy of raw propsData
     vm.$options.propsData = propsData;
   }
-
+  
+  // fixed by xxxxxx update properties(mp runtime)
+  vm._$updateProperties && vm._$updateProperties(vm);
+  
   // update listeners
   listeners = listeners || emptyObject;
   var oldListeners = vm.$options._parentListeners;
@@ -6896,7 +6952,7 @@ Object.defineProperty(Vue, 'FunctionalRenderContext', {
   value: FunctionalRenderContext
 });
 
-Vue.version = '2.6.10';
+Vue.version = '2.6.11';
 
 /**
  * https://raw.githubusercontent.com/Tencent/westore/master/packages/westore/utils/diff.js
@@ -7286,7 +7342,13 @@ function getTarget(obj, path) {
 function internalMixin(Vue) {
 
   Vue.config.errorHandler = function(err) {
-    console.error(err);
+    /* eslint-disable no-undef */
+    var app = getApp();
+    if (app && app.onError) {
+      app.onError(err);
+    } else {
+      console.error(err);
+    }
   };
 
   var oldEmit = Vue.prototype.$emit;
@@ -7306,9 +7368,21 @@ function internalMixin(Vue) {
 
   MP_METHODS.forEach(function (method) {
     Vue.prototype[method] = function(args) {
-      if (this.$scope) {
+      if (this.$scope && this.$scope[method]) {
         return this.$scope[method](args)
       }
+      // mp-alipay
+      if (typeof my === 'undefined') {
+        return
+      }
+      if (method === 'createSelectorQuery') {
+        /* eslint-disable no-undef */
+        return my.createSelectorQuery(args)
+      } else if (method === 'createIntersectionObserver') {
+        /* eslint-disable no-undef */
+        return my.createIntersectionObserver(args)
+      }
+      // TODO mp-alipay 暂不支持 selectAllComponents,selectComponent
     };
   });
 
@@ -7329,7 +7403,7 @@ function internalMixin(Vue) {
       }
     }
     if (vm._hasHookEvent) {
-      vm.$emit('hook:' + hook);
+      vm.$emit('hook:' + hook, args);
     }
     popTarget();
     return ret
@@ -8423,7 +8497,7 @@ main();
 /*! exports provided: _from, _id, _inBundle, _integrity, _location, _phantomChildren, _requested, _requiredBy, _resolved, _shasum, _spec, _where, author, bugs, bundleDependencies, deprecated, description, devDependencies, files, gitHead, homepage, license, main, name, repository, scripts, version, default */
 /***/ (function(module) {
 
-module.exports = {"_from":"@dcloudio/uni-stat@^2.0.0-alpha-24420191128001","_id":"@dcloudio/uni-stat@2.0.0-v3-24020191018001","_inBundle":false,"_integrity":"sha512-nYBm5pRrYzrj2dKMqucWSF2PwInUMnn3MLHM/ik3gnLUEKSW61rzcY1RPlUwaH7c+Snm6N+bAJzmj3GvlrlVXA==","_location":"/@dcloudio/uni-stat","_phantomChildren":{},"_requested":{"type":"range","registry":true,"raw":"@dcloudio/uni-stat@^2.0.0-alpha-24420191128001","name":"@dcloudio/uni-stat","escapedName":"@dcloudio%2funi-stat","scope":"@dcloudio","rawSpec":"^2.0.0-alpha-24420191128001","saveSpec":null,"fetchSpec":"^2.0.0-alpha-24420191128001"},"_requiredBy":["/","/@dcloudio/vue-cli-plugin-uni"],"_resolved":"https://registry.npmjs.org/@dcloudio/uni-stat/-/uni-stat-2.0.0-v3-24020191018001.tgz","_shasum":"6ef04326cc0b945726413eebe442ab8f47c7536c","_spec":"@dcloudio/uni-stat@^2.0.0-alpha-24420191128001","_where":"/Users/guoshengqiang/Documents/dcloud-plugins/alpha/uniapp-cli","author":"","bugs":{"url":"https://github.com/dcloudio/uni-app/issues"},"bundleDependencies":false,"deprecated":false,"description":"","devDependencies":{"@babel/core":"^7.5.5","@babel/preset-env":"^7.5.5","eslint":"^6.1.0","rollup":"^1.19.3","rollup-plugin-babel":"^4.3.3","rollup-plugin-clear":"^2.0.7","rollup-plugin-commonjs":"^10.0.2","rollup-plugin-copy":"^3.1.0","rollup-plugin-eslint":"^7.0.0","rollup-plugin-json":"^4.0.0","rollup-plugin-node-resolve":"^5.2.0","rollup-plugin-replace":"^2.2.0","rollup-plugin-uglify":"^6.0.2"},"files":["dist","package.json","LICENSE"],"gitHead":"197e8df53cc9d4c3f6eb722b918ccf51672b5cfe","homepage":"https://github.com/dcloudio/uni-app#readme","license":"Apache-2.0","main":"dist/index.js","name":"@dcloudio/uni-stat","repository":{"type":"git","url":"git+https://github.com/dcloudio/uni-app.git","directory":"packages/uni-stat"},"scripts":{"build":"NODE_ENV=production rollup -c rollup.config.js","dev":"NODE_ENV=development rollup -w -c rollup.config.js"},"version":"2.0.0-v3-24020191018001"};
+module.exports = {"_from":"@dcloudio/uni-stat@alpha","_id":"@dcloudio/uni-stat@2.0.0-alpha-25120200103005","_inBundle":false,"_integrity":"sha512-nYoIrRV2e5o/vzr6foSdWi3Rl2p0GuO+LPY3JctyY6uTKgPnuH99d7aL/QQdJ1SacQjBWO+QGK1qankN7oyrWw==","_location":"/@dcloudio/uni-stat","_phantomChildren":{},"_requested":{"type":"tag","registry":true,"raw":"@dcloudio/uni-stat@alpha","name":"@dcloudio/uni-stat","escapedName":"@dcloudio%2funi-stat","scope":"@dcloudio","rawSpec":"alpha","saveSpec":null,"fetchSpec":"alpha"},"_requiredBy":["#USER","/","/@dcloudio/vue-cli-plugin-uni"],"_resolved":"https://registry.npmjs.org/@dcloudio/uni-stat/-/uni-stat-2.0.0-alpha-25120200103005.tgz","_shasum":"a77a63481f36474f3e86686868051219d1bb12df","_spec":"@dcloudio/uni-stat@alpha","_where":"/Users/guoshengqiang/Documents/dcloud-plugins/alpha/uniapp-cli","author":"","bugs":{"url":"https://github.com/dcloudio/uni-app/issues"},"bundleDependencies":false,"deprecated":false,"description":"","devDependencies":{"@babel/core":"^7.5.5","@babel/preset-env":"^7.5.5","eslint":"^6.1.0","rollup":"^1.19.3","rollup-plugin-babel":"^4.3.3","rollup-plugin-clear":"^2.0.7","rollup-plugin-commonjs":"^10.0.2","rollup-plugin-copy":"^3.1.0","rollup-plugin-eslint":"^7.0.0","rollup-plugin-json":"^4.0.0","rollup-plugin-node-resolve":"^5.2.0","rollup-plugin-replace":"^2.2.0","rollup-plugin-uglify":"^6.0.2"},"files":["dist","package.json","LICENSE"],"gitHead":"6be187a3dfe15f95dd6146d9fec08e1f81100987","homepage":"https://github.com/dcloudio/uni-app#readme","license":"Apache-2.0","main":"dist/index.js","name":"@dcloudio/uni-stat","repository":{"type":"git","url":"git+https://github.com/dcloudio/uni-app.git","directory":"packages/uni-stat"},"scripts":{"build":"NODE_ENV=production rollup -c rollup.config.js","dev":"NODE_ENV=development rollup -w -c rollup.config.js"},"version":"2.0.0-alpha-25120200103005"};
 
 /***/ }),
 /* 7 */
@@ -8434,7 +8508,7 @@ module.exports = {"_from":"@dcloudio/uni-stat@^2.0.0-alpha-24420191128001","_id"
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/index/index": { "navigationBarTitleText": "uni-app" }, "pages/test/test": { "navigationBarTitleText": "test" }, "pages/login/login": { "navigationBarTitleText": "login" }, "pages/init_set_baseSign/init_set_baseSign": { "navigationBarTitleText": "完善个人信息" } }, "globalStyle": { "navigationBarTextStyle": "black", "navigationBarTitleText": "uni-app", "navigationBarBackgroundColor": "#F8F8F8", "backgroundColor": "#F8F8F8" } };exports.default = _default;
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/index/index": { "navigationBarTitleText": "uni-app", "enablePullDownRefresh": true, "onReachBottomDistance": 50 }, "pages/health/health": { "navigationBarTitleText": "健康" }, "pages/discover/discover": { "navigationBarTitleText": "发现" }, "pages/my/my": { "navigationBarTitleText": "我的" }, "pages/bluetooth-modu/bluetooth-modu": { "navigationBarTitleText": "bluetooth-modu" }, "pages/login/login": { "navigationBarTitleText": "login" }, "pages/init_set_baseSign/init_set_baseSign": { "navigationBarTitleText": "完善个人信息" }, "pages/test/test": { "navigationBarTitleText": "test" } }, "globalStyle": { "navigationBarTextStyle": "black", "navigationBarTitleText": "uni-app", "navigationBarBackgroundColor": "#ffffff", "backgroundColor": "#F8F8F8" } };exports.default = _default;
 
 /***/ }),
 /* 8 */
@@ -8454,9 +8528,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 /* 12 */,
 /* 13 */,
 /* 14 */
-/*!********************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/runtime/componentNormalizer.js ***!
-  \********************************************************************/
+/*!**********************************************************************************************************!*\
+  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
+  \**********************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -8477,12 +8551,26 @@ function normalizeComponent (
   injectStyles,
   scopeId,
   moduleIdentifier, /* server only */
-  shadowMode /* vue-cli only */
+  shadowMode, /* vue-cli only */
+  components, // fixed by xxxxxx auto components
+  renderjs // fixed by xxxxxx renderjs
 ) {
   // Vue.extend constructor export interop
   var options = typeof scriptExports === 'function'
     ? scriptExports.options
     : scriptExports
+
+  // fixed by xxxxxx auto components
+  if (components) {
+    options.components = Object.assign(components, options.components || {})
+  }
+  // fixed by xxxxxx renderjs
+  if (renderjs) {
+    (renderjs.beforeCreate || (renderjs.beforeCreate = [])).unshift(function() {
+      this[renderjs.__module] = this
+    });
+    (options.mixins || (options.mixins = [])).push(renderjs)
+  }
 
   // render functions
   if (render) {
@@ -9613,20 +9701,37 @@ var setUserInfo = function setUserInfo(_ref, _ref2) {var commit = _ref.commit,st
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.store_userBaseSign = exports.store_token = exports.store_UserPhone = exports.store_UserInfo = void 0; // 这里的 getters， 只负责 将state中的数据，对外提供展示数据，
+Object.defineProperty(exports, "__esModule", { value: true });exports.store_userWXStep = exports.store_homeNewsList = exports.store_homeBannerList = exports.store_userSignData = exports.store_userBaseSign = exports.store_tokenExpiration = exports.store_token = exports.store_UserPhone = exports.store_UserInfoData = exports.store_UserInfo = void 0; // 这里的 getters， 只负责 将state中的数据，对外提供展示数据，
 // 向外导出数据，只能展示不能修改；
 
 // 用户信息(不含敏感信息)
 var store_UserInfo = function store_UserInfo(state) {return state.store_UserInfo;};
 
+// 用户详细数据,包后台数据表中的数据;
+exports.store_UserInfo = store_UserInfo;var store_UserInfoData = function store_UserInfoData(state) {return state.store_UserInfoData;};
+
 // 手机号
-exports.store_UserInfo = store_UserInfo;var store_UserPhone = function store_UserPhone(state) {return state.store_UserPhone;};
+exports.store_UserInfoData = store_UserInfoData;var store_UserPhone = function store_UserPhone(state) {return state.store_UserPhone;};
 
 // token
 exports.store_UserPhone = store_UserPhone;var store_token = function store_token(state) {return state.store_token;};
+// token 过期时间
+exports.store_token = store_token;var store_tokenExpiration = function store_tokenExpiration(state) {return state.store_tokenExpiration;};
 
 // 用户基本体征数据(性别,出生日期,身高,体重)
-exports.store_token = store_token;var store_userBaseSign = function store_userBaseSign(state) {return state.store_userBaseSign;};exports.store_userBaseSign = store_userBaseSign;
+exports.store_tokenExpiration = store_tokenExpiration;var store_userBaseSign = function store_userBaseSign(state) {return state.store_userBaseSign;};
+
+// 用户所有准确体征数据
+exports.store_userBaseSign = store_userBaseSign;var store_userSignData = function store_userSignData(state) {return state.store_userSignData;};
+
+// 首页banner列表
+exports.store_userSignData = store_userSignData;var store_homeBannerList = function store_homeBannerList(state) {return state.store_homeBannerList;};
+
+// 首页新闻列表
+exports.store_homeBannerList = store_homeBannerList;var store_homeNewsList = function store_homeNewsList(state) {return state.store_homeNewsList;};
+
+// 微信步数
+exports.store_homeNewsList = store_homeNewsList;var store_userWXStep = function store_userWXStep(state) {return state.store_userWXStep;};exports.store_userWXStep = store_userWXStep;
 
 /***/ }),
 /* 19 */
@@ -9639,18 +9744,70 @@ exports.store_token = store_token;var store_userBaseSign = function store_userBa
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var state = {
   // 用户基本数据,不包含敏感信息;
-  store_UserInfo: {},
+  store_UserInfo: {
+    avatarUrl: "",
+    city: "",
+    country: "",
+    gender: -1,
+    language: "",
+    nickName: "",
+    province: "" },
+
+  // 用户详细数据,包后台数据表中的数据;
+  store_UserInfoData: {
+    avatarUrl: null, // 头像
+    birth: null, // 生日
+    city: null, // 城市
+    country: null,
+    createTime: null,
+    gender: null, // 性别
+    height: null, // 身高
+    isDelete: null,
+    language: null, // 所用语言
+    mobile: null, // 电话/手机号
+    nickName: null, // 昵称
+    openId: null, // 
+    password: null, // 
+    province: null, // 
+    sessionKey: null, // 
+    status: null, // 
+    unionId: null, // 
+    updateTime: null, // 
+    id: null, // 用户表的主键ID
+    weight: null // 体重
+  },
   // 用户手机号
   store_UserPhone: '',
-  // 用户登录后,后台返回的token值,用于每次发送请求时判断用户是否属于真的登录状态;
-  store_token: '',
-  // 用户基本体征数据(性别,出生日期,身高,体重)
+  // 用户登录后,后台返回的token值,用于每次发送请求时判断用户是否属于后台真的登录状态;
+  store_token: '', // token过期时间由后台订, 在http_login_setToken时获取过期时间,然后在util的isLogin中判断是否过期
+  store_tokenExpiration: '', // 过期时间
+  // 用户基本体征数据(性别,出生日期,身高,体重),在用户注册时选择这些信息,然后发送给后台
   store_userBaseSign: {
-    gander: '',
-    birthDate: '',
-    height: '',
-    weight: '' } };var _default =
+    userGender: '',
+    userBirth: '',
+    userHeight: '',
+    userWeight: '' },
 
+  // ##
+  // 用户所有准确体征数据,最终所有获取到的数据,都先存在这里,然后前台根据这里的数值渲染
+  store_userSignData: {
+    gender: -1, // 性别
+    step: -1, // 步数
+    weight: -1, // 体重
+    height: -1, // 身高
+    bloodPressure: -1, // 血压
+    bloodSugar: -1, // 血糖
+    heartRate: -1, // 心率
+    sleep: -1, // 睡眠
+    BodyTemperature: -1, // 体温
+    TotalCholesterol: -1 // 总胆固醇
+  },
+  // 首页banner
+  store_homeBannerList: {},
+  // 首页新闻列表
+  store_homeNewsList: {},
+  // 微信步数
+  store_userWXStep: 666 };var _default =
 
 
 state;exports.default = _default;
@@ -9674,6 +9831,10 @@ var matutaions = {
   setUserInfo: function setUserInfo(state, userInfo) {
     state.store_UserInfo = userInfo;
   },
+  // 设置用户详细数据,包后台数据表中的数据;
+  setUserInfoData: function setUserInfoData(state, userInfoData) {
+    state.store_UserInfoData = userInfoData;
+  },
   // 设置用户手机号
   setUserPhone: function setUserPhone(state, userPhone) {
     state.store_UserPhone = userPhone;
@@ -9682,21 +9843,54 @@ var matutaions = {
   setToken: function setToken(state, storeToken) {
     state.store_token = storeToken;
   },
-  // 设置用户基本体征 - 性别
-  setUserBaseSignGander: function setUserBaseSignGander(state, signGander) {
-    state.store_userBaseSign['gander'] = signGander;
+  // 设置token过期时间(毫秒数)
+  setTokenExpiration: function setTokenExpiration(state, expiration) {
+    state.store_tokenExpiration = expiration;
   },
-  // 设置用户基本体征 - 出生日期
-  setUserBaseSignBirthDate: function setUserBaseSignBirthDate(state, birthDate) {
-    state.store_userBaseSign['birthDate'] = birthDate;
+  // 设置用户基本4项体征
+  setUserBaseSign: function setUserBaseSign(state, userBaseSign) {
+    state.store_userBaseSign = userBaseSign;
   },
-  // 设置用户基本体征 - 身高
-  setUserBaseSignHeight: function setUserBaseSignHeight(state, height) {
-    state.store_userBaseSign['height'] = height;
+  // 设置用户所有体征数据
+  setUserSignData: function setUserSignData(state, userSignData) {
+    state.store_userSignData = userSignData;
   },
-  // 设置用户基本体征 - 体重
-  setUserBaseSignWeight: function setUserBaseSignWeight(state, weight) {
-    state.store_userBaseSign['weight'] = weight;
+  // 设置首页banner列表
+  setHomeBannerList: function setHomeBannerList(state, bannerList) {
+    state.store_homeBannerList = bannerList;
+  },
+  // 设置首页新闻列表
+  setHomeNewsList: function setHomeNewsList(state, newsList) {
+    state.store_homeNewsList = newsList;
+  },
+  // 设置微信步数
+  setUserWXStep: function setUserWXStep(state, step) {
+    state.store_userWXStep = step;
+  },
+
+  // 设置用户准确体征 - 性别
+  setUserSignData_gender: function setUserSignData_gender(state, gender) {
+    state.store_userSignData['gender'] = gender;
+  },
+  // 设置用户准确体征 - 升高
+  setUserSignData_height: function setUserSignData_height(state, height) {
+    state.store_userSignData['height'] = height;
+  },
+  // 设置用户准确体征 - 体重
+  setUserSignData_weight: function setUserSignData_weight(state, weight) {
+    state.store_userSignData['weight'] = weight;
+  },
+  // 设置用户准确体征 - 步数
+  setUserSignData_step: function setUserSignData_step(state, step) {
+    state.store_userSignData['step'] = step;
+  },
+  // 设置用户准确体征 - 血压
+  setUserSignData_bloodPressure: function setUserSignData_bloodPressure(state, bloodPressure) {
+    state.store_userSignData['bloodPressure'] = bloodPressure;
+  },
+  // 设置用户准确体征 - 血糖
+  setUserSignData_bloodSugar: function setUserSignData_bloodSugar(state, bloodSugar) {
+    state.store_userSignData['bloodSugar'] = bloodSugar;
   } };
 
 
@@ -10689,36 +10883,40 @@ module.exports = function shimPromiseFinally() {
 /* 41 */,
 /* 42 */,
 /* 43 */,
-/* 44 */,
-/* 45 */,
+/* 44 */
+/*!***********************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/static/images/index/bushu.svg ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "static/img/bushu.1e41640e.svg";
+
+/***/ }),
+/* 45 */
+/*!*******************************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/static/images/index/yongyaotixing.svg ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "static/img/yongyaotixing.91460349.svg";
+
+/***/ }),
 /* 46 */,
 /* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */,
-/* 53 */,
-/* 54 */,
-/* 55 */,
-/* 56 */,
-/* 57 */,
-/* 58 */,
-/* 59 */,
-/* 60 */,
-/* 61 */,
-/* 62 */
+/* 48 */
 /*!**********************************************************!*\
   !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
   \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! regenerator-runtime */ 63);
+module.exports = __webpack_require__(/*! regenerator-runtime */ 49);
 
 
 /***/ }),
-/* 63 */
+/* 49 */
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -10749,7 +10947,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(/*! ./runtime */ 64);
+module.exports = __webpack_require__(/*! ./runtime */ 50);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -10765,7 +10963,7 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 64 */
+/* 50 */
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/
@@ -11496,64 +11694,165 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 65 */
-/*!**********************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http_login_setToken.js ***!
-  \**********************************************************************/
+/* 51 */
+/*!********************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/mixin.js ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.http_login_setToken = void 0;
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.ximin_isLogin = void 0;
+var _utils = __webpack_require__(/*! @/utils/utils.js */ 52);
+
+
+var ximin_isLogin = {
+  onShow: function onShow() {
+    // 检测登录
+    if (!(0, _utils.isLogin)()) {
+      // 本地拿不到用户信息，重定向到用户登录页；
+      uni.redirectTo({
+        url: '../login/login?onLoadErrMsg="您的登录已过期，请重新登录"' });
+
+    }
+  } };exports.ximin_isLogin = ximin_isLogin;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 52 */
+/*!********************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/utils.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.isLogin = exports.formatDate = void 0;var _index = _interopRequireDefault(__webpack_require__(/*! @/store/index.js */ 15));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+
+// 日期格式化 TODO：未封装	
+var formatDate = function formatDate(d) {
+  //如果date不是日期对象，返回
+  if (!date instanceof Date) {
+    return;
+  }
+  var year = d.getFullYear(),
+  month = d.getMonth() + 1,
+  date = d.getDate(),
+  hour = d.getHours(),
+  minute = d.getMinutes(),
+  second = d.getSeconds();
+  month = month < 10 ? '0' + month : month;
+  date = date < 10 ? '0' + date : date;
+  hour = hour < 10 ? '0' + hour : hour;
+  minute = minute < 10 ? '0' + minute : minute;
+  second = second < 10 ? '0' + second : second;
+  return year + '-' + month + '-' + date + ' ' + hour + ':' + minute + ':' + second;
+};
+
+// 是否已登录
+// 检测本地store数据中,是否已有用户数据;
+exports.formatDate = formatDate;var isLogin = function isLogin() {
+  if (_index.default.getters.store_token === '') {
+    // 判断是否有token
+    return false;
+  } else if (_index.default.getters.store_tokenExpiration === '') {
+    // 判断是否有token的过期时间
+    return false;
+  } else if (new Date().getTime() >= _index.default.getters.store_tokenExpiration) {
+    // 判断当前时间毫秒数 是否 大于 token过期时间
+    console.log('token超时');
+    return false;
+  }
+  console.log('登陆过期时间 => ' + formatDate(new Date(_index.default.getters.store_tokenExpiration)));
+  return true;
+};exports.isLogin = isLogin;
+
+/***/ }),
+/* 53 */
+/*!****************************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http_getIndexUserSignData.js ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.http_getIndexUserSignData = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 48));
 
 var _index = _interopRequireDefault(__webpack_require__(/*! @/store/index.js */ 15));
 
-var _http = _interopRequireDefault(__webpack_require__(/*! @/utils/http.js */ 66));
-
-var _http_req_list = __webpack_require__(/*! @/utils/http_req_list.js */ 99);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 由于不是vue组件,所以不能拿到this的vue实例,
-// 所以这里操作store就用原始的方法,直接操作文件;
-// login后,将code发送给后台,换取token,将token存储到本地
-var http_login_setToken = function http_login_setToken(loginCode) {
-
-  console.log('loginCode' + loginCode);
+var _http = _interopRequireDefault(__webpack_require__(/*! @/utils/http.js */ 54));
 
 
-  // 注意,这里用get请求,如果是要修改请求头,那么就需要在http.js中if (config.method == 'get') {config.data = 'true'} ,并且,get请求的第二个参数,是设置请求头;
+var _http_req_list = __webpack_require__(/*! @/utils/http_req_list.js */ 87);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}
+// url_getUserWeight 需要拼接 /userId
 
-  // 由于想要在get请求时修改请求头,所以参数2是设置请求头,如果要传参就直接加到URL里
-  // 测试get请求
-  var URLD = 'https://api.douban.com/v2/book/isbn/9787506394864?apikey=0df993c66c0c636e29ecbb5344252a4a&start=0&count=10';
-  _http.default.get(URLD, { headers: { 'Content-Type': 'application/text' } }).then(function (res) {
-    console.log(res);
-  }).catch(function (error) {
-  }).finally(function () {
-  });
+// 获取首页所需体征,并存储到本地(分开存储)
+var http_getIndexUserSignData = /*#__PURE__*/function () {var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var id, weight, bloodPressure, bloodSugar;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
 
-  // 测试post请求
-  // 如果是post请求,参数1是URL,那么参数2是数据,参数3个设置请求头;
-  // http.post(URL, [data], {potion}).then(res => {
-  // }).catch(error => {
-  // }).finally(() => {
-  // })
+            // 用户表中ID ,用于SQL查询参数,发送给后台
+            id = _index.default.getters.store_UserInfoData.id;
 
-  // http.post(url_login_getToken, [{code:loginCode}]).then(res => {
+            // TODO:获取用户身高
+            _context.next = 3;return (
+              _http.default.get(_http_req_list.url_getUserWeight + id).then(function (res) {
 
-  // 	// 由于不是vue组件,所以不能拿到this的vue实例,
-  // 	// 所以这里操作store就用原始的方法,直接操作文件;
-  // 	// 其他vue文件还是用...mutations映射方法操作
-  // 	console.log('登录,换取token' + res)
-  // 	store.commit('setToken', 'tototototo')
-  // 	console.log(store.getters.store_token)
+                console.log('体重');
+                console.log(res);
+                // 获取后更新本地用户所有准确体征数据中的 - 体重
+                // 设置体重
+                // if(res.data.user.weight!==null) {
+                // 	store.commit('setUserSignData_weight', res.data.user.weight)	
+                // }
 
-  // }).catch(error => {
-  // }).finally(() => {
-  // })
+                // 模拟
+                _index.default.commit('setUserSignData_weight', 80);
+
+              }).catch(function (error) {
+              }).finally(function () {
+              }));case 3:weight = _context.sent;_context.next = 6;return (
 
 
-};exports.http_login_setToken = http_login_setToken;
+              _http.default.get(_http_req_list.url_getUserbloodPressure + id).then(function (res) {
+
+                console.log('血压');
+                console.log(res);
+                // 设置用户准确体征 - 血压
+                // if(res.data.user.xx!==null) {
+                // 	store.commit('setUserSignData_bloodPressure', xx)	
+                // }
+
+                // 模拟
+                _index.default.commit('setUserSignData_bloodPressure', 77);
+
+
+              }).catch(function (error) {
+              }).finally(function () {
+              }));case 6:bloodPressure = _context.sent;_context.next = 9;return (
+
+
+              _http.default.get(_http_req_list.url_getUserbloodSugar + id).then(function (res) {
+
+                console.log('血糖');
+                console.log(res);
+                // 储存到本地用户store_userSignData中
+                // if(res.data.user.xx!==null) {
+                // 	store.commit('setUserSignData_bloodSugar', xx)	
+                // }
+
+                // 模拟
+                _index.default.commit('setUserSignData_bloodSugar', 66);
+
+              }).catch(function (error) {
+              }).finally(function () {
+              }));case 9:bloodSugar = _context.sent;return _context.abrupt("return",
+
+
+
+            true);case 11:case "end":return _context.stop();}}}, _callee, this);}));return function http_getIndexUserSignData() {return _ref.apply(this, arguments);};}();exports.http_getIndexUserSignData = http_getIndexUserSignData;
 
 /***/ }),
-/* 66 */
+/* 54 */
 /*!*******************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http.js ***!
   \*******************************************************/
@@ -11564,7 +11863,7 @@ var http_login_setToken = function http_login_setToken(loginCode) {
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
 
-var _gangdiedaoUniAxios = _interopRequireDefault(__webpack_require__(/*! ../js_sdk/gangdiedao-uni-axios */ 67));
+var _gangdiedaoUniAxios = _interopRequireDefault(__webpack_require__(/*! ../js_sdk/gangdiedao-uni-axios */ 55));
 
 
 
@@ -11573,7 +11872,7 @@ var _gangdiedaoUniAxios = _interopRequireDefault(__webpack_require__(/*! ../js_s
 var _index = _interopRequireDefault(__webpack_require__(/*! ../store/index.js */ 15));
 
 
-var _http_req_list = __webpack_require__(/*! @/utils/http_req_list.js */ 99);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 使用第三方插件, 基于uniapp的axios, https://ext.dcloud.net.cn/plugin?id=558 
+var _http_req_list = __webpack_require__(/*! @/utils/http_req_list.js */ 87);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 使用第三方插件, 基于uniapp的axios, https://ext.dcloud.net.cn/plugin?id=558 
 // 在网站下载使用或者在网站上点击导入HBuilder,会自动成js_sdk文件夹,否则手动创建
 // 并且在项目中安装 axios  npm install --save axios
 // 由于不是vue组件,所以不能拿到this的vue实例,
@@ -11619,9 +11918,9 @@ http.interceptors.request.use(function (config) {
 
 
   // 解决使用get请求无法设置请求头为题
-  if (config.method == 'get') {
-    config.data = 'true';
-  }
+  // if (config.method == 'get') {
+  //     config.data = 'true'
+  // }
 
   // 每次请求附加token值,用于后台监测当前用户是否属于登录状态;
   config.headers['token'] = _index.default.getters.store_token || '';
@@ -11633,7 +11932,7 @@ http.interceptors.request.use(function (config) {
 http;exports.default = _default;
 
 /***/ }),
-/* 67 */
+/* 55 */
 /*!******************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/js_sdk/gangdiedao-uni-axios/index.js ***!
   \******************************************************************************/
@@ -11641,11 +11940,11 @@ http;exports.default = _default;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _uniAxios = __webpack_require__(/*! ./uni-axios */ 68);var _default =
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _uniAxios = __webpack_require__(/*! ./uni-axios */ 56);var _default =
 _uniAxios.axios;exports.default = _default;
 
 /***/ }),
-/* 68 */
+/* 56 */
 /*!**********************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/js_sdk/gangdiedao-uni-axios/uni-axios.js ***!
   \**********************************************************************************/
@@ -11653,7 +11952,7 @@ _uniAxios.axios;exports.default = _default;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });var _exportNames = { axios: true };Object.defineProperty(exports, "axios", { enumerable: true, get: function get() {return _axios.default;} });var _axios = _interopRequireWildcard(__webpack_require__(/*! axios */ 69));
+Object.defineProperty(exports, "__esModule", { value: true });var _exportNames = { axios: true };Object.defineProperty(exports, "axios", { enumerable: true, get: function get() {return _axios.default;} });var _axios = _interopRequireWildcard(__webpack_require__(/*! axios */ 57));
 
 
 
@@ -11695,10 +11994,10 @@ Object.defineProperty(exports, "__esModule", { value: true });var _exportNames =
 
 
 
-Object.keys(_axios).forEach(function (key) {if (key === "default" || key === "__esModule") return;if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;Object.defineProperty(exports, key, { enumerable: true, get: function get() {return _axios[key];} });});var _utils = _interopRequireDefault(__webpack_require__(/*! axios/lib/utils */ 71));var _adapter = __webpack_require__(/*! ./adapter */ 97);var _normalizeHeaderName = _interopRequireDefault(__webpack_require__(/*! axios/lib/helpers/normalizeHeaderName */ 83));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) {var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {};if (desc.get || desc.set) {Object.defineProperty(newObj, key, desc);} else {newObj[key] = obj[key];}}}}newObj.default = obj;return newObj;}}function setContentTypeIfUnset(headers, value) {if (!_utils.default.isUndefined(headers) && _utils.default.isUndefined(headers['Content-Type'])) {headers['Content-Type'] = value;}}_axios.default.defaults.transformRequest = [function transformRequest(data, headers) {(0, _normalizeHeaderName.default)(headers, 'Accept');(0, _normalizeHeaderName.default)(headers, 'Content-Type');if (_utils.default.isFormData(data) || _utils.default.isArrayBuffer(data) || _utils.default.isBuffer(data) || _utils.default.isStream(data) || _utils.default.isFile(data) || _utils.default.isBlob(data)) {return data;}if (_utils.default.isArrayBufferView(data)) {return data.buffer;}if (_utils.default.isURLSearchParams(data)) {setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');return data.toString();}if (_utils.default.isObject(data)) {setContentTypeIfUnset(headers, 'application/json;charset=utf-8');return JSON.stringify(data);}return data;}];_axios.default.defaults.adapter = _adapter.adapter;
+Object.keys(_axios).forEach(function (key) {if (key === "default" || key === "__esModule") return;if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;Object.defineProperty(exports, key, { enumerable: true, get: function get() {return _axios[key];} });});var _utils = _interopRequireDefault(__webpack_require__(/*! axios/lib/utils */ 59));var _adapter = __webpack_require__(/*! ./adapter */ 85);var _normalizeHeaderName = _interopRequireDefault(__webpack_require__(/*! axios/lib/helpers/normalizeHeaderName */ 71));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) {var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {};if (desc.get || desc.set) {Object.defineProperty(newObj, key, desc);} else {newObj[key] = obj[key];}}}}newObj.default = obj;return newObj;}}function setContentTypeIfUnset(headers, value) {if (!_utils.default.isUndefined(headers) && _utils.default.isUndefined(headers['Content-Type'])) {headers['Content-Type'] = value;}}_axios.default.defaults.transformRequest = [function transformRequest(data, headers) {(0, _normalizeHeaderName.default)(headers, 'Accept');(0, _normalizeHeaderName.default)(headers, 'Content-Type');if (_utils.default.isFormData(data) || _utils.default.isArrayBuffer(data) || _utils.default.isBuffer(data) || _utils.default.isStream(data) || _utils.default.isFile(data) || _utils.default.isBlob(data)) {return data;}if (_utils.default.isArrayBufferView(data)) {return data.buffer;}if (_utils.default.isURLSearchParams(data)) {setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');return data.toString();}if (_utils.default.isObject(data)) {setContentTypeIfUnset(headers, 'application/json;charset=utf-8');return JSON.stringify(data);}return data;}];_axios.default.defaults.adapter = _adapter.adapter;
 
 /***/ }),
-/* 69 */
+/* 57 */
 /*!*********************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/index.js ***!
   \*********************************************************************/
@@ -11706,10 +12005,10 @@ Object.keys(_axios).forEach(function (key) {if (key === "default" || key === "__
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-module.exports = __webpack_require__(/*! ./lib/axios */ 70);
+module.exports = __webpack_require__(/*! ./lib/axios */ 58);
 
 /***/ }),
-/* 70 */
+/* 58 */
 /*!*************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/axios.js ***!
   \*************************************************************************/
@@ -11719,11 +12018,11 @@ module.exports = __webpack_require__(/*! ./lib/axios */ 70);
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./utils */ 71);
-var bind = __webpack_require__(/*! ./helpers/bind */ 72);
-var Axios = __webpack_require__(/*! ./core/Axios */ 74);
-var mergeConfig = __webpack_require__(/*! ./core/mergeConfig */ 93);
-var defaults = __webpack_require__(/*! ./defaults */ 80);
+var utils = __webpack_require__(/*! ./utils */ 59);
+var bind = __webpack_require__(/*! ./helpers/bind */ 60);
+var Axios = __webpack_require__(/*! ./core/Axios */ 62);
+var mergeConfig = __webpack_require__(/*! ./core/mergeConfig */ 81);
+var defaults = __webpack_require__(/*! ./defaults */ 68);
 
 /**
                                        * Create an instance of Axios
@@ -11756,15 +12055,15 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(/*! ./cancel/Cancel */ 94);
-axios.CancelToken = __webpack_require__(/*! ./cancel/CancelToken */ 95);
-axios.isCancel = __webpack_require__(/*! ./cancel/isCancel */ 79);
+axios.Cancel = __webpack_require__(/*! ./cancel/Cancel */ 82);
+axios.CancelToken = __webpack_require__(/*! ./cancel/CancelToken */ 83);
+axios.isCancel = __webpack_require__(/*! ./cancel/isCancel */ 67);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(/*! ./helpers/spread */ 96);
+axios.spread = __webpack_require__(/*! ./helpers/spread */ 84);
 
 module.exports = axios;
 
@@ -11772,7 +12071,7 @@ module.exports = axios;
 module.exports.default = axios;
 
 /***/ }),
-/* 71 */
+/* 59 */
 /*!*************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/utils.js ***!
   \*************************************************************************/
@@ -11782,8 +12081,8 @@ module.exports.default = axios;
 "use strict";
 
 
-var bind = __webpack_require__(/*! ./helpers/bind */ 72);
-var isBuffer = __webpack_require__(/*! is-buffer */ 73);
+var bind = __webpack_require__(/*! ./helpers/bind */ 60);
+var isBuffer = __webpack_require__(/*! is-buffer */ 61);
 
 /*global toString:true*/
 
@@ -12115,7 +12414,7 @@ module.exports = {
   trim: trim };
 
 /***/ }),
-/* 72 */
+/* 60 */
 /*!********************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/helpers/bind.js ***!
   \********************************************************************************/
@@ -12136,7 +12435,7 @@ module.exports = function bind(fn, thisArg) {
 };
 
 /***/ }),
-/* 73 */
+/* 61 */
 /*!*****************************************!*\
   !*** ./node_modules/is-buffer/index.js ***!
   \*****************************************/
@@ -12167,7 +12466,7 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 74 */
+/* 62 */
 /*!******************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/core/Axios.js ***!
   \******************************************************************************/
@@ -12177,11 +12476,11 @@ function isSlowBuffer (obj) {
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ 71);
-var buildURL = __webpack_require__(/*! ../helpers/buildURL */ 75);
-var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ 76);
-var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ 77);
-var mergeConfig = __webpack_require__(/*! ./mergeConfig */ 93);
+var utils = __webpack_require__(/*! ./../utils */ 59);
+var buildURL = __webpack_require__(/*! ../helpers/buildURL */ 63);
+var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ 64);
+var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ 65);
+var mergeConfig = __webpack_require__(/*! ./mergeConfig */ 81);
 
 /**
                                              * Create a new instance of Axios
@@ -12263,7 +12562,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 module.exports = Axios;
 
 /***/ }),
-/* 75 */
+/* 63 */
 /*!************************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/helpers/buildURL.js ***!
   \************************************************************************************/
@@ -12273,7 +12572,7 @@ module.exports = Axios;
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ 71);
+var utils = __webpack_require__(/*! ./../utils */ 59);
 
 function encode(val) {
   return encodeURIComponent(val).
@@ -12344,7 +12643,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 };
 
 /***/ }),
-/* 76 */
+/* 64 */
 /*!*******************************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/core/InterceptorManager.js ***!
   \*******************************************************************************************/
@@ -12354,7 +12653,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ 71);
+var utils = __webpack_require__(/*! ./../utils */ 59);
 
 function InterceptorManager() {
   this.handlers = [];
@@ -12406,7 +12705,7 @@ InterceptorManager.prototype.forEach = function forEach(fn) {
 module.exports = InterceptorManager;
 
 /***/ }),
-/* 77 */
+/* 65 */
 /*!****************************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/core/dispatchRequest.js ***!
   \****************************************************************************************/
@@ -12416,12 +12715,12 @@ module.exports = InterceptorManager;
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ 71);
-var transformData = __webpack_require__(/*! ./transformData */ 78);
-var isCancel = __webpack_require__(/*! ../cancel/isCancel */ 79);
-var defaults = __webpack_require__(/*! ../defaults */ 80);
-var isAbsoluteURL = __webpack_require__(/*! ./../helpers/isAbsoluteURL */ 91);
-var combineURLs = __webpack_require__(/*! ./../helpers/combineURLs */ 92);
+var utils = __webpack_require__(/*! ./../utils */ 59);
+var transformData = __webpack_require__(/*! ./transformData */ 66);
+var isCancel = __webpack_require__(/*! ../cancel/isCancel */ 67);
+var defaults = __webpack_require__(/*! ../defaults */ 68);
+var isAbsoluteURL = __webpack_require__(/*! ./../helpers/isAbsoluteURL */ 79);
+var combineURLs = __webpack_require__(/*! ./../helpers/combineURLs */ 80);
 
 /**
                                                         * Throws a `Cancel` if cancellation has been requested.
@@ -12502,7 +12801,7 @@ module.exports = function dispatchRequest(config) {
 };
 
 /***/ }),
-/* 78 */
+/* 66 */
 /*!**************************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/core/transformData.js ***!
   \**************************************************************************************/
@@ -12512,7 +12811,7 @@ module.exports = function dispatchRequest(config) {
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ 71);
+var utils = __webpack_require__(/*! ./../utils */ 59);
 
 /**
                                     * Transform the data for a request or a response
@@ -12532,7 +12831,7 @@ module.exports = function transformData(data, headers, fns) {
 };
 
 /***/ }),
-/* 79 */
+/* 67 */
 /*!***********************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/cancel/isCancel.js ***!
   \***********************************************************************************/
@@ -12547,7 +12846,7 @@ module.exports = function isCancel(value) {
 };
 
 /***/ }),
-/* 80 */
+/* 68 */
 /*!****************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/defaults.js ***!
   \****************************************************************************/
@@ -12557,8 +12856,8 @@ module.exports = function isCancel(value) {
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var utils = __webpack_require__(/*! ./utils */ 71);
-var normalizeHeaderName = __webpack_require__(/*! ./helpers/normalizeHeaderName */ 83);
+var utils = __webpack_require__(/*! ./utils */ 59);
+var normalizeHeaderName = __webpack_require__(/*! ./helpers/normalizeHeaderName */ 71);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded' };
@@ -12575,10 +12874,10 @@ function getDefaultAdapter() {
   // Only Node.JS has a process variable that is of [[Class]] process
   if (typeof process !== 'undefined' && Object.prototype.toString.call(process) === '[object process]') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(/*! ./adapters/http */ 84);
+    adapter = __webpack_require__(/*! ./adapters/http */ 72);
   } else if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(/*! ./adapters/xhr */ 84);
+    adapter = __webpack_require__(/*! ./adapters/xhr */ 72);
   }
   return adapter;
 }
@@ -12653,10 +12952,10 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 });
 
 module.exports = defaults;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/node-libs-browser/mock/process.js */ 81)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/node-libs-browser/mock/process.js */ 69)))
 
 /***/ }),
-/* 81 */
+/* 69 */
 /*!********************************************************!*\
   !*** ./node_modules/node-libs-browser/mock/process.js ***!
   \********************************************************/
@@ -12683,7 +12982,7 @@ exports.binding = function (name) {
     var path;
     exports.cwd = function () { return cwd };
     exports.chdir = function (dir) {
-        if (!path) path = __webpack_require__(/*! path */ 82);
+        if (!path) path = __webpack_require__(/*! path */ 70);
         cwd = path.resolve(dir, cwd);
     };
 })();
@@ -12696,7 +12995,7 @@ exports.features = {};
 
 
 /***/ }),
-/* 82 */
+/* 70 */
 /*!***********************************************!*\
   !*** ./node_modules/path-browserify/index.js ***!
   \***********************************************/
@@ -12928,10 +13227,10 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 81)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 69)))
 
 /***/ }),
-/* 83 */
+/* 71 */
 /*!***********************************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/helpers/normalizeHeaderName.js ***!
   \***********************************************************************************************/
@@ -12941,7 +13240,7 @@ var substr = 'ab'.substr(-1) === 'b'
 "use strict";
 
 
-var utils = __webpack_require__(/*! ../utils */ 71);
+var utils = __webpack_require__(/*! ../utils */ 59);
 
 module.exports = function normalizeHeaderName(headers, normalizedName) {
   utils.forEach(headers, function processHeader(value, name) {
@@ -12953,7 +13252,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 };
 
 /***/ }),
-/* 84 */
+/* 72 */
 /*!********************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/adapters/xhr.js ***!
   \********************************************************************************/
@@ -12963,12 +13262,12 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ 71);
-var settle = __webpack_require__(/*! ./../core/settle */ 85);
-var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ 75);
-var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ 88);
-var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ 89);
-var createError = __webpack_require__(/*! ../core/createError */ 86);
+var utils = __webpack_require__(/*! ./../utils */ 59);
+var settle = __webpack_require__(/*! ./../core/settle */ 73);
+var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ 63);
+var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ 76);
+var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ 77);
+var createError = __webpack_require__(/*! ../core/createError */ 74);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -13060,7 +13359,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(/*! ./../helpers/cookies */ 90);
+      var cookies = __webpack_require__(/*! ./../helpers/cookies */ 78);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -13137,7 +13436,7 @@ module.exports = function xhrAdapter(config) {
 };
 
 /***/ }),
-/* 85 */
+/* 73 */
 /*!*******************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/core/settle.js ***!
   \*******************************************************************************/
@@ -13147,7 +13446,7 @@ module.exports = function xhrAdapter(config) {
 "use strict";
 
 
-var createError = __webpack_require__(/*! ./createError */ 86);
+var createError = __webpack_require__(/*! ./createError */ 74);
 
 /**
                                              * Resolve or reject a Promise based on response status.
@@ -13172,7 +13471,7 @@ module.exports = function settle(resolve, reject, response) {
 };
 
 /***/ }),
-/* 86 */
+/* 74 */
 /*!************************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/core/createError.js ***!
   \************************************************************************************/
@@ -13182,7 +13481,7 @@ module.exports = function settle(resolve, reject, response) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(/*! ./enhanceError */ 87);
+var enhanceError = __webpack_require__(/*! ./enhanceError */ 75);
 
 /**
                                                * Create an Error with the specified message, config, error code, request and response.
@@ -13200,7 +13499,7 @@ module.exports = function createError(message, config, code, request, response) 
 };
 
 /***/ }),
-/* 87 */
+/* 75 */
 /*!*************************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/core/enhanceError.js ***!
   \*************************************************************************************/
@@ -13252,7 +13551,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 };
 
 /***/ }),
-/* 88 */
+/* 76 */
 /*!****************************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/helpers/parseHeaders.js ***!
   \****************************************************************************************/
@@ -13262,7 +13561,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ 71);
+var utils = __webpack_require__(/*! ./../utils */ 59);
 
 // Headers whose duplicates are ignored by node
 // c.f. https://nodejs.org/api/http.html#http_message_headers
@@ -13315,7 +13614,7 @@ module.exports = function parseHeaders(headers) {
 };
 
 /***/ }),
-/* 89 */
+/* 77 */
 /*!*******************************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/helpers/isURLSameOrigin.js ***!
   \*******************************************************************************************/
@@ -13325,7 +13624,7 @@ module.exports = function parseHeaders(headers) {
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ 71);
+var utils = __webpack_require__(/*! ./../utils */ 59);
 
 module.exports =
 utils.isStandardBrowserEnv() ?
@@ -13392,7 +13691,7 @@ function nonStandardBrowserEnv() {
 }();
 
 /***/ }),
-/* 90 */
+/* 78 */
 /*!***********************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/helpers/cookies.js ***!
   \***********************************************************************************/
@@ -13402,7 +13701,7 @@ function nonStandardBrowserEnv() {
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ 71);
+var utils = __webpack_require__(/*! ./../utils */ 59);
 
 module.exports =
 utils.isStandardBrowserEnv() ?
@@ -13454,7 +13753,7 @@ function nonStandardBrowserEnv() {
 }();
 
 /***/ }),
-/* 91 */
+/* 79 */
 /*!*****************************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/helpers/isAbsoluteURL.js ***!
   \*****************************************************************************************/
@@ -13478,7 +13777,7 @@ module.exports = function isAbsoluteURL(url) {
 };
 
 /***/ }),
-/* 92 */
+/* 80 */
 /*!***************************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/helpers/combineURLs.js ***!
   \***************************************************************************************/
@@ -13502,7 +13801,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 };
 
 /***/ }),
-/* 93 */
+/* 81 */
 /*!************************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/core/mergeConfig.js ***!
   \************************************************************************************/
@@ -13512,7 +13811,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 "use strict";
 
 
-var utils = __webpack_require__(/*! ../utils */ 71);
+var utils = __webpack_require__(/*! ../utils */ 59);
 
 /**
                                   * Config-specific merge-function which creates a new config-object
@@ -13563,7 +13862,7 @@ module.exports = function mergeConfig(config1, config2) {
 };
 
 /***/ }),
-/* 94 */
+/* 82 */
 /*!*********************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/cancel/Cancel.js ***!
   \*********************************************************************************/
@@ -13592,7 +13891,7 @@ Cancel.prototype.__CANCEL__ = true;
 module.exports = Cancel;
 
 /***/ }),
-/* 95 */
+/* 83 */
 /*!**************************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/cancel/CancelToken.js ***!
   \**************************************************************************************/
@@ -13602,7 +13901,7 @@ module.exports = Cancel;
 "use strict";
 
 
-var Cancel = __webpack_require__(/*! ./Cancel */ 94);
+var Cancel = __webpack_require__(/*! ./Cancel */ 82);
 
 /**
                                    * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -13659,7 +13958,7 @@ CancelToken.source = function source() {
 module.exports = CancelToken;
 
 /***/ }),
-/* 96 */
+/* 84 */
 /*!**********************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/helpers/spread.js ***!
   \**********************************************************************************/
@@ -13696,7 +13995,7 @@ module.exports = function spread(callback) {
 };
 
 /***/ }),
-/* 97 */
+/* 85 */
 /*!********************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/js_sdk/gangdiedao-uni-axios/adapter.js ***!
   \********************************************************************************/
@@ -13704,15 +14003,15 @@ module.exports = function spread(callback) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.adapter = void 0;var _utils = __webpack_require__(/*! axios/lib/utils */ 71);
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.adapter = void 0;var _utils = __webpack_require__(/*! axios/lib/utils */ 59);
 
 
 
 
-var _createError = _interopRequireDefault(__webpack_require__(/*! axios/lib/core/createError */ 86));
-var _buildURL = _interopRequireDefault(__webpack_require__(/*! axios/lib/helpers/buildURL */ 75));
-var _settle = _interopRequireDefault(__webpack_require__(/*! axios/lib/core/settle */ 85));
-var _awaitTimeout = _interopRequireDefault(__webpack_require__(/*! ./await-timeout */ 98));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _createError = _interopRequireDefault(__webpack_require__(/*! axios/lib/core/createError */ 74));
+var _buildURL = _interopRequireDefault(__webpack_require__(/*! axios/lib/helpers/buildURL */ 63));
+var _settle = _interopRequireDefault(__webpack_require__(/*! axios/lib/core/settle */ 73));
+var _awaitTimeout = _interopRequireDefault(__webpack_require__(/*! ./await-timeout */ 86));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
 var timer = new _awaitTimeout.default();
 
@@ -13763,7 +14062,7 @@ var adapter = function adapter(config) {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
-/* 98 */
+/* 86 */
 /*!**************************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/js_sdk/gangdiedao-uni-axios/await-timeout.js ***!
   \**************************************************************************************/
@@ -13852,7 +14151,7 @@ function _classCallCheck(instance, Constructor) {if (!(instance instanceof Const
 });
 
 /***/ }),
-/* 99 */
+/* 87 */
 /*!****************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http_req_list.js ***!
   \****************************************************************/
@@ -13860,51 +14159,108 @@ function _classCallCheck(instance, Constructor) {if (!(instance instanceof Const
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.url_getPhone = exports.url_login_getToken = exports.baseUrl = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });exports.url_getUserbloodSugar = exports.url_getUserbloodPressure = exports.url_getUserWeight = exports.url_getWXStep = exports.url_getHomeNewsList = exports.url_getHomeBannerList = exports.url_getUserSignData = exports.url_setUserWeight = exports.url_setUserHeight = exports.url_setUserBaseSign = exports.url_getPhone = exports.url_getUserInfo = exports.url_login_getToken = exports.baseUrl = void 0;
 // URL汇总
 
-// 路由前缀
-var baseUrl = 'http://xx.xx.com';
+// # 路由前缀
+var baseUrl = 'http://10.0.0.142:9999';
 
 
 // # 首次登录 & 获取token
-exports.baseUrl = baseUrl;var url_login_getToken = '/';
+exports.baseUrl = baseUrl;var url_login_getToken = '/app/wx/login';
+
+// # 当前登录用户信息
+exports.url_login_getToken = url_login_getToken;var url_getUserInfo = '/app/user/info';
 
 // # 获取手机号
-exports.url_login_getToken = url_login_getToken;var url_getPhone = '/';exports.url_getPhone = url_getPhone;
+exports.url_getUserInfo = url_getUserInfo;var url_getPhone = '/app/wx/phoneNumber';
+
+// # 发送用户4项基本信息
+exports.url_getPhone = url_getPhone;var url_setUserBaseSign = '/app/save/info';
+
+// # 设置身高表中, 该用户的身高
+exports.url_setUserBaseSign = url_setUserBaseSign;var url_setUserHeight = 'x';
+
+// # 设置体重表中, 该用户的体重
+exports.url_setUserHeight = url_setUserHeight;var url_setUserWeight = '/app/measure/mensweight/save';
+
+// # 获取用户所有体征数据
+exports.url_setUserWeight = url_setUserWeight;var url_getUserSignData = '/x';
+
+// # 获取首页banner列表
+exports.url_getUserSignData = url_getUserSignData;var url_getHomeBannerList = '/x';
+
+// # 获取首页新闻列表
+exports.url_getHomeBannerList = url_getHomeBannerList;var url_getHomeNewsList = '/app/news/list';
+
+// # 获取解析后的微信步数
+exports.url_getHomeNewsList = url_getHomeNewsList;var url_getWXStep = '/x';
+
+// # 获取用户体重
+exports.url_getWXStep = url_getWXStep;var url_getUserWeight = '/app/measure/mensweight/info/';
+
+// # 获取用户血压
+exports.url_getUserWeight = url_getUserWeight;var url_getUserbloodPressure = '/app/measure/mensbloodpressure/info/';
+
+// # 获取用户血糖
+exports.url_getUserbloodPressure = url_getUserbloodPressure;var url_getUserbloodSugar = '/app/measure/mensbloodsugar/info/';exports.url_getUserbloodSugar = url_getUserbloodSugar;
 
 /***/ }),
-/* 100 */
-/*!****************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http_getPhone.js ***!
-  \****************************************************************/
+/* 88 */
+/*!*************************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http_getHomeBannerList.js ***!
+  \*************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.http_getPhone = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });exports.http_getHomeBannerList = void 0;
 
 var _index = _interopRequireDefault(__webpack_require__(/*! @/store/index.js */ 15));
 
-var _http = _interopRequireDefault(__webpack_require__(/*! @/utils/http.js */ 66));
+var _http = _interopRequireDefault(__webpack_require__(/*! @/utils/http.js */ 54));
 
-var _http_req_list = __webpack_require__(/*! @/utils/http_req_list.js */ 99);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 由于不是vue组件,所以不能拿到this的vue实例,
+var _http_req_list = __webpack_require__(/*! @/utils/http_req_list.js */ 87);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 由于不是vue组件,所以不能拿到this的vue实例,
 // 所以这里操作store就用原始的方法,直接操作文件;
-// login后,将code发送给后台,换取token,将token存储到本地
-var http_getPhone = function http_getPhone(encryptedData) {
+var URLD = 'https://api.douban.com/v2/book/isbn/9787506394864?apikey=0df993c66c0c636e29ecbb5344252a4a&start=0&count=10';
 
-  console.log('手机号加密数据' + encryptedData);
+// 获取首页banner列表
+// 返回 OBJ
+var http_getHomeBannerList = function http_getHomeBannerList() {
 
-  // 模拟换取成功
-  _index.default.commit('setUserPhone', '18801228710');
 
-  // http.post(url_getPhone, [{code:encryptedData}]).then(res => {
+  return [{
+    picture: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png',
+    path: '../../pages/index/index?id=11' },
+  {
+    picture: 'http://image.mishi.cn/r/yry_h5_test/detail/2_1535359240426.png',
+    path: '../../pages/login/login' },
+  {
+    picture: 'http://image.mishi.cn/r/yry_h5_test/detail/1_1535359204228.png',
+    path: '' },
+  {
+    picture: 'http://image.mishi.cn/r/yry_h5_test/detail/4_1535359327213.png',
+    path: '' }];
+
+
+  // 注意,这里用get请求,如果是要修改请求头,那么就需要在http.js中if (config.method == 'get') {config.data = 'true'} ,并且,get请求的第二个参数,是设置请求头;
+  // http.get(url_getPhone,{params:{
+  //      encryptedData,
+  // 		iv
+  //    }}).then(res => {
+  // http.get(URLD,{headers: {'Content-Type': 'application/text'}}).then(res => {
+
+  // // 直接在getURL资源路径中添加请求体参数axios会出错,所以还是用params:{data}		
+  // // http.get(url_getPhone+`?encryptedData=${encryptedData}&iv=${iv}`).then(res => {
 
   // 	// 由于不是vue组件,所以不能拿到this的vue实例,
   // 	// 所以这里操作store就用原始的方法,直接操作文件;
   // 	// 其他vue文件还是用...mutations映射方法操作
-  // 	console.log('换取用户手机号' + res)
+  // 	// console.log('换取用户手机号↓')
+  // 	// console.log(res)
+
   // 	store.commit('setUserPhone', '18801228710')
+  // 	// store.commit('setUserPhone', res.data.data.phoneNumber)
   // 	console.log(store.getters.store_UserPhone)
 
   // }).catch(error => {
@@ -13912,7 +14268,630 @@ var http_getPhone = function http_getPhone(encryptedData) {
   // })
 
 
-};exports.http_getPhone = http_getPhone;
+};exports.http_getHomeBannerList = http_getHomeBannerList;
+
+/***/ }),
+/* 89 */
+/*!***********************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http_getHomeNewsList.js ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.http_getHomeNewsList = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 48));
+
+var _index = _interopRequireDefault(__webpack_require__(/*! @/store/index.js */ 15));
+
+var _http = _interopRequireDefault(__webpack_require__(/*! @/utils/http.js */ 54));
+
+var _http_req_list = __webpack_require__(/*! @/utils/http_req_list.js */ 87);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}
+
+var URLD = 'https://api.douban.com/v2/book/isbn/9787506394864?apikey=0df993c66c0c636e29ecbb5344252a4a&start=0&count=10';
+
+// 获取首页新闻列表
+// 返回 OBJ
+var http_getHomeNewsList = /*#__PURE__*/function () {var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(page) {var offset, limit, pageObj;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+
+            offset = 5;
+            limit = 5;
+            pageObj = {};_context.next = 5;return (
+              _http.default.get(_http_req_list.url_getHomeNewsList, { params: {
+                  page: page,
+                  limit: limit } }).
+              then(function (res) {
+                console.log('-----------------');
+                console.log(res.data);
+                if (res.data.code === 0) {
+                  pageObj = res.data.page;
+                }
+              }));case 5:return _context.abrupt("return",
+            pageObj);case 6:case "end":return _context.stop();}}}, _callee, this);}));return function http_getHomeNewsList(_x) {return _ref.apply(this, arguments);};}();exports.http_getHomeNewsList = http_getHomeNewsList;
+
+/***/ }),
+/* 90 */
+/*!*****************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http_getWXStep.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.http_getWXStep = void 0;
+
+var _index = _interopRequireDefault(__webpack_require__(/*! @/store/index.js */ 15));
+
+var _http = _interopRequireDefault(__webpack_require__(/*! @/utils/http.js */ 54));
+
+var _http_req_list = __webpack_require__(/*! @/utils/http_req_list.js */ 87);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 由于不是vue组件,所以不能拿到this的vue实例,
+// 所以这里操作store就用原始的方法,直接操作文件;
+// login后,加密信息发送后台,换取微信步数,将步数缓存至本地
+var http_getWXStep = function http_getWXStep(encryptedData, iv) {
+
+  console.log(encryptedData);
+  console.log(iv);
+
+
+  // 设置步数
+  // if(res.data.user.step!==null) {
+  if (1) {
+    _index.default.commit('setUserSignData_step', 666);
+  }
+
+
+  // // 直接在getURL资源路径中添加请求体参数axios会出错,所以还是用params:{data}		
+  // // http.get(url_getPhone+`?encryptedData=${encryptedData}&iv=${iv}`).then(res => {
+
+  // 	// 由于不是vue组件,所以不能拿到this的vue实例,
+  // 	// 所以这里操作store就用原始的方法,直接操作文件;
+  // 	// 其他vue文件还是用...mutations映射方法操作
+  //  // 储存到本地
+  //  store.commit('setUserBaseSign', userBaseSignObj)
+
+  // 	// store.commit('setUserPhone', res.data.data.phoneNumber)
+  // 	console.log(store.getters.store_UserPhone)
+
+  // }).catch(error => {
+  // }).finally(() => {
+  // })
+
+
+};exports.http_getWXStep = http_getWXStep;
+
+/***/ }),
+/* 91 */
+/*!**************************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/wxcomponents/vant/toast/toast.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _utils = __webpack_require__(/*! ../common/utils */ 92);
+var defaultOptions = {
+  type: 'text',
+  mask: false,
+  message: '',
+  show: true,
+  zIndex: 1000,
+  duration: 2000,
+  position: 'middle',
+  forbidClick: false,
+  loadingType: 'circular',
+  selector: '#van-toast' };
+
+var queue = [];
+var currentOptions = Object.assign({}, defaultOptions);
+function parseOptions(message) {
+  return (0, _utils.isObj)(message) ? message : { message: message };
+}
+function getContext() {
+  var pages = getCurrentPages();
+  return pages[pages.length - 1];
+}
+function Toast(toastOptions) {
+  var options = Object.assign(Object.assign({}, currentOptions), parseOptions(toastOptions));
+  var context = options.context || getContext();
+  var toast = context.selectComponent(options.selector);
+  if (!toast) {
+    console.warn('未找到 van-toast 节点，请确认 selector 及 context 是否正确');
+    return;
+  }
+  delete options.context;
+  delete options.selector;
+  toast.clear = function () {
+    toast.setData({ show: false });
+    if (options.onClose) {
+      options.onClose();
+    }
+  };
+  queue.push(toast);
+  toast.setData(options);
+  clearTimeout(toast.timer);
+  if (options.duration > 0) {
+    toast.timer = setTimeout(function () {
+      toast.clear();
+      queue = queue.filter(function (item) {return item !== toast;});
+    }, options.duration);
+  }
+  return toast;
+}
+var createMethod = function createMethod(type) {return function (options) {return Toast(Object.assign({ type: type }, parseOptions(options)));};};
+Toast.loading = createMethod('loading');
+Toast.success = createMethod('success');
+Toast.fail = createMethod('fail');
+Toast.clear = function () {
+  queue.forEach(function (toast) {
+    toast.clear();
+  });
+  queue = [];
+};
+Toast.setDefaultOptions = function (options) {
+  Object.assign(currentOptions, options);
+};
+Toast.resetDefaultOptions = function () {
+  currentOptions = Object.assign({}, defaultOptions);
+};var _default =
+Toast;exports.default = _default;
+
+/***/ }),
+/* 92 */
+/*!***************************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/wxcomponents/vant/common/utils.js ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.isDef = isDef;exports.isObj = isObj;exports.isNumber = isNumber;exports.range = range;exports.nextTick = nextTick;exports.getSystemInfoSync = getSystemInfoSync;exports.addUnit = addUnit;function isDef(value) {
+  return value !== undefined && value !== null;
+}
+function isObj(x) {
+  var type = typeof x;
+  return x !== null && (type === 'object' || type === 'function');
+}
+function isNumber(value) {
+  return /^\d+(\.\d+)?$/.test(value);
+}
+function range(num, min, max) {
+  return Math.min(Math.max(num, min), max);
+}
+function nextTick(fn) {
+  setTimeout(function () {
+    fn();
+  }, 1000 / 30);
+}
+var systemInfo = null;
+function getSystemInfoSync() {
+  if (systemInfo == null) {
+    systemInfo = wx.getSystemInfoSync();
+  }
+  return systemInfo;
+}
+function addUnit(value) {
+  if (!isDef(value)) {
+    return undefined;
+  }
+  value = String(value);
+  return isNumber(value) ? "".concat(value, "px") : value;
+}
+
+/***/ }),
+/* 93 */
+/*!****************************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/wxcomponents/vant/dialog/dialog.js ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var queue = [];
+function getContext() {
+  var pages = getCurrentPages();
+  return pages[pages.length - 1];
+}
+var Dialog = function Dialog(options) {
+  options = Object.assign(Object.assign({}, Dialog.currentOptions), options);
+  return new Promise(function (resolve, reject) {
+    var context = options.context || getContext();
+    var dialog = context.selectComponent(options.selector);
+    delete options.context;
+    delete options.selector;
+    if (dialog) {
+      dialog.setData(Object.assign({ onCancel: reject, onConfirm: resolve }, options));
+      queue.push(dialog);
+    } else
+    {
+      console.warn('未找到 van-dialog 节点，请确认 selector 及 context 是否正确');
+    }
+  });
+};
+Dialog.defaultOptions = {
+  show: true,
+  title: '',
+  width: null,
+  message: '',
+  zIndex: 100,
+  overlay: true,
+  selector: '#van-dialog',
+  className: '',
+  asyncClose: false,
+  transition: 'scale',
+  customStyle: '',
+  messageAlign: '',
+  overlayStyle: '',
+  confirmButtonText: '确认',
+  cancelButtonText: '取消',
+  showConfirmButton: true,
+  showCancelButton: false,
+  closeOnClickOverlay: false,
+  confirmButtonOpenType: '' };
+
+Dialog.alert = Dialog;
+Dialog.confirm = function (options) {return Dialog(Object.assign({ showCancelButton: true }, options));};
+Dialog.close = function () {
+  queue.forEach(function (dialog) {
+    dialog.close();
+  });
+  queue = [];
+};
+Dialog.stopLoading = function () {
+  queue.forEach(function (dialog) {
+    dialog.stopLoading();
+  });
+};
+Dialog.setDefaultOptions = function (options) {
+  Object.assign(Dialog.currentOptions, options);
+};
+Dialog.resetDefaultOptions = function () {
+  Dialog.currentOptions = Object.assign({}, Dialog.defaultOptions);
+};
+Dialog.resetDefaultOptions();var _default =
+Dialog;exports.default = _default;
+
+/***/ }),
+/* 94 */,
+/* 95 */,
+/* 96 */,
+/* 97 */,
+/* 98 */,
+/* 99 */,
+/* 100 */,
+/* 101 */,
+/* 102 */,
+/* 103 */,
+/* 104 */,
+/* 105 */,
+/* 106 */,
+/* 107 */,
+/* 108 */,
+/* 109 */,
+/* 110 */,
+/* 111 */,
+/* 112 */,
+/* 113 */,
+/* 114 */,
+/* 115 */,
+/* 116 */,
+/* 117 */,
+/* 118 */,
+/* 119 */,
+/* 120 */,
+/* 121 */,
+/* 122 */,
+/* 123 */,
+/* 124 */,
+/* 125 */,
+/* 126 */,
+/* 127 */,
+/* 128 */
+/*!*************************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/static/images/login/ds-logo.svg ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "static/img/ds-logo.8b1afe3e.svg";
+
+/***/ }),
+/* 129 */,
+/* 130 */,
+/* 131 */
+/*!**********************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http_login_setToken.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.http_login_setToken = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 48));
+
+var _index = _interopRequireDefault(__webpack_require__(/*! @/store/index.js */ 15));
+
+var _http = _interopRequireDefault(__webpack_require__(/*! @/utils/http.js */ 54));
+
+var _utils = __webpack_require__(/*! @/utils/utils.js */ 52);
+
+var _http_req_list = __webpack_require__(/*! @/utils/http_req_list.js */ 87);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}
+
+
+
+
+// login后,将code发送给后台,换取token,将token存储到本地
+// 同时获取用户详细信息, 包括用户在后台数据表中的ID
+var http_login_setToken = /*#__PURE__*/function () {var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2(code, encryptedData, iv) {var logRes;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
+
+            // 注意,这里用get请求,如果是要修改请求头,那么就需要在http.js中if (config.method == 'get') {config.data = 'true'} ,并且,get请求的第二个参数,是设置请求头;
+
+            // 由于想要在get请求时修改请求头,所以参数2是设置请求头,如果要传参就直接加到URL里
+            // 测试get请求
+            // let URLD = 'https://api.douban.com/v2/book/isbn/9787506394864?apikey=0df993c66c0c636e29ecbb5344252a4a&start=0&count=10'
+            // http.get(URLD,{headers: {'Content-Type': 'application/text'}}).then(res => {
+            // await http.post(url_login_getToken, {code, encryptedData, iv}).then(res => {
+            // 	//  拿到服务器返回的token,存储到本地
+            // 	store.commit('setToken', res.data.token)
+            // }).catch(error => {
+            // }).finally(() => {
+            // })
+
+            // console.log(store)
+
+            // 测试post请求
+            // 如果是post请求,参数1是URL,那么参数2是数据,参数3个设置请求头;
+            // http.post(URL, [data], {potion}).then(res => {
+            // }).catch(error => {
+            // }).finally(() => {
+            // })
+            logRes = false;_context2.next = 3;return (
+              _http.default.post(_http_req_list.url_login_getToken, {
+                code: code,
+                encryptedData: encryptedData,
+                iv: iv }).
+              then( /*#__PURE__*/function () {var _ref2 = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(res) {var expiration;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+
+                          // 由于不是vue组件,所以不能拿到this的vue实例,
+                          // 所以这里操作store就用原始的方法,直接操作文件;
+                          // 其他vue文件还是用...mutations映射方法操作
+
+                          console.log(res);
+                          if (res.data.code === 0) {
+                            // 设置token,用于以后每次发送请求,请求头都必须带上
+                            _index.default.commit('setToken', res.data.token);
+                            // token过期时间,由后太配置,用当前时间加上这个事件,然后储存在store中,然后再在util中的isLogin中判断是否过期expiration
+                            // res.data.expire为秒数 , 需 * 1000
+                            expiration = new Date().getTime() + res.data.expire * 1000;
+                            console.log('=====token过期时间↓=========');
+                            _index.default.commit('setTokenExpiration', expiration);
+                            console.log('当前时间 => ' + (0, _utils.formatDate)(new Date(new Date().getTime())));
+                            console.log('登陆(token)过期时间 => ' + (0, _utils.formatDate)(new Date(_index.default.getters.store_tokenExpiration)));
+                            logRes = true;
+                          } else {
+                            console.log('登录失败↓');
+                            console.log(res.data);
+                            logRes = false;
+                          }
+
+                          // 登录成功,直接获取后台用户表的中的用户详细数据,储存到本地
+                          _context.next = 4;return _http.default.get(_http_req_list.url_getUserInfo, { params: {} }).then(function (res) {
+
+                            // 储存到本地,后续请求用户体征数据都用到user表中的id;
+                            if (res.data.code === 0) {
+                              _index.default.commit('setUserInfoData', res.data.user);
+                              console.log(_index.default.getters.store_UserInfoData);
+                              // 可以拿到的内容:
+                              // {
+                              // 	avatarUrl: "",  // 头像
+                              // 	birth: "",  // 生日
+                              // 	city: "",  // 城市
+                              // 	country: "",
+                              // 	createTime: "",
+                              // 	gender: -1, // 性别
+                              // 	height: 0, // 身高
+                              // 	isDelete: 0, 
+                              // 	language: "",  // 所用语言
+                              // 	mobile: "",  // 电话/手机号
+                              // 	nickName: "",  // 昵称
+                              // 	openId: null,  // 
+                              // 	password: null,  // 
+                              // 	province: "",  // 
+                              // 	sessionKey: null,  // 
+                              // 	status: 0,  // 
+                              // 	unionId: null,  // 
+                              // 	updateTime: null,  // 
+                              // 	userId: 0,  // 用户表的主键ID
+                              // 	weight: 0   // 体重
+                              // }
+
+
+                              // 设置身高
+                              if (res.data.user.height !== null) {
+                                _index.default.commit('setUserSignData_height', res.data.user.height);
+                              }
+
+                              // 设置体重
+                              if (res.data.user.weight !== null) {
+                                _index.default.commit('setUserSignData_weight', res.data.user.weight);
+                              }
+
+                              // 设置性别
+                              if (res.data.user.gender !== null) {
+                                _index.default.commit('setUserSignData_gender', res.data.user.gender);
+                              }
+
+                            }
+                          });case 4:case "end":return _context.stop();}}}, _callee, this);}));return function (_x4) {return _ref2.apply(this, arguments);};}()).
+
+
+
+              catch(function (error) {}).finally(function () {}));case 3:return _context2.abrupt("return",
+            logRes);case 4:case "end":return _context2.stop();}}}, _callee2, this);}));return function http_login_setToken(_x, _x2, _x3) {return _ref.apply(this, arguments);};}();exports.http_login_setToken = http_login_setToken;
+
+/***/ }),
+/* 132 */
+/*!****************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http_getPhone.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.http_getPhone = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 48));
+
+var _index = _interopRequireDefault(__webpack_require__(/*! @/store/index.js */ 15));
+
+var _http = _interopRequireDefault(__webpack_require__(/*! @/utils/http.js */ 54));
+
+var _http_req_list = __webpack_require__(/*! @/utils/http_req_list.js */ 87);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}
+
+
+var http_getPhone = /*#__PURE__*/function () {var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(encryptedData, iv) {var getPhoneRes;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+
+            console.log('手机号加密数据enc => ' + encryptedData);
+            console.log('手机号加密数据iv => ' + iv);
+
+            // 模拟换取成功
+            // store.commit('setUserPhone', '18801228710')
+
+            getPhoneRes = false;
+            // 注意,这里用get请求,如果是要修改请求头,那么就需要在http.js中if (config.method == 'get') {config.data = 'true'} ,并且,get请求的第二个参数,是设置请求头;
+            _context.next = 5;return _http.default.get(_http_req_list.url_getPhone, { params: {
+                encryptedData: encryptedData,
+                iv: iv } }).
+            then(function (res) {
+              // http.get(url_getPhone,{headers: {'Content-Type': 'application/text'}}).then(res => {
+
+              // 直接在getURL资源路径中添加请求体参数axios会出错,所以还是用params:{data}		
+              // http.get(url_getPhone+`?encryptedData=${encryptedData}&iv=${iv}`).then(res => {
+
+              // 由于不是vue组件,所以不能拿到this的vue实例,
+              // 所以这里操作store就用原始的方法,直接操作文件;
+              // 其他vue文件还是用...mutations映射方法操作
+              // console.log('换取用户手机号↓')
+              // console.log(res)
+
+              // store.commit('setUserPhone', '18801228710')
+              console.log(res);
+              if (res.data.code === 0) {
+                _index.default.commit('setUserPhone', res.data.data.phoneNumber);
+                console.log(_index.default.getters.store_UserPhone);
+                getPhoneRes = true;
+              } else {
+                getPhoneRes = false;
+              }
+
+
+            }).catch(function (error) {
+            }).finally(function () {
+            });case 5:return _context.abrupt("return",
+
+            getPhoneRes);case 6:case "end":return _context.stop();}}}, _callee, this);}));return function http_getPhone(_x, _x2) {return _ref.apply(this, arguments);};}();exports.http_getPhone = http_getPhone;
+
+/***/ }),
+/* 133 */,
+/* 134 */,
+/* 135 */,
+/* 136 */,
+/* 137 */,
+/* 138 */,
+/* 139 */,
+/* 140 */,
+/* 141 */
+/*!***********************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http_setUserBaseSign.js ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.http_setUserBaseSign = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 48));
+
+var _index = _interopRequireDefault(__webpack_require__(/*! @/store/index.js */ 15));
+
+var _http = _interopRequireDefault(__webpack_require__(/*! @/utils/http.js */ 54));
+
+var _utils = __webpack_require__(/*! ./utils.js */ 52);
+
+var _http_req_list = __webpack_require__(/*! @/utils/http_req_list.js */ 87);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}
+
+// login后,将code发送给后台,换取token,将token存储到本地
+var http_setUserBaseSign = /*#__PURE__*/function () {var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(userBaseSignObj) {var userBaseSignObjRes;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+
+
+            // 这里后台目前只接收 生日/身高/体重, 
+            // todo:身高 和 体重 都有单独的表,因为数据会有变化,所以这里还需要将用户注册时的身高/体重也push到表中
+
+
+            userBaseSignObjRes = false;_context.next = 3;return (
+              _http.default.post(_http_req_list.url_setUserBaseSign, {
+                birth: userBaseSignObj.userBirth,
+                height: userBaseSignObj.userHeight,
+                weight: userBaseSignObj.userWeight }).
+              then(function (res) {
+
+                // 由于不是vue组件,所以不能拿到this的vue实例,
+                // 所以这里操作store就用原始的方法,直接操作文件;
+                // 其他vue文件还是用...mutations映射方法操作
+
+                if (res.data.code === 0) {
+                  _index.default.commit('setUserBaseSign', userBaseSignObj);
+                  console.log(_index.default.getters.store_userBaseSign);
+                  userBaseSignObjRes = true;
+
+                  // todo:分开发送给后台储存 - 体重
+                  // todo:分开发送给后台储存 - 身高
+                  console.log((0, _utils.formatDate)(new Date()));
+                  _http.default.post(_http_req_list.url_setUserWeight, { mensWeight: userBaseSignObj.userWeight }).then(function (res) {
+                    console.log('-----------------');
+                    console.log(res);
+                  });
+
+                } else {
+                  console.log('添加用户4项基本体征失败');
+                  console.log(res.data);
+                  userBaseSignObjRes = false;
+                }
+
+
+              }).catch(function (error) {
+              }).finally(function () {
+              }));case 3:return _context.abrupt("return",
+
+            false);case 4:case "end":return _context.stop();}}}, _callee, this);}));return function http_setUserBaseSign(_x) {return _ref.apply(this, arguments);};}();exports.http_setUserBaseSign = http_setUserBaseSign;
+
+/***/ }),
+/* 142 */,
+/* 143 */,
+/* 144 */,
+/* 145 */,
+/* 146 */,
+/* 147 */,
+/* 148 */,
+/* 149 */,
+/* 150 */,
+/* 151 */,
+/* 152 */,
+/* 153 */,
+/* 154 */,
+/* 155 */,
+/* 156 */,
+/* 157 */,
+/* 158 */,
+/* 159 */,
+/* 160 */,
+/* 161 */,
+/* 162 */,
+/* 163 */,
+/* 164 */,
+/* 165 */,
+/* 166 */,
+/* 167 */
+/*!***************************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/static/images/health/editIcon.png ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAACx0lEQVRYhe3YzWsTQRQA8FW0mggSEPw61FLxoxQURVoUxCIo1OS9JIWAf4EXkXjwD/A/EE+eRfGgRQ+KHhRi973dpGbebILED0StFkFB8INgwUs8NGo3G2jSnU08+OCdZmf2t292doexrCWRc91YWugsaJ5B4a8g1FhpovCLrMyMWF3ElHZ2oHZOZ7ziUKAxU7bHQNObMKgg0r7eKQ49PgGKFkCoAYoWUmV7zI8TqpvEgVADNV/tBAfaPQZCP3z9tXN5sVHdjYPwW+M4Zc8nO5jitPDR9sXh8029c67NDYopIchKcQSUu7fbTHmlXWeUWrsszps5AsLfgvd37uRqtYEmkLhF7uZqNwc6mZowgU/5ULuFiMK3fQ8HYvvKi56djBoHyj4IQl+WxS0C/RdllLMzSlxKz+4HsT93hGsL9ApDUeGgwqOo+VPHuF4Cscp7QPPHrnC9AmYrtBuEPnSN6wUwWaZhEHq/IlzUQKjxIAi9WzEuSiAoHgSh16FwUQFR83bU9DI0Lgoglh5tMYYzDcxWnc2oqRYGN1EorEkLZVF46mKjsdoYMPt8dhMIV8JWDoSn//a3LxkBZjwvgYq9sLiM5yVaxvgeGpjxCgnUXDbxzp16UtjaOk4o4GSptBGEXVMLwijwZLW6AVTrXjLEajUJBKXioOmxSZwxYM51Yymhh6ZxRoCTr+6vQ80PosAZAaLwtahwhoD0MyqcEeDSkwfTOCNArLgHUNtXQPEF0zgjwKjjP7AnwGSZhvsFnHqmtgWBuuVkqeoc7xcwpZ3DPoumuoVCTsu37Z7VaKzqBxA13fJbyLFQUb61rCA8jWLvy827sYlCYX2UmXPdGFR4FDTdCPylFOUXdyZCc0Fk33MOlIpblmVZ6WpxHCI4Ag6R9XS1OO6b/ybyX6jkXAD3O0CpOCrKo5ATWN1RpqY6CjmoKP9nWpvxC2F5zmtKq3YdAAAAAElFTkSuQmCC"
 
 /***/ })
 ]]);

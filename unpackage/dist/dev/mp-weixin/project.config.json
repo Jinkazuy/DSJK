@@ -39,9 +39,8 @@
 			"list": [
 				{
 					"id": -1,
-					"name": "pages/login/login",
-					"pathName": "pages/login/login",
-					"query": "",
+					"name": "pages/health/health",
+					"pathName": "pages/health/health",
 					"scene": null
 				}
 			]
