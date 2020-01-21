@@ -58,5 +58,6 @@
 /* 文章场景相关 */
 page {
   background-color: #f4f4f4;
+  padding-bottom: 20rpx;
 }
 

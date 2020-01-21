@@ -7,6 +7,7 @@
     "pages/bluetooth-modu/bluetooth-modu",
     "pages/login/login",
     "pages/init_set_baseSign/init_set_baseSign",
+    "pages/add_data/addData",
     "pages/test/test"
   ],
   "subPackages": [],
@@ -49,5 +50,5 @@
     ]
   },
   "usingComponents": {},
-  "sitemapLocation": "sitemap58.json"
+  "sitemapLocation": "sitemap5.json"
 }

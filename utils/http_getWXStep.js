@@ -16,7 +16,14 @@ export const http_getWXStep = function (encryptedData, iv) {
 	// 设置步数
 	// if(res.data.user.step!==null) {
 	if(1) {
-		store.commit('setUserSignData_step', 666)
+		store.commit('setUserSignData_step', {
+			title: '步数',
+			editBTN: 2,
+			dataNum: '6666',// 从后台获取步数
+			dataCompany: '步',
+			eqType: '手机',
+			editId: 0
+		})
 	}
 
 			

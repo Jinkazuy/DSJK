@@ -94,7 +94,6 @@
       top: 30rpx;
       height: 30rpx;
       font-size: 24rpx;
-      color: #4ECCC2;
 }
 .health-card .card-wrapper .card-edit-switch ._span {
         vertical-align: top;
@@ -104,7 +103,6 @@
         margin-left: 16rpx;
         height: 30rpx;
         width: 30rpx;
-        background-color: #ccc;
 }
 .health-card .card-wrapper .step-today {
       width: 100%;
@@ -115,8 +113,24 @@
       color: #999;
       text-align: center;
 }
+.health-card .card-wrapper .step-today-nosetp {
+      width: 100%;
+      margin: 60rpx 0 40rpx;
+      font-size: 24rpx;
+      font-weight: 300;
+      line-height: 1;
+      color: #999;
+      text-align: center;
+}
+.health-card .card-wrapper .step-today-nosetp ._img {
+        margin: 0 0 -6rpx 10rpx;
+        width: 30rpx;
+        height: 30rpx;
+}
 .health-card .card-wrapper .data-num {
       margin-bottom: 50rpx;
+      padding-left: 40rpx;
+      box-sizing: border-box;
       width: 100%;
       text-align: center;
       font-size: 60rpx;
@@ -128,6 +142,13 @@
         font-size: 24rpx;
         color: #999;
         margin-left: 10rpx;
+}
+.health-card .card-wrapper .data-num-load {
+      margin-bottom: 50rpx;
+      padding-left: 0;
+      box-sizing: border-box;
+      width: 100%;
+      text-align: center;
 }
 .health-card .card-wrapper .data-tips {
       position: absolute;
@@ -144,17 +165,9 @@
       position: relative;
       margin-bottom: 30rpx;
       width: 100%;
-      padding: 0 18rpx;
+      padding: 20rpx 18rpx 0;
       box-sizing: border-box;
       /* 范围值条最外侧 */
-}
-.health-card .card-wrapper .data-range-wrapper .data-range-title {
-        width: 100%;
-        font-size: 16rpx;
-        line-height: 1;
-        color: #999;
-        text-align: center;
-        margin-bottom: 4rpx;
 }
 .health-card .card-wrapper .data-range-wrapper .data-range-strip-box {
         width: 100%;
@@ -217,10 +230,29 @@
           border: 1rpx solid #A0A0A0;
           border-radius: 6rpx;
 }
+.health-card .card-wrapper .data-range-wrapper .data-range-strip-box .data-range-float-strip ._span {
+            position: absolute;
+            top: -24rpx;
+            width: 200rpx;
+            -webkit-transform: translateX(-50%);
+                    transform: translateX(-50%);
+            font-size: 16rpx;
+            line-height: 1;
+            color: #999;
+            text-align: center;
+            margin-bottom: 4rpx;
+}
 .health-card .card-wrapper .data-time {
       font-size: 20rpx;
       color: #444;
       line-height: 1;
       margin-top: 10rpx;
+}
+.health-card .card-wrapper .to-add-tips {
+      font-size: 20rpx;
+      color: #444;
+      line-height: 1;
+      text-align: center;
+      margin: 10rpx 0 20rpx;
 }
 

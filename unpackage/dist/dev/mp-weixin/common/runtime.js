@@ -104,11 +104,11 @@
 /******/
 /******/
 /******/ 		// mini-css-extract-plugin CSS loading
-/******/ 		var cssChunks = {"components/EtherealWheat-banner/specialBanner":1,"components/news-card/newsCard":1,"components/health-card/healthCard":1,"components/scroll-choose/scroll-choose":1};
+/******/ 		var cssChunks = {"components/EtherealWheat-banner/specialBanner":1,"components/news-card/newsCard":1,"components/health-card/healthCard":1,"components/scroll-choose/scroll-choose":1,"components/scroll-choose/addpage-scroll-choose":1,"components/scroll-choose/addpage-scroll-choose-flootNum":1};
 /******/ 		if(installedCssChunks[chunkId]) promises.push(installedCssChunks[chunkId]);
 /******/ 		else if(installedCssChunks[chunkId] !== 0 && cssChunks[chunkId]) {
 /******/ 			promises.push(installedCssChunks[chunkId] = new Promise(function(resolve, reject) {
-/******/ 				var href = "" + ({"components/EtherealWheat-banner/specialBanner":"components/EtherealWheat-banner/specialBanner","components/news-card/newsCard":"components/news-card/newsCard","components/health-card/healthCard":"components/health-card/healthCard","components/scroll-choose/scroll-choose":"components/scroll-choose/scroll-choose"}[chunkId]||chunkId) + ".wxss";
+/******/ 				var href = "" + ({"components/EtherealWheat-banner/specialBanner":"components/EtherealWheat-banner/specialBanner","components/news-card/newsCard":"components/news-card/newsCard","components/health-card/healthCard":"components/health-card/healthCard","components/scroll-choose/scroll-choose":"components/scroll-choose/scroll-choose","components/scroll-choose/addpage-scroll-choose":"components/scroll-choose/addpage-scroll-choose","components/scroll-choose/addpage-scroll-choose-flootNum":"components/scroll-choose/addpage-scroll-choose-flootNum"}[chunkId]||chunkId) + ".wxss";
 /******/ 				var fullhref = __webpack_require__.p + href;
 /******/ 				var existingLinkTags = document.getElementsByTagName("link");
 /******/ 				for(var i = 0; i < existingLinkTags.length; i++) {

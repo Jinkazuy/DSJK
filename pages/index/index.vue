@@ -31,13 +31,13 @@
 						<swiper-item @touchmove.stop>
 							<!-- 体重 -->
 							<div class="health-mg-new-data-righ-info-tiem">
-								<p class="health-mg-new-data-righ-info-num">{{ store_userSignData.weight===-1? '/' : store_userSignData.weight }}</p>
+								<p class="health-mg-new-data-righ-info-num">{{ store_userSignData.weight.dataNum==='-1'? '/' : store_userSignData.weight.dataNum }}</p>
 								<p class="health-mg-new-data-righ-info-company">KG</p>
 								<p class="health-mg-new-data-righ-info-type">体重</p>
 							</div>
 							<!-- BMI weight(KG)/Math.pow(height(M),2).toFixed(1)-->
 							<div class="health-mg-new-data-righ-info-tiem">
-								<p class="health-mg-new-data-righ-info-num">{{store_userSignData.weight===-1? '/' : (store_userSignData.weight / Math.pow((store_userSignData.height/100),2)).toFixed(1)}}</p>
+								<p class="health-mg-new-data-righ-info-num">{{store_userSignData.weight.dataNum==='-1'? '/' : (store_userSignData.weight.dataNum / Math.pow((store_userSignData.height/100),2)).toFixed(1)}}</p>
 								<p class="health-mg-new-data-righ-info-company">指数</p>
 								<p class="health-mg-new-data-righ-info-type">BMI</p>
 							</div>
@@ -67,7 +67,7 @@
 			<div class="step-and-tips">
 				<div class="step" @click="getWXstep">
 					<div class="step-title">今日步数</div>
-					<div class="step-num">{{store_userSignData.step===-1?'':store_userSignData.step}}<span>{{store_userSignData.step===-1?'点击查看步数':'步'}}</span></div>
+					<div class="step-num">{{store_userSignData.step.dataNum==='-2'?'':store_userSignData.step.dataNum}}<span>{{store_userSignData.step.dataNum==='-2'?'点击查看步数':'步'}}</span></div>
 					<div class="step-icon"><img src="../../static/images/index/bushu.svg"></div>
 				</div>
 				<div class="tips">
@@ -264,13 +264,11 @@
 					duration: 0 // 展示时长(ms)，值为 0 时，toast 不会消失，在触发其他弹窗或主动取消时消失
 				})
 
-				// 获取步数 - 微信端
+				// 获取步数
 				// 因为在onShow中获取微信步数了，那么这里就不用获取微信步数了
-				// // #ifdef MP-WEIXIN
-				// this.getWXstep()
-				// // #endif
 
 				// TODO:获取步数 - 其他端
+				// 其他端获取步数后，同样：传给后台，然后从后台取
 
 
 				// 获取首页所需体征数值：身高、体重、血压、血糖、用药提醒

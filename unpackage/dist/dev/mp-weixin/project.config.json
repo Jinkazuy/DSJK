@@ -38,9 +38,24 @@
 			"current": -1,
 			"list": [
 				{
+					"id": 0,
+					"name": "pages/index/index",
+					"pathName": "pages/index/index",
+					"query": "editId=1",
+					"scene": null
+				},
+				{
+					"id": 1,
+					"name": "pages/add_data/addData",
+					"pathName": "pages/add_data/addData",
+					"query": "editId=2",
+					"scene": null
+				},
+				{
 					"id": -1,
-					"name": "pages/health/health",
-					"pathName": "pages/health/health",
+					"name": "pages/discover/discover",
+					"pathName": "pages/discover/discover",
+					"query": "editId=1",
 					"scene": null
 				}
 			]

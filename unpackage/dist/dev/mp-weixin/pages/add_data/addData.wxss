@@ -1,0 +1,229 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+.clearfix:before, .clearfix:after {
+  content: "";
+  display: table;
+  /* 这句话可以出发BFC BFC可以清除浮动,BFC我们后面讲 */
+}
+.clearfix:after {
+  clear: both;
+}
+.spaceX {
+  width: 100%;
+  height: 20rpx;
+  background: #f4f4f4;
+}
+.porcelain-title {
+  font-size: 30rpx;
+  color: #444;
+  margin-bottom: 20rpx;
+  line-height: 30rpx;
+}
+.no-wrap {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.m-no-wrap {
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+page {
+  background-color: #f4f4f4;
+}
+#add-data {
+  position: relative;
+  margin-top: 30rpx;
+}
+#add-data .card-wrapper {
+    padding-top: 20rpx;
+    background-color: #fff;
+}
+#add-data .card-wrapper .title {
+      margin: 0 0 40rpx 40rpx;
+      font-size: 30rpx;
+      line-height: 1;
+      color: #444;
+}
+#add-data .card-wrapper .scroll-wrapper {
+      margin: 36rpx 0 80rpx;
+      position: relative;
+}
+#add-data .card-wrapper .scroll-wrapper .tips {
+        position: absolute;
+        left: 180rpx;
+        top: 16rpx;
+        font-size: 24rpx;
+        color: #777;
+}
+#add-data .card-wrapper .scroll-wrapper .show-num-wrapper {
+        margin-bottom: 30rpx;
+        text-align: center;
+        width: 100%;
+}
+#add-data .card-wrapper .scroll-wrapper .show-num-wrapper .show-num {
+          padding-left: 13%;
+          box-sizing: border-box;
+          font-size: 60rpx;
+          font-weight: 700;
+          color: #4ECCC2;
+          line-height: 1;
+}
+#add-data .card-wrapper .scroll-wrapper .show-num-wrapper .show-num .num-company {
+            font-size: 24rpx;
+            color: #9FA09F;
+            line-height: 1;
+            margin-left: 20rpx;
+}
+#add-data .card-wrapper .scroll-wrapper .show-num-wrapper .show-num-low {
+          color: #F2C276;
+}
+#add-data .card-wrapper .scroll-wrapper .show-num-wrapper .show-num-hig {
+          color: #EE8172;
+}
+#add-data .card-wrapper .scroll-tips {
+      margin: -30rpx 0 0;
+      padding-bottom: 30rpx;
+      font-size: 24rpx;
+      color: #999;
+      line-height: 1;
+      text-align: center;
+}
+#add-data .mea-time-wrapper {
+    position: relative;
+    margin-top: 20rpx;
+    padding: 20rpx 0;
+    background-color: #fff;
+}
+#add-data .mea-time-wrapper .mea-text {
+      font-size: 24rpx;
+      color: #777;
+      line-height: 1;
+      margin: 0 0 20rpx 40rpx;
+}
+#add-data .mea-time-wrapper .mea-time {
+      font-size: 30rpx;
+      color: #444;
+      line-height: 1;
+      margin-left: 40rpx;
+}
+#add-data .mea-time-wrapper .arr-img {
+      position: absolute;
+      right: 30rpx;
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+              transform: translateY(-50%);
+      height: 30rpx;
+      width: 16rpx;
+}
+#add-data .mea-time-wrapper .arr-img ._img {
+        width: 100%;
+        height: 100%;
+}
+#add-data .enter-btn {
+    position: fixed;
+    left: 50%;
+    bottom: 70rpx;
+    -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+    width: 500rpx;
+    height: 90rpx;
+    border-radius: 45rpx;
+    background-color: #4ECCC2;
+    font-size: 36rpx;
+    color: #fff;
+    line-height: 90rpx;
+    text-align: center;
+}
+#add-data .time-picker-mask {
+    opacity: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    -webkit-transition: all .4s;
+    transition: all .4s;
+    z-index: 900;
+}
+#add-data .van-datetime-picker-wrapper {
+    opacity: 0;
+    -webkit-transition: all .4s;
+    transition: all .4s;
+    z-index: 999;
+    position: fixed;
+    left: 0;
+    bottom: -500rpx;
+    width: 100%;
+    height: 500rpx;
+    /* 清除日期选择器组件样式 */
+    /* 给中间加底色，因为是van提供的组件，不能直接改，所以用伪元素 */
+}
+#add-data .van-datetime-picker-wrapper .van-picker {
+      height: 100% !important;
+      overflow: hidden;
+      box-sizing: border-box;
+      /* 确定栏 */
+}
+#add-data .van-datetime-picker-wrapper .van-picker .active-class {
+        color: pink;
+}
+#add-data .van-datetime-picker-wrapper .van-picker .van-hairline--top-bottom {
+        font-size: 36rpx;
+}
+#add-data .van-datetime-picker-wrapper .van-picker .van-hairline--top-bottom .van-picker__confirm {
+          color: #4ECCC2;
+}
+#add-data .van-datetime-picker-wrapper .van-picker .van-hairline--top-bottom .van-picker__cancel {
+          color: #444;
+}
+#add-data .van-datetime-picker-wrapper .van-picker .van-picker__columns {
+        /* 			.van-picker-column__item {
+						height: 100rpx !important;
+					} */
+        /* 未选中项 */
+        /* 选中项 */
+}
+#add-data .van-datetime-picker-wrapper .van-picker .van-picker__columns .van-picker-column__item {
+          font-size: 30rpx;
+          color: #C3C3C3;
+          -webkit-transition: all .4s;
+          transition: all .4s;
+}
+#add-data .van-datetime-picker-wrapper .van-picker .van-picker__columns .van-picker-column__item--selected {
+          color: #4ECCC2;
+          font-size: 36rpx;
+          font-weight: 700;
+}
+

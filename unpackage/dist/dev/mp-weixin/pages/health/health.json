@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "健康",
+  "enablePullDownRefresh": true,
   "usingComponents": {
     "health-card": "/components/health-card/healthCard"
   }

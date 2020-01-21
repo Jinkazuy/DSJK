@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "添加数据",
+  "usingComponents": {
+    "van-datetime-picker": "/wxcomponents/vant/datetime-picker/index",
+    "scroll-choose": "/components/scroll-choose/addpage-scroll-choose",
+    "folat-scroll-choose": "/components/scroll-choose/addpage-scroll-choose-flootNum"
+  }
+}

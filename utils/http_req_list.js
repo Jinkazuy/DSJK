@@ -35,6 +35,9 @@ export const url_getHomeNewsList = '/app/news/list'
 // # 获取解析后的微信步数
 export const url_getWXStep = '/x'
 
+// # 获取数据库中,该用户的步数,这个步数不一定是最新的
+export const url_getStep = '/x'
+
 // # 获取用户体重
 export const url_getUserWeight = '/app/measure/mensweight/info/'
 
@@ -43,3 +46,9 @@ export const url_getUserbloodPressure = '/app/measure/mensbloodpressure/info/'
 
 // # 获取用户血糖
 export const url_getUserbloodSugar = '/app/measure/mensbloodsugar/info/'
+
+
+
+
+// # 设置用户血压
+export const url_setUserBloodPressure = '/app/measure/mensbloodpressure/save'

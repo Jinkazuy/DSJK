@@ -737,7 +737,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -7065,7 +7065,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -7086,14 +7086,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -7169,7 +7169,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -8508,7 +8508,7 @@ module.exports = {"_from":"@dcloudio/uni-stat@alpha","_id":"@dcloudio/uni-stat@2
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/index/index": { "navigationBarTitleText": "uni-app", "enablePullDownRefresh": true, "onReachBottomDistance": 50 }, "pages/health/health": { "navigationBarTitleText": "健康" }, "pages/discover/discover": { "navigationBarTitleText": "发现" }, "pages/my/my": { "navigationBarTitleText": "我的" }, "pages/bluetooth-modu/bluetooth-modu": { "navigationBarTitleText": "bluetooth-modu" }, "pages/login/login": { "navigationBarTitleText": "login" }, "pages/init_set_baseSign/init_set_baseSign": { "navigationBarTitleText": "完善个人信息" }, "pages/test/test": { "navigationBarTitleText": "test" } }, "globalStyle": { "navigationBarTextStyle": "black", "navigationBarTitleText": "uni-app", "navigationBarBackgroundColor": "#ffffff", "backgroundColor": "#F8F8F8" } };exports.default = _default;
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/index/index": { "navigationBarTitleText": "uni-app", "enablePullDownRefresh": true, "onReachBottomDistance": 50, "usingComponents": { "special-banner": "/components/EtherealWheat-banner/specialBanner", "news-card": "/components/news-card/newsCard" }, "usingAutoImportComponents": {} }, "pages/health/health": { "navigationBarTitleText": "健康", "enablePullDownRefresh": true, "usingComponents": { "health-card": "/components/health-card/healthCard" }, "usingAutoImportComponents": {} }, "pages/discover/discover": { "navigationBarTitleText": "发现", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/my/my": { "navigationBarTitleText": "我的", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/bluetooth-modu/bluetooth-modu": { "navigationBarTitleText": "bluetooth-modu", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/login/login": { "navigationBarTitleText": "login", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/init_set_baseSign/init_set_baseSign": { "navigationBarTitleText": "完善个人信息", "usingComponents": { "scroll-choose": "/components/scroll-choose/scroll-choose" }, "usingAutoImportComponents": {} }, "pages/add_data/addData": { "navigationBarTitleText": "添加数据", "usingComponents": { "scroll-choose": "/components/scroll-choose/addpage-scroll-choose", "folat-scroll-choose": "/components/scroll-choose/addpage-scroll-choose-flootNum" }, "usingAutoImportComponents": {} }, "pages/test/test": { "navigationBarTitleText": "test", "usingComponents": {}, "usingAutoImportComponents": {} } }, "globalStyle": { "navigationBarTextStyle": "black", "navigationBarTitleText": "uni-app", "navigationBarBackgroundColor": "#ffffff", "backgroundColor": "#F8F8F8" } };exports.default = _default;
 
 /***/ }),
 /* 8 */
@@ -9791,17 +9791,197 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   // ##
   // 用户所有准确体征数据,最终所有获取到的数据,都先存在这里,然后前台根据这里的数值渲染
   store_userSignData: {
-    gender: -1, // 性别
-    step: -1, // 步数
-    weight: -1, // 体重
-    height: -1, // 身高
-    bloodPressure: -1, // 血压
-    bloodSugar: -1, // 血糖
-    heartRate: -1, // 心率
-    sleep: -1, // 睡眠
-    BodyTemperature: -1, // 体温
-    TotalCholesterol: -1 // 总胆固醇
-  },
+
+
+    // 0 步数
+    step: {
+      title: '步数',
+      editBTN: 2,
+      dataNum: '-2', // 从后台获取步数
+      dataCompany: '步',
+      eqType: '手机',
+      editId: 0 },
+
+
+    // 1 体重
+    weight: {
+      title: '体重',
+      editBTN: 1,
+      dataNum: '60',
+      dataCompany: 'kg',
+      dataTips: 'BMI:16.8',
+      dataTime: '2020-01-09 15:30',
+      // 添加数据的滑尺范围
+      rulerRange: [{
+        // 男体重
+        left: 50,
+        cont: 60,
+        right: 150 }],
+
+      // 数值衡量标准范围
+      dataRange: [{
+        low: '53.5', // 低于范围
+        nor: '53.5-69.1', // 正常范围
+        hig: '69.1' // 高于范围
+      }],
+      editId: 1 },
+
+
+
+    // 2 血压
+    bloodPressure: {
+      title: '血压',
+      editBTN: 1,
+      // dataNum: '-1',
+      dataNum: '120/80',
+      dataCompany: 'mmHg',
+      dataTime: '2020-01-09 15:30',
+      // 添加数据的滑尺范围
+      rulerRange: [
+      {
+        left: 60,
+        cont: 110,
+        right: 250 },
+
+      {
+        left: 30,
+        cont: 75,
+        right: 180 }],
+
+
+      cursorSuffix: ['收缩压', '舒张压'],
+      dataRange: [{
+        low: '90', // 低于范围
+        nor: '90-140', // 正常范围
+        hig: '140' // 高于范围
+      },
+      {
+        low: '60', // 低于范围
+        nor: '60-90', // 正常范围
+        hig: '90' // 高于范围
+      }],
+      editId: 2 },
+
+
+    // 3 血糖
+    bloodSugar: {
+      title: '血糖',
+      editBTN: 1,
+      dataNum: '5.6',
+      dataTips: '清晨空腹',
+      dataCompany: 'mmol/L',
+      dataTime: '2020-01-09 15:30',
+      // 添加数据的滑尺范围
+      rulerRange: [{
+        left: 1,
+        cont: 5.2,
+        right: 33.3 }],
+
+      // 测量时段 1是清晨空腹, 2是餐后一小时, 3是餐后两小时
+      measureTime: 1,
+      dataRange: [{
+        low: '2.8', // 低于范围
+        nor: '2.8-6.0', // 正常范围
+        hig: '6.0' // 高于范围
+      }],
+      editId: 3 },
+
+
+    // 4 心率
+    heartRate: {
+      title: '心率',
+      editBTN: 1,
+      dataNum: '80',
+      dataCompany: '次/分钟',
+      dataTime: '2020-01-09 15:30',
+      // 添加数据的滑尺范围
+      rulerRange: [{
+        left: 30,
+        cont: 80,
+        right: 200 }],
+
+      dataRange: [{
+        low: '60', // 低于范围
+        nor: '60-100', // 正常范围
+        hig: '100' // 高于范围
+      }],
+      editId: 4 },
+
+
+
+    // 5 体温
+    BodyTemperature: {
+      title: '体温',
+      editBTN: 1,
+      dataNum: '37.0',
+      dataCompany: '℃',
+      dataTime: '2020-01-09 15:30',
+      // 添加数据的滑尺范围
+      rulerRange: [{
+        left: 34,
+        cont: 36.5,
+        right: 42 }],
+
+      dataRange: [{
+        low: '36', // 低于范围
+        nor: '37.2', // 正常范围
+        hig: '37.3' // 高于范围
+      }],
+      editId: 5 },
+
+
+    // 6 总胆固醇
+    TotalCholesterol: {
+      title: '总胆固醇',
+      editBTN: 1,
+      dataNum: '5.2',
+      dataCompany: 'mmol/L',
+      dataTime: '2020-01-09 15:30',
+      // 添加数据的滑尺范围
+      rulerRange: [{
+        left: 0,
+        cont: 4,
+        right: 30 }],
+
+      dataRange: [{
+        low: '0', // 低于范围
+        nor: '5.1', // 正常范围
+        hig: '5.2' // 高于范围
+      }],
+      editId: 6 },
+
+
+    // 7 尿酸
+    uricAcid: {
+      title: '尿酸',
+      editBTN: 1,
+      dataNum: '290',
+      dataCompany: 'μmol/L',
+      dataTime: '2020-01-09 15:30',
+      // 添加数据的滑尺范围
+      rulerRange: [{
+        left: 0,
+        cont: 200,
+        right: 6000 }],
+
+      dataRange: [{
+        low: '148', // 低于范围
+        nor: '200', // 正常范围
+        hig: '357' // 高于范围
+      }],
+      editId: 7 },
+
+
+    // 性别
+    gender: -1,
+
+    // 身高
+    height: -1,
+
+    // 睡眠
+    sleep: -1 },
+
+
   // 首页banner
   store_homeBannerList: {},
   // 首页新闻列表
@@ -11806,7 +11986,28 @@ var http_getIndexUserSignData = /*#__PURE__*/function () {var _ref = _asyncToGen
                 // }
 
                 // 模拟
-                _index.default.commit('setUserSignData_weight', 80);
+                _index.default.commit('setUserSignData_weight', {
+                  title: '体重',
+                  editBTN: 1,
+                  dataNum: '60',
+                  dataCompany: 'kg',
+                  dataTips: 'BMI:16.8',
+                  dataTime: '2020-01-09 15:30',
+                  // 添加数据的滑尺范围
+                  rulerRange: [{
+                    // 男体重
+                    left: 50,
+                    cont: 60,
+                    right: 150 }],
+
+                  // 数值衡量标准范围
+                  dataRange: [{
+                    low: '53.5', // 低于范围
+                    nor: '53.5-69.1', // 正常范围
+                    hig: '69.1' // 高于范围
+                  }],
+                  editId: 1 });
+
 
               }).catch(function (error) {
               }).finally(function () {
@@ -11823,7 +12024,39 @@ var http_getIndexUserSignData = /*#__PURE__*/function () {var _ref = _asyncToGen
                 // }
 
                 // 模拟
-                _index.default.commit('setUserSignData_bloodPressure', 77);
+                _index.default.commit('setUserSignData_bloodPressure', {
+                  title: '血压',
+                  editBTN: 1,
+                  // dataNum: '-1',
+                  dataNum: '120/80',
+                  dataCompany: 'mmHg',
+                  dataTime: '2020-01-09 15:30',
+                  // 添加数据的滑尺范围
+                  rulerRange: [
+                  {
+                    left: 60,
+                    cont: 110,
+                    right: 250 },
+
+                  {
+                    left: 30,
+                    cont: 75,
+                    right: 180 }],
+
+
+                  cursorSuffix: ['收缩压', '舒张压'],
+                  dataRange: [{
+                    low: '90', // 低于范围
+                    nor: '90-140', // 正常范围
+                    hig: '140' // 高于范围
+                  },
+                  {
+                    low: '60', // 低于范围
+                    nor: '60-90', // 正常范围
+                    hig: '90' // 高于范围
+                  }],
+                  editId: 2 });
+
 
 
               }).catch(function (error) {
@@ -11841,7 +12074,28 @@ var http_getIndexUserSignData = /*#__PURE__*/function () {var _ref = _asyncToGen
                 // }
 
                 // 模拟
-                _index.default.commit('setUserSignData_bloodSugar', 66);
+                _index.default.commit('setUserSignData_bloodSugar', {
+                  title: '血糖',
+                  editBTN: 1,
+                  dataNum: '5.6',
+                  dataTips: '清晨空腹',
+                  dataCompany: 'mmol/L',
+                  dataTime: '2020-01-09 15:30',
+                  // 添加数据的滑尺范围
+                  rulerRange: [{
+                    left: 1,
+                    cont: 5.2,
+                    right: 33.3 }],
+
+                  // 测量时段 1是清晨空腹, 2是餐后一小时, 3是餐后两小时
+                  measureTime: 1,
+                  dataRange: [{
+                    low: '2.8', // 低于范围
+                    nor: '2.8-6.0', // 正常范围
+                    hig: '6.0' // 高于范围
+                  }],
+                  editId: 3 });
+
 
               }).catch(function (error) {
               }).finally(function () {
@@ -14159,7 +14413,7 @@ function _classCallCheck(instance, Constructor) {if (!(instance instanceof Const
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.url_getUserbloodSugar = exports.url_getUserbloodPressure = exports.url_getUserWeight = exports.url_getWXStep = exports.url_getHomeNewsList = exports.url_getHomeBannerList = exports.url_getUserSignData = exports.url_setUserWeight = exports.url_setUserHeight = exports.url_setUserBaseSign = exports.url_getPhone = exports.url_getUserInfo = exports.url_login_getToken = exports.baseUrl = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });exports.url_setUserBloodPressure = exports.url_getUserbloodSugar = exports.url_getUserbloodPressure = exports.url_getUserWeight = exports.url_getStep = exports.url_getWXStep = exports.url_getHomeNewsList = exports.url_getHomeBannerList = exports.url_getUserSignData = exports.url_setUserWeight = exports.url_setUserHeight = exports.url_setUserBaseSign = exports.url_getPhone = exports.url_getUserInfo = exports.url_login_getToken = exports.baseUrl = void 0;
 // URL汇总
 
 // # 路由前缀
@@ -14196,14 +14450,23 @@ exports.url_getHomeBannerList = url_getHomeBannerList;var url_getHomeNewsList = 
 // # 获取解析后的微信步数
 exports.url_getHomeNewsList = url_getHomeNewsList;var url_getWXStep = '/x';
 
+// # 获取数据库中,该用户的步数,这个步数不一定是最新的
+exports.url_getWXStep = url_getWXStep;var url_getStep = '/x';
+
 // # 获取用户体重
-exports.url_getWXStep = url_getWXStep;var url_getUserWeight = '/app/measure/mensweight/info/';
+exports.url_getStep = url_getStep;var url_getUserWeight = '/app/measure/mensweight/info/';
 
 // # 获取用户血压
 exports.url_getUserWeight = url_getUserWeight;var url_getUserbloodPressure = '/app/measure/mensbloodpressure/info/';
 
 // # 获取用户血糖
-exports.url_getUserbloodPressure = url_getUserbloodPressure;var url_getUserbloodSugar = '/app/measure/mensbloodsugar/info/';exports.url_getUserbloodSugar = url_getUserbloodSugar;
+exports.url_getUserbloodPressure = url_getUserbloodPressure;var url_getUserbloodSugar = '/app/measure/mensbloodsugar/info/';
+
+
+
+
+// # 设置用户血压
+exports.url_getUserbloodSugar = url_getUserbloodSugar;var url_setUserBloodPressure = '/app/measure/mensbloodpressure/save';exports.url_setUserBloodPressure = url_setUserBloodPressure;
 
 /***/ }),
 /* 88 */
@@ -14335,7 +14598,14 @@ var http_getWXStep = function http_getWXStep(encryptedData, iv) {
   // 设置步数
   // if(res.data.user.step!==null) {
   if (1) {
-    _index.default.commit('setUserSignData_step', 666);
+    _index.default.commit('setUserSignData_step', {
+      title: '步数',
+      editBTN: 2,
+      dataNum: '6666', // 从后台获取步数
+      dataCompany: '步',
+      eqType: '手机',
+      editId: 0 });
+
   }
 
 
@@ -14558,7 +14828,63 @@ Dialog;exports.default = _default;
 /* 99 */,
 /* 100 */,
 /* 101 */,
-/* 102 */,
+/* 102 */
+/*!***************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http_getStep.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.http_getStep = void 0;
+
+var _index = _interopRequireDefault(__webpack_require__(/*! @/store/index.js */ 15));
+
+var _http = _interopRequireDefault(__webpack_require__(/*! @/utils/http.js */ 54));
+
+var _http_req_list = __webpack_require__(/*! @/utils/http_req_list.js */ 87);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 由于不是vue组件,所以不能拿到this的vue实例,
+// 所以这里操作store就用原始的方法,直接操作文件;
+// 获取数据库中,该用户的步数,这个步数不一定是最新的
+var http_getStep = function http_getStep() {
+
+
+
+  // 设置步数
+  // if(res.data.user.step!==null) {
+  setTimeout(function () {
+    if (1) {
+      _index.default.commit('setUserSignData_step',
+      {
+        title: '步数',
+        editBTN: 2,
+        dataNum: '-1', // 从后台获取步数
+        dataCompany: '步',
+        eqType: '手机' });
+
+    }
+  }, 2000);
+
+
+  // // 直接在getURL资源路径中添加请求体参数axios会出错,所以还是用params:{data}		
+  // // http.get(url_getPhone+`?encryptedData=${encryptedData}&iv=${iv}`).then(res => {
+
+  // 	// 由于不是vue组件,所以不能拿到this的vue实例,
+  // 	// 所以这里操作store就用原始的方法,直接操作文件;
+  // 	// 其他vue文件还是用...mutations映射方法操作
+  //  // 储存到本地
+  //  store.commit('setUserBaseSign', userBaseSignObj)
+
+  // 	// store.commit('setUserPhone', res.data.data.phoneNumber)
+  // 	console.log(store.getters.store_UserPhone)
+
+  // }).catch(error => {
+  // }).finally(() => {
+  // })
+
+
+};exports.http_getStep = http_getStep;
+
+/***/ }),
 /* 103 */,
 /* 104 */,
 /* 105 */,
@@ -14584,7 +14910,8 @@ Dialog;exports.default = _default;
 /* 125 */,
 /* 126 */,
 /* 127 */,
-/* 128 */
+/* 128 */,
+/* 129 */
 /*!*************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/static/images/login/ds-logo.svg ***!
   \*************************************************************************/
@@ -14594,9 +14921,9 @@ Dialog;exports.default = _default;
 module.exports = __webpack_require__.p + "static/img/ds-logo.8b1afe3e.svg";
 
 /***/ }),
-/* 129 */,
 /* 130 */,
-/* 131 */
+/* 131 */,
+/* 132 */
 /*!**********************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http_login_setToken.js ***!
   \**********************************************************************/
@@ -14727,7 +15054,7 @@ var http_login_setToken = /*#__PURE__*/function () {var _ref = _asyncToGenerator
             logRes);case 4:case "end":return _context2.stop();}}}, _callee2, this);}));return function http_login_setToken(_x, _x2, _x3) {return _ref.apply(this, arguments);};}();exports.http_login_setToken = http_login_setToken;
 
 /***/ }),
-/* 132 */
+/* 133 */
 /*!****************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http_getPhone.js ***!
   \****************************************************************/
@@ -14787,7 +15114,6 @@ var http_getPhone = /*#__PURE__*/function () {var _ref = _asyncToGenerator( /*#_
             getPhoneRes);case 6:case "end":return _context.stop();}}}, _callee, this);}));return function http_getPhone(_x, _x2) {return _ref.apply(this, arguments);};}();exports.http_getPhone = http_getPhone;
 
 /***/ }),
-/* 133 */,
 /* 134 */,
 /* 135 */,
 /* 136 */,
@@ -14795,7 +15121,8 @@ var http_getPhone = /*#__PURE__*/function () {var _ref = _asyncToGenerator( /*#_
 /* 138 */,
 /* 139 */,
 /* 140 */,
-/* 141 */
+/* 141 */,
+/* 142 */
 /*!***********************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http_setUserBaseSign.js ***!
   \***********************************************************************/
@@ -14859,14 +15186,22 @@ var http_setUserBaseSign = /*#__PURE__*/function () {var _ref = _asyncToGenerato
             false);case 4:case "end":return _context.stop();}}}, _callee, this);}));return function http_setUserBaseSign(_x) {return _ref.apply(this, arguments);};}();exports.http_setUserBaseSign = http_setUserBaseSign;
 
 /***/ }),
-/* 142 */,
 /* 143 */,
 /* 144 */,
 /* 145 */,
 /* 146 */,
 /* 147 */,
 /* 148 */,
-/* 149 */,
+/* 149 */
+/*!***********************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/static/images/addData/arr.png ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAtCAYAAAC0wKvmAAAFnklEQVRYR6WXW2xc1RWG/3+PZzyeCwTSlkouwSINokIVRKKlIBFwxS2USyTEEYhA8CUdZELaPkQ8IfmRVqoIRkaMHc8o40gWgQaQ0gYVSEDi3nAVokJAUOoWJHC5Tanjsc/+0bLG1vHJxJfJfp0z69vr9q+1uXv37tUAfum93whglff+TQAH8vn8R0EQhDjJw127dm1qaWm5TlInyTZJ/3LOPeGc+0tra+snJwthuVyukOyU1A6AAOzWR0juDsOw3NPT8xkANeuIAQ5YiACcHjUi6Z/OucFMJjMWBMGXJwO4D8AmSReQdBFDoaR3SQ4kk8l9mzdv/rYZiHmwDsDtALYC+HHMixmS70i6n+T+rq6uYyuFUJIrlUrrSBacc3dKWlXPxZwti/8LAB6s1Wp/LxQK/18JxJKK/v5+19HR8TNJ2wAE8XwAsJs/Zzk5duzYCyuBzALs1D35Ocl7SV4HIB+7qeXgEICd2Wz2tSAIJpfjyTzAPj506FDL+Pj4r8Iw/D3JayRlY0a+AbAfQLFarb6+ffv2qaUgCwD2cbFYzCSTyUudc72SriKZlxT1dMI5t4/kSFtb2xtLNeJxgAjk1yTvBnA5gHTkpiL5haRHvfeDS0lKQ0Adcmo6nbYwbZNkjZiKhoPkvwE8FoZhcXx8/MP+/n7fKFwnBNjHdSHcGIZhH8kLASTnjJCU9/5zkkMzMzNDW7duNeBxZ1GAxX5oaKgtlUrdAaBP0nmxbrceOWI9Mjk5uaevr++rOGFRwNzHpVLphyRvA/A7AGdFG1GSheZ9AA977x/t7e01yLw4LgtgnoyOjp7pvbdOv6suKdH/mm4dJvkIgCe7urq+ng/lUnU897t1e3t7+1mJRMLycSsAk/fosZ54leRDmUzm2SAIrGdm9X/ZxzzZs2fPOWEYbvPe30zyjNifvwPwMoCHJiYmDu7YseO7FQHq5ZtMp9PrwzDsJnkzgNNiFzUJ+Zuk4VQq9cqKARHIhd773wK4FsAPAERnSVXSfu99pSmAQQYGBlrz+fx6AHeR/I0kg0TPp5KebRpglkZGRvKJROIPNqwk/SQGqAJ4q2nAwMDAKfl8/hIrW1saAJwSAVgffGAl2xSgrrhXkryH5EV1WZ+3RXJCUtk2kxUDKpVKNgzDyywsJK+W1Ba7uQ2mMVP+jo6O91YEsMRms9lLSFpYromFxTj/BfAUgEdqtdrbhUJhetmAYrGYTKVSttpsl2SluWCPAlAleYDkzjVr1vyjs7NzZtmdvHfv3kS1Wl1P0sJyE8nTo1POjAM46JwrxpeCZXkwOjr60+npaUvo7SRXxYzbGvO8pKFcLvdcEAT/i5brogATuLVr154xPT19N8nuBio6Lek1kg/UarWnG60ziwE4PDzcnkwmtwDoAdARu7kn+b6kP09OTj7VaNgsmoNKpfKjmZmZWwBYaNY2UF4bMoOSHuvu7v7iRJJ8nAd2y7GxsdW1Wu1GSX0AzgeQiBiwCfYxyaKkkehwaQRZAKjP4NXpdPoGSV2SfgGgNdZIR81wIpEob9my5T9LDZMFgMHBwVwmk9koyZJ6cXRVsS1C0meSSiQrR48e/fhEq0rDKiqXy2mSGySZOh63bAH4FMA+G+7ZbPbDpTa6OcisB2bce78hkUjcI2lDAwn4HMATJIenpqbeNQlYKjTzAJOAlpaWi5xztvBeb8tVvJFIPu69L+ZyucNBENSWa3y2TEdGRi62JqpvCgu2aZLfSjooaWcul3txuWFZkINyuTwI4GoAZ8dqffbRQfJPU1NTh1fy6IgD7Hl0QYO4vwTgjwCeaeZtNp+DUqn0oHPuWkmzHkgKSb5lu433/smenh5TyqYPS6WSDZAbSF7hvW9zzh2RNFar1f5aKBRmt7OTOazP13NJXirpVJKHwzB8tbe3t+nHd/RC3wOp3IwrZWjitQAAAABJRU5ErkJggg=="
+
+/***/ }),
 /* 150 */,
 /* 151 */,
 /* 152 */,
@@ -14884,7 +15219,17 @@ var http_setUserBaseSign = /*#__PURE__*/function () {var _ref = _asyncToGenerato
 /* 164 */,
 /* 165 */,
 /* 166 */,
-/* 167 */
+/* 167 */,
+/* 168 */,
+/* 169 */,
+/* 170 */,
+/* 171 */,
+/* 172 */,
+/* 173 */,
+/* 174 */,
+/* 175 */,
+/* 176 */,
+/* 177 */
 /*!***************************************************************************!*\
   !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/static/images/health/editIcon.png ***!
   \***************************************************************************/
@@ -14892,6 +15237,204 @@ var http_setUserBaseSign = /*#__PURE__*/function () {var _ref = _asyncToGenerato
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAACx0lEQVRYhe3YzWsTQRQA8FW0mggSEPw61FLxoxQURVoUxCIo1OS9JIWAf4EXkXjwD/A/EE+eRfGgRQ+KHhRi973dpGbebILED0StFkFB8INgwUs8NGo3G2jSnU08+OCdZmf2t292doexrCWRc91YWugsaJ5B4a8g1FhpovCLrMyMWF3ElHZ2oHZOZ7ziUKAxU7bHQNObMKgg0r7eKQ49PgGKFkCoAYoWUmV7zI8TqpvEgVADNV/tBAfaPQZCP3z9tXN5sVHdjYPwW+M4Zc8nO5jitPDR9sXh8029c67NDYopIchKcQSUu7fbTHmlXWeUWrsszps5AsLfgvd37uRqtYEmkLhF7uZqNwc6mZowgU/5ULuFiMK3fQ8HYvvKi56djBoHyj4IQl+WxS0C/RdllLMzSlxKz+4HsT93hGsL9ApDUeGgwqOo+VPHuF4Cscp7QPPHrnC9AmYrtBuEPnSN6wUwWaZhEHq/IlzUQKjxIAi9WzEuSiAoHgSh16FwUQFR83bU9DI0Lgoglh5tMYYzDcxWnc2oqRYGN1EorEkLZVF46mKjsdoYMPt8dhMIV8JWDoSn//a3LxkBZjwvgYq9sLiM5yVaxvgeGpjxCgnUXDbxzp16UtjaOk4o4GSptBGEXVMLwijwZLW6AVTrXjLEajUJBKXioOmxSZwxYM51Yymhh6ZxRoCTr+6vQ80PosAZAaLwtahwhoD0MyqcEeDSkwfTOCNArLgHUNtXQPEF0zgjwKjjP7AnwGSZhvsFnHqmtgWBuuVkqeoc7xcwpZ3DPoumuoVCTsu37Z7VaKzqBxA13fJbyLFQUb61rCA8jWLvy827sYlCYX2UmXPdGFR4FDTdCPylFOUXdyZCc0Fk33MOlIpblmVZ6WpxHCI4Ag6R9XS1OO6b/ybyX6jkXAD3O0CpOCrKo5ATWN1RpqY6CjmoKP9nWpvxC2F5zmtKq3YdAAAAAElFTkSuQmCC"
+
+/***/ }),
+/* 178 */
+/*!*************************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/static/images/health/switch.png ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAChElEQVRIicWXsWobQRCGF2NhktKdHsCd6pCQxq1Bs6eTOAgY0tnPIYOeQI3AafIIrtyKaOaOoOzMRYXUuIwJBGEnuDFJZG2K2xMnW7buZMcaWDi43fl2Z2f+3VUqh+2dnW55jL4W6gBTH4QugHECjJPkm/paqOMx+ntnp1t5fD5owTDaBsYWCF4Co83ZLoGxFQyj7ZWgOqZ9YBzPHAqde0JtbTDwB2GlPjLl+siU/UFY0QYDT6gNQueZCYx1TPu5gbvd7qZmPM44GNYkbDSt3Vg2tmntRk3CBjAO0/Ga8Xi3291cCgWhEzdoAkJHh8aUcs/a2aExJRA6cnlgQejkQfhspQavIe7VigJvG8S9Ghi8Tle+GJrsabLSJ4DOwd3K7+y5y96xC8tREcfBt+gFCH2AOLp3si7sFhjHc9kOjK00kYruaTX+vAOMU2D8qyV8t6jPoTGlTMK1lFKJOLjaszUJG0Wgqek4PFgGd9lugfFy7+x0S3mMflqneUpmVXjT2o20zj1GXyUyiNYTaq8KzQv3hNrAaLVQRwFTHxitNhhkO1UlfOOk8rpgm7iQTm8nnDYYJP+or5zgW38QVrKdgOk1MP4AwZ+FG+OVZvqjhXTWpz8IK25bL1Q6w/rIlB8b6mVWH5lyqhVrBN8b6qiqhX4D49Uq4daM32tfo1dZn7dCvTi5QHoNEJrOZLRgkmmmX/pL723W51xyPVROnkTvgfEGGKc6Dg8eG+q5clomIE8FvyMgeSTzKeB3JFOpfIdECtdCN9X4004R6MJDQqn8x6KOMQDpfQRjXhYB33ssJk7XcBGYwddx9VFqjZe9FP7s19usPfuFPmuzJww/4xMma//j0fYPCFD7RVzux0QAAAAASUVORK5CYII="
+
+/***/ }),
+/* 179 */
+/*!***********************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/static/images/health/help.png ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAADjElEQVRIia2Xz2sbVxDHHyhyeojBgWD3D6igf0CcQ35Ajz0kuQn71uKU1c44doxbq9LMGt69h0AaK5jg+FhQ2l5KXUIOQe0lhkAOJdQ+9RbsFUgzz76YGF4PK7mKsVYr29/b7nvzPju7+74zz5gM8nNzF10Ed5XgsRK+VsJYCA6F4FAJ4+QePHYR3PWP5i5mWTNVbbsw1ia0ShC3Cf4UxrKr3r+xZ8NxXy/mfL2Y27PhuKvevyGMZWFsKEGshLZtF8ZOBRXGKSV4LwzPNJovZI3TaL4gDM+SWJzKDPT1Yk4IV4RgWzm8dqqnNsYoh9eUYUsJat7aC+lQay8I4XNl2GiWZ0ZPC+2qWZ4ZVYINYfg5FS4ENSHYeGeLI2eFdvXOFkeU8XchqJ04QSmcFoLtQZm6avC5Eq4Lwb9C4IWhKQwvW9Xwdr+YZnlmVAi2dXl2+qOBtl0YE8Id4dLVdGh4Wwj2hMAL4T/C8EoI3ibX4IXhh36xwqWrQrgjFbjcky1aYVxLg+4v4adC0BaCD+5Ydi3Gm90HajHe7AsnXFNCa4wxxq8GeSGINSqlbhkh5LSsuuPK8LDfGhrNF4Qg9qtB3rQY7wiFjTSoMcYo4x9pGWmEXwqBV8L19ATCRovxjhHCFUf47SCwMFaUcN3Z4MpJ447hKyHwjuBp2jqOYVEIV4wSvm5V4dYgcJpii5eE4O8k43A6bW6rCreEYNMoYbxPDybOAlXGvzrf/9Ugl9qnBxPC0DRCcOjrxdw5QF/GFi8NivH1Yk6qcHgmsDL81tnTzwf6cRds7YgSHJz6VbcSM/FC8DYr1JjOqyaIT/1zKeOPQuBdhPeGiXOJ2Wwm24lhcWhw4te+HYVfDAeGRSVcyWwg56UjA/GrQV4JB1rmcWkFPxPGKW+//iRzTFQqKGFimcZ0igSlF4leJdUsKQqO052qVx8VCWOMkQpcVsIdXcbJLAs4G1wRgg+JU8FPWWJ0GSf1eFlMBmYzNQJddUrh9/28u1d9G4EjOEFNGF6cd+sjDC+E4EnfSW+CIC+Evyidd7OHv74JOj9UPyXtLdSUYUsr2b75SdIKTirDljI8GcbZjhp6x7g2zFbTqFQQxjUleD+oRPZV2y6MaYRWGWNhbDiaXXKM1/e+C8d9sZjzq0F+l76ZcIzXHc0utSlsKGOs0RmOML3yj/4/tAnBpjLsKsGBEhwow64QbA57aPsPVh2Wv37KmX8AAAAASUVORK5CYII="
+
+/***/ }),
+/* 180 */,
+/* 181 */,
+/* 182 */,
+/* 183 */,
+/* 184 */,
+/* 185 */,
+/* 186 */,
+/* 187 */,
+/* 188 */,
+/* 189 */,
+/* 190 */,
+/* 191 */,
+/* 192 */,
+/* 193 */,
+/* 194 */,
+/* 195 */,
+/* 196 */,
+/* 197 */,
+/* 198 */,
+/* 199 */,
+/* 200 */,
+/* 201 */,
+/* 202 */,
+/* 203 */,
+/* 204 */,
+/* 205 */
+/*!****************************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/wxcomponents/vant/loading/index.js ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+var _component = __webpack_require__(/*! ../common/component */ 206);
+(0, _component.VantComponent)({
+  props: {
+    color: String,
+    vertical: Boolean,
+    type: {
+      type: String,
+      value: 'circular' },
+
+    size: String,
+    textSize: String } });
+
+/***/ }),
+/* 206 */
+/*!*******************************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/wxcomponents/vant/common/component.js ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.VantComponent = VantComponent;var _basic = __webpack_require__(/*! ../mixins/basic */ 207);
+var _index = __webpack_require__(/*! ../mixins/observer/index */ 208);function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
+function mapKeys(source, target, map) {
+  Object.keys(map).forEach(function (key) {
+    if (source[key]) {
+      target[map[key]] = source[key];
+    }
+  });
+}
+function VantComponent() {var vantOptions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var options = {};
+  mapKeys(vantOptions, options, {
+    data: 'data',
+    props: 'properties',
+    mixins: 'behaviors',
+    methods: 'methods',
+    beforeCreate: 'created',
+    created: 'attached',
+    mounted: 'ready',
+    relations: 'relations',
+    destroyed: 'detached',
+    classes: 'externalClasses' });var
+
+  relation = vantOptions.relation;
+  if (relation) {
+    options.relations = Object.assign(options.relations || {}, _defineProperty({}, "../".concat(
+    relation.name, "/index"), relation));
+
+  }
+  // add default externalClasses
+  options.externalClasses = options.externalClasses || [];
+  options.externalClasses.push('custom-class');
+  // add default behaviors
+  options.behaviors = options.behaviors || [];
+  options.behaviors.push(_basic.basic);
+  // map field to form-field behavior
+  if (vantOptions.field) {
+    options.behaviors.push('wx://form-field');
+  }
+  // add default options
+  options.options = {
+    multipleSlots: true,
+    addGlobalClass: true };
+
+  (0, _index.observe)(vantOptions, options);
+  Component(options);
+}
+
+/***/ }),
+/* 207 */
+/*!***************************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/wxcomponents/vant/mixins/basic.js ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.basic = void 0;var basic = Behavior({
+  methods: {
+    $emit: function $emit() {
+      this.triggerEvent.apply(this, arguments);
+    },
+    getRect: function getRect(selector, all) {var _this = this;
+      return new Promise(function (resolve) {
+        wx.createSelectorQuery().
+        in(_this)[all ? 'selectAll' : 'select'](selector).
+        boundingClientRect(function (rect) {
+          if (all && Array.isArray(rect) && rect.length) {
+            resolve(rect);
+          }
+          if (!all && rect) {
+            resolve(rect);
+          }
+        }).
+        exec();
+      });
+    } } });exports.basic = basic;
+
+/***/ }),
+/* 208 */
+/*!************************************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/wxcomponents/vant/mixins/observer/index.js ***!
+  \************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.observe = observe;var _behavior = __webpack_require__(/*! ./behavior */ 209);
+function observe(vantOptions, options) {var
+  watch = vantOptions.watch;
+  options.behaviors.push(_behavior.behavior);
+  if (watch) {
+    var props = options.properties || {};
+    Object.keys(watch).forEach(function (key) {
+      if (key in props) {
+        var prop = props[key];
+        if (prop === null || !('type' in prop)) {
+          prop = { type: prop };
+        }
+        prop.observer = watch[key];
+        props[key] = prop;
+      }
+    });
+    options.properties = props;
+  }
+}
+
+/***/ }),
+/* 209 */
+/*!***************************************************************************************!*\
+  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/wxcomponents/vant/mixins/observer/behavior.js ***!
+  \***************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.behavior = void 0;var behavior = Behavior({
+  methods: {
+    set: function set(data, callback) {
+      this.setData(data, callback);
+      return new Promise(function (resolve) {return wx.nextTick(resolve);});
+    } } });exports.behavior = behavior;
 
 /***/ })
 ]]);

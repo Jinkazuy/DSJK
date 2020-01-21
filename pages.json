@@ -22,6 +22,8 @@
 			"path": "pages/health/health",
 			"style": {
 				"navigationBarTitleText": "健康",
+				// 开启下拉刷新
+				"enablePullDownRefresh": true,
 				// 下方是使用有赞团队的移动UI框架
 				"usingComponents":{
 					// "van-tab": "/wxcomponents/vant/tab/index",
@@ -90,6 +92,20 @@
 					"van-datetime-picker": "/wxcomponents/vant/datetime-picker/index",
 					"van-button": "/wxcomponents/vant/button/index",
 					"van-toast": "/wxcomponents/vant/toast/index"
+				}
+			}
+		},
+		// 手动添加数据页面
+		{
+			"path": "pages/add_data/addData",
+			"style": {
+				"navigationBarTitleText": "添加数据",
+				// 下方是使用有赞团队的移动UI框架
+				"usingComponents":{
+					// "van-datetime-picker": "/wxcomponents/vant/datetime-picker/index",
+					// "van-button": "/wxcomponents/vant/button/index",
+					// "van-toast": "/wxcomponents/vant/toast/index"
+					 "van-datetime-picker": "/wxcomponents/vant/datetime-picker/index"
 				}
 			}
 		},
