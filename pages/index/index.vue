@@ -132,6 +132,8 @@
 				newsList: [],
 				// 新闻列表页数，上滑+1，同时将数据push到newsList中
 				newsPage: 1,
+				newsOffset: 5,
+				newsLimit: 5,
 				bannerList: [],
 				swiperConfig: {
 					indicatorDots: true,
@@ -201,7 +203,8 @@
 		// onLoad页面加载钩子，只触发一次（卸载页面后，再进入页面会再次触发）；
 		// 在页面加载时获取用户所有体征数据 & banner列表数据 & 新闻列表数据
 		// 当页面加载时判断是否登录；
-		mixins: [ximin_isLogin],
+		// todo: 有网络的时候解开
+		// mixins: [ximin_isLogin],
 		onLoad() {
 			this.getHomeDatas()
 		},
@@ -236,9 +239,8 @@
 			setTimeout(async () => {
 				// todo:判断后台返回的最大值，是否还有内容；
 				this.newsPage++
-				let newsData = await http_getHomeNewsList(this.newsPage)
+				let newsData = await http_getHomeNewsList(this.newsPage, this.newsOffset, this.newsLimit)
 				console.log(newsData)
-
 
 				if (this.newsPage > newsData.totalPage) {
 					// 没有更多数据
@@ -281,9 +283,11 @@
 				this.newsList = []
 				this.newsPage = 1
 				let newData = {}
-				newData = await http_getHomeNewsList(this.newsPage)
-				console.log(newData)
-				if (!newData.totalCount <= 0) {
+				newData = await http_getHomeNewsList(this.newsPage, this.newsOffset, this.newsLimit)
+				if (!newData.totalCount <= 0 && !(newData.totalCount <= this.newsPage*this.newsOffset)) {
+					// newsPage: 1,
+					// newsOffset: 5,
+					// newsLimit: 5,
 					this.newsList = newData.list
 				} else {
 					Toast('暂无更多数据')
@@ -352,10 +356,16 @@
 							// 显示弹窗跳转到授权管理页面,开启步数授权
 							Dialog.confirm({
 								title: '获取微信步数',
-								message: '您已拒绝获取微信步数信息，请在设置页面打开步数授权'
+								message: '您已拒绝获取微信步数信息，请在设置页面打开步数授权',
+								// 关键是这个配置，这个配置控制打开微信授权页面
+								confirmButtonOpenType: 'openSetting'
 							}).then(() => {
 								// on confirm
-								wx.openSetting()
+								wx.openSetting({
+									complete: (res)=>{
+										console.log(res)
+									}
+								})
 								// 打开设置页后，设置完之后，那么页面onshow的时候就需要获取步数
 							}).catch(() => {
 								// on cancel

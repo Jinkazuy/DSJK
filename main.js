@@ -10,6 +10,7 @@ App.mpType = 'app'
 
 
 // 解决axios真机调试报错
+// 需要安装第三方依赖
 require('promise.prototype.finally').shim()
 
 // 因为使用mpvue，子组件是拿不到this.$store的对象，所以挂载在vue的原型对象中，就能拿到了

@@ -10,22 +10,22 @@ let URLD = 'https://api.douban.com/v2/book/isbn/9787506394864?apikey=0df993c66c0
 
 // 获取首页新闻列表
 // 返回 OBJ
-export const http_getHomeNewsList = async function (page) {
+export const http_getHomeNewsList = async function (page, offset, limit) {
 
-	let offset = 5
-	let limit = 5
-	let pageObj = {}
-	await http.get(url_getHomeNewsList, {params:{
-		page,
-		limit
-	}}).then(res => {
-			console.log('-----------------')
-			console.log(res.data)
-			if(res.data.code === 0) {
-				pageObj =  res.data.page
-			}
-		})
-	return pageObj
+	// let pageObj = {}
+	// await http.get(url_getHomeNewsList, {params:{
+	// 	page,
+	// 	limit
+	// }}).then(res => {
+	// 		console.log('-----------------')
+	// 		console.log(res.data)
+	// 		if(res.data.code === 0) {
+	// 			pageObj =  res.data.page
+	// 		}
+	// 	})
+	// return pageObj
+	
+	// todo: 接口写好后,解开上边注释,注释下边模拟数据
 
 	// 新闻内容数据结构↓
 	// createTime: "2020-01-15 15:42:14"
@@ -45,116 +45,120 @@ export const http_getHomeNewsList = async function (page) {
 	// status: 0
 	// updateTime: "2020-01-15 15:42:14"
 	
-	
- //  let list = [
-	// 	{
-	// 		title: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
-	// 		info: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
-	// 		id: '111',
-	// 		imgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
-	// 	},{
-	// 		title: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
-	// 		info: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
-	// 		id: '222',
-	// 		imgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
-	// 	},{
-	// 		title: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
-	// 		info: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
-	// 		id: '333',
-	// 		imgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
-	// 	},{
-	// 		title: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
-	// 		info: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
-	// 		id: '444',
-	// 		imgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
-	// 	},{
-	// 		title: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
-	// 		info: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
-	// 		id: '5',
-	// 		imgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
-	// 	},{
-	// 		title: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
-	// 		info: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
-	// 		id: '6',
-	// 		imgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
-	// 	},{
-	// 		title: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
-	// 		info: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
-	// 		id: '7',
-	// 		imgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
-	// 	},{
-	// 		title: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
-	// 		info: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
-	// 		id: '8',
-	// 		imgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
-	// 	},{
-	// 		title: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
-	// 		info: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
-	// 		id: '9',
-	// 		imgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
-	// 	},{
-	// 		title: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
-	// 		info: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
-	// 		id: '10',
-	// 		imgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
-	// 	},{
-	// 		title: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
-	// 		info: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
-	// 		id: '11',
-	// 		imgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
-	// 	},{
-	// 		title: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
-	// 		info: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
-	// 		id: '12',
-	// 		imgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
-	// 	},{
-	// 		title: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
-	// 		info: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
-	// 		id: '13',
-	// 		imgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
-	// 	},{
-	// 		title: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
-	// 		info: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
-	// 		id: '111',
-	// 		imgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
-	// 	},{
-	// 		title: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
-	// 		info: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
-	// 		id: '14',
-	// 		imgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
-	// 	},{
-	// 		title: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
-	// 		info: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
-	// 		id: '15',
-	// 		imgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
-	// 	},{
-	// 		title: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
-	// 		info: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
-	// 		id: '16',
-	// 		imgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
-	// 	},{
-	// 		title: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
-	// 		info: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
-	// 		id: '111',
-	// 		imgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
-	// 	},{
-	// 		title: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
-	// 		info: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
-	// 		id: '111',
-	// 		imgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
-	// 	},{
-	// 		title: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
-	// 		info: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
-	// 		id: '111',
-	// 		imgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
-	// 	},{
-	// 		title: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
-	// 		info: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
-	// 		id: '111',
-	// 		imgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
-	// 	}
-	// ]
-	// return list.slice((page-1)*offset,page*offset)
+	// 模拟数据
+  let list = [
+		{
+			newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+			newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+			id: '111',
+			newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
+		},{
+			newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+			newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+			id: '222',
+			newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
+		},{
+			newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+			newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+			id: '333',
+			newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
+		},{
+			newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+			newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+			id: '444',
+			newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
+		},{
+			newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+			newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+			id: '5',
+			newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
+		},{
+			newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+			newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+			id: '6',
+			newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
+		},{
+			newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+			newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+			id: '7',
+			newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
+		},{
+			newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+			newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+			id: '8',
+			newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
+		},{
+			newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+			newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+			id: '9',
+			newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
+		},{
+			newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+			newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+			id: '10',
+			newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
+		},{
+			newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+			newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+			id: '11',
+			newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
+		},{
+			newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+			newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+			id: '12',
+			newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
+		},{
+			newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+			newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+			id: '13',
+			newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
+		},{
+			newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+			newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+			id: '111',
+			newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
+		},{
+			newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+			newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+			id: '14',
+			newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
+		},{
+			newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+			newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+			id: '15',
+			newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
+		},{
+			newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+			newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+			id: '16',
+			newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
+		},{
+			newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+			newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+			id: '111',
+			newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
+		},{
+			newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+			newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+			id: '111',
+			newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
+		},{
+			newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+			newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+			id: '111',
+			newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
+		},{
+			newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+			newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+			id: '111',
+			newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png'
+		}
+	]
+	return {
+		'totalCount': list.length,
+		'totalPage': Math.ceil(list.length / offset),
+		'list': list.slice((page-1)*offset,page*offset)
+	}
 
 	
 	

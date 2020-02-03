@@ -737,7 +737,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -7065,7 +7065,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -7086,14 +7086,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -7169,7 +7169,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -7594,9 +7594,9 @@ module.exports = g;
 
 /***/ }),
 /* 4 */
-/*!****************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/pages.json ***!
-  \****************************************************/
+/*!*******************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/pages.json ***!
+  \*******************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8501,20 +8501,20 @@ module.exports = {"_from":"@dcloudio/uni-stat@alpha","_id":"@dcloudio/uni-stat@2
 
 /***/ }),
 /* 7 */
-/*!*********************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/pages.json?{"type":"style"} ***!
-  \*********************************************************************/
+/*!************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/pages.json?{"type":"style"} ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/index/index": { "navigationBarTitleText": "uni-app", "enablePullDownRefresh": true, "onReachBottomDistance": 50, "usingComponents": { "special-banner": "/components/EtherealWheat-banner/specialBanner", "news-card": "/components/news-card/newsCard" }, "usingAutoImportComponents": {} }, "pages/health/health": { "navigationBarTitleText": "健康", "enablePullDownRefresh": true, "usingComponents": { "health-card": "/components/health-card/healthCard" }, "usingAutoImportComponents": {} }, "pages/discover/discover": { "navigationBarTitleText": "发现", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/my/my": { "navigationBarTitleText": "我的", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/bluetooth-modu/bluetooth-modu": { "navigationBarTitleText": "bluetooth-modu", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/login/login": { "navigationBarTitleText": "login", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/init_set_baseSign/init_set_baseSign": { "navigationBarTitleText": "完善个人信息", "usingComponents": { "scroll-choose": "/components/scroll-choose/scroll-choose" }, "usingAutoImportComponents": {} }, "pages/add_data/addData": { "navigationBarTitleText": "添加数据", "usingComponents": { "scroll-choose": "/components/scroll-choose/addpage-scroll-choose", "folat-scroll-choose": "/components/scroll-choose/addpage-scroll-choose-flootNum" }, "usingAutoImportComponents": {} }, "pages/test/test": { "navigationBarTitleText": "test", "usingComponents": {}, "usingAutoImportComponents": {} } }, "globalStyle": { "navigationBarTextStyle": "black", "navigationBarTitleText": "uni-app", "navigationBarBackgroundColor": "#ffffff", "backgroundColor": "#F8F8F8" } };exports.default = _default;
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/index/index": { "navigationBarTitleText": "uni-app", "enablePullDownRefresh": true, "onReachBottomDistance": 50 }, "pages/health/health": { "navigationBarTitleText": "健康", "enablePullDownRefresh": true }, "pages/discover/discover": { "navigationBarTitleText": "发现" }, "pages/my/my": { "navigationBarTitleText": "我的" }, "pages/bluetooth-modu/bluetooth-modu": { "navigationBarTitleText": "bluetooth-modu" }, "pages/login/login": { "navigationBarTitleText": "login" }, "pages/init_set_baseSign/init_set_baseSign": { "navigationBarTitleText": "完善个人信息" }, "pages/add_data/addData": { "navigationBarTitleText": "添加数据" }, "pages/test/test": { "navigationBarTitleText": "test" } }, "globalStyle": { "navigationBarTextStyle": "black", "navigationBarTitleText": "uni-app", "navigationBarBackgroundColor": "#ffffff", "backgroundColor": "#F8F8F8" } };exports.default = _default;
 
 /***/ }),
 /* 8 */
-/*!********************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/pages.json?{"type":"stat"} ***!
-  \********************************************************************/
+/*!***********************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/pages.json?{"type":"stat"} ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8648,9 +8648,9 @@ function normalizeComponent (
 
 /***/ }),
 /* 15 */
-/*!********************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/store/index.js ***!
-  \********************************************************/
+/*!***********************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/store/index.js ***!
+  \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9645,9 +9645,9 @@ var index_esm = {
 
 /***/ }),
 /* 17 */
-/*!**********************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/store/actions.js ***!
-  \**********************************************************/
+/*!*************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/store/actions.js ***!
+  \*************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9694,9 +9694,9 @@ var setUserInfo = function setUserInfo(_ref, _ref2) {var commit = _ref.commit,st
 
 /***/ }),
 /* 18 */
-/*!**********************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/store/getters.js ***!
-  \**********************************************************/
+/*!*************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/store/getters.js ***!
+  \*************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9735,9 +9735,9 @@ exports.store_homeNewsList = store_homeNewsList;var store_userWXStep = function 
 
 /***/ }),
 /* 19 */
-/*!********************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/store/state.js ***!
-  \********************************************************/
+/*!***********************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/store/state.js ***!
+  \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9994,9 +9994,9 @@ state;exports.default = _default;
 
 /***/ }),
 /* 20 */
-/*!************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/store/mutations.js ***!
-  \************************************************************/
+/*!***************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/store/mutations.js ***!
+  \***************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10079,9 +10079,9 @@ var _default = matutaions;exports.default = _default;
 
 /***/ }),
 /* 21 */
-/*!*****************************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/promise.prototype.finally/index.js ***!
-  \*****************************************************************************************/
+/*!********************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/promise.prototype.finally/index.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10435,9 +10435,9 @@ module.exports = function isArguments(value) {
 
 /***/ }),
 /* 27 */
-/*!**************************************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/promise.prototype.finally/implementation.js ***!
-  \**************************************************************************************************/
+/*!*****************************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/promise.prototype.finally/implementation.js ***!
+  \*****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10514,9 +10514,9 @@ module.exports = promiseFinally;
 
 /***/ }),
 /* 28 */
-/*!**************************************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/promise.prototype.finally/requirePromise.js ***!
-  \**************************************************************************************************/
+/*!*****************************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/promise.prototype.finally/requirePromise.js ***!
+  \*****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10531,9 +10531,9 @@ module.exports = function requirePromise() {
 
 /***/ }),
 /* 29 */
-/*!*************************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/es-abstract/2018/IsCallable.js ***!
-  \*************************************************************************************/
+/*!****************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/es-abstract/2018/IsCallable.js ***!
+  \****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10594,9 +10594,9 @@ module.exports = function isCallable(value) {
 
 /***/ }),
 /* 31 */
-/*!*********************************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/es-abstract/2018/SpeciesConstructor.js ***!
-  \*********************************************************************************************/
+/*!************************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/es-abstract/2018/SpeciesConstructor.js ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10636,9 +10636,9 @@ module.exports = function SpeciesConstructor(O, defaultConstructor) {
 
 /***/ }),
 /* 32 */
-/*!**********************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/es-abstract/GetIntrinsic.js ***!
-  \**********************************************************************************/
+/*!*************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/es-abstract/GetIntrinsic.js ***!
+  \*************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10850,6 +10850,9 @@ module.exports = function GetIntrinsic(name, allowMissing) {
     if (value != null) {
       if ($gOPD && i + 1 >= parts.length) {
         var desc = $gOPD(value, parts[i]);
+        if (!allowMissing && !(parts[i] in value)) {
+          throw new $TypeError('base intrinsic for ' + name + ' exists, but the property is not available.');
+        }
         value = desc ? desc.get || desc.value : value[parts[i]];
       } else {
         value = value[parts[i]];
@@ -10939,9 +10942,9 @@ module.exports = function hasSymbols() {
 
 /***/ }),
 /* 35 */
-/*!****************************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/es-abstract/2018/IsConstructor.js ***!
-  \****************************************************************************************/
+/*!*******************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/es-abstract/2018/IsConstructor.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10956,9 +10959,9 @@ module.exports = function IsConstructor(argument) {
 
 /***/ }),
 /* 36 */
-/*!*******************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/es-abstract/2018/Type.js ***!
-  \*******************************************************************************/
+/*!**********************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/es-abstract/2018/Type.js ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10978,9 +10981,9 @@ module.exports = function Type(x) {
 
 /***/ }),
 /* 37 */
-/*!****************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/es-abstract/5/Type.js ***!
-  \****************************************************************************/
+/*!*******************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/es-abstract/5/Type.js ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11012,9 +11015,9 @@ module.exports = function Type(x) {
 
 /***/ }),
 /* 38 */
-/*!********************************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/promise.prototype.finally/polyfill.js ***!
-  \********************************************************************************************/
+/*!***********************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/promise.prototype.finally/polyfill.js ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11032,9 +11035,9 @@ module.exports = function getPolyfill() {
 
 /***/ }),
 /* 39 */
-/*!****************************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/promise.prototype.finally/shim.js ***!
-  \****************************************************************************************/
+/*!*******************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/promise.prototype.finally/shim.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11064,9 +11067,9 @@ module.exports = function shimPromiseFinally() {
 /* 42 */,
 /* 43 */,
 /* 44 */
-/*!***********************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/static/images/index/bushu.svg ***!
-  \***********************************************************************/
+/*!**************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/static/images/index/bushu.svg ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11074,9 +11077,9 @@ module.exports = __webpack_require__.p + "static/img/bushu.1e41640e.svg";
 
 /***/ }),
 /* 45 */
-/*!*******************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/static/images/index/yongyaotixing.svg ***!
-  \*******************************************************************************/
+/*!**********************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/static/images/index/yongyaotixing.svg ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11875,9 +11878,9 @@ if (hadRuntime) {
 
 /***/ }),
 /* 51 */
-/*!********************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/mixin.js ***!
-  \********************************************************/
+/*!***********************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/utils/mixin.js ***!
+  \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11900,9 +11903,9 @@ var ximin_isLogin = {
 
 /***/ }),
 /* 52 */
-/*!********************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/utils.js ***!
-  \********************************************************/
+/*!***********************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/utils/utils.js ***!
+  \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11950,9 +11953,9 @@ exports.formatDate = formatDate;var isLogin = function isLogin() {
 
 /***/ }),
 /* 53 */
-/*!****************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http_getIndexUserSignData.js ***!
-  \****************************************************************************/
+/*!*******************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/utils/http_getIndexUserSignData.js ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11968,148 +11971,235 @@ var _http_req_list = __webpack_require__(/*! @/utils/http_req_list.js */ 87);fun
 // url_getUserWeight 需要拼接 /userId
 
 // 获取首页所需体征,并存储到本地(分开存储)
-var http_getIndexUserSignData = /*#__PURE__*/function () {var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var id, weight, bloodPressure, bloodSugar;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+var http_getIndexUserSignData = /*#__PURE__*/function () {var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var id;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
 
             // 用户表中ID ,用于SQL查询参数,发送给后台
             id = _index.default.getters.store_UserInfoData.id;
 
             // TODO:获取用户身高
-            _context.next = 3;return (
-              _http.default.get(_http_req_list.url_getUserWeight + id).then(function (res) {
-
-                console.log('体重');
-                console.log(res);
-                // 获取后更新本地用户所有准确体征数据中的 - 体重
-                // 设置体重
-                // if(res.data.user.weight!==null) {
-                // 	store.commit('setUserSignData_weight', res.data.user.weight)	
-                // }
-
-                // 模拟
-                _index.default.commit('setUserSignData_weight', {
-                  title: '体重',
-                  editBTN: 1,
-                  dataNum: '60',
-                  dataCompany: 'kg',
-                  dataTips: 'BMI:16.8',
-                  dataTime: '2020-01-09 15:30',
-                  // 添加数据的滑尺范围
-                  rulerRange: [{
-                    // 男体重
-                    left: 50,
-                    cont: 60,
-                    right: 150 }],
-
-                  // 数值衡量标准范围
-                  dataRange: [{
-                    low: '53.5', // 低于范围
-                    nor: '53.5-69.1', // 正常范围
-                    hig: '69.1' // 高于范围
-                  }],
-                  editId: 1 });
 
 
-              }).catch(function (error) {
-              }).finally(function () {
-              }));case 3:weight = _context.sent;_context.next = 6;return (
+            // 模拟设置体重
+            _index.default.commit('setUserSignData_weight', {
+              title: '体重',
+              editBTN: 1,
+              dataNum: '60',
+              dataCompany: 'kg',
+              dataTips: 'BMI:16.8',
+              dataTime: '2020-01-09 15:30',
+              // 添加数据的滑尺范围
+              rulerRange: [{
+                // 男体重
+                left: 50,
+                cont: 60,
+                right: 150 }],
 
-
-              _http.default.get(_http_req_list.url_getUserbloodPressure + id).then(function (res) {
-
-                console.log('血压');
-                console.log(res);
-                // 设置用户准确体征 - 血压
-                // if(res.data.user.xx!==null) {
-                // 	store.commit('setUserSignData_bloodPressure', xx)	
-                // }
-
-                // 模拟
-                _index.default.commit('setUserSignData_bloodPressure', {
-                  title: '血压',
-                  editBTN: 1,
-                  // dataNum: '-1',
-                  dataNum: '120/80',
-                  dataCompany: 'mmHg',
-                  dataTime: '2020-01-09 15:30',
-                  // 添加数据的滑尺范围
-                  rulerRange: [
-                  {
-                    left: 60,
-                    cont: 110,
-                    right: 250 },
-
-                  {
-                    left: 30,
-                    cont: 75,
-                    right: 180 }],
-
-
-                  cursorSuffix: ['收缩压', '舒张压'],
-                  dataRange: [{
-                    low: '90', // 低于范围
-                    nor: '90-140', // 正常范围
-                    hig: '140' // 高于范围
-                  },
-                  {
-                    low: '60', // 低于范围
-                    nor: '60-90', // 正常范围
-                    hig: '90' // 高于范围
-                  }],
-                  editId: 2 });
+              // 数值衡量标准范围
+              dataRange: [{
+                low: '53.5', // 低于范围
+                nor: '53.5-69.1', // 正常范围
+                hig: '69.1' // 高于范围
+              }],
+              editId: 1 });
 
 
 
-              }).catch(function (error) {
-              }).finally(function () {
-              }));case 6:bloodPressure = _context.sent;_context.next = 9;return (
+            // 模拟设计血压
+            _index.default.commit('setUserSignData_bloodPressure', {
+              title: '血压',
+              editBTN: 1,
+              // dataNum: '-1',
+              dataNum: '120/80',
+              dataCompany: 'mmHg',
+              dataTime: '2020-01-09 15:30',
+              // 添加数据的滑尺范围
+              rulerRange: [
+              {
+                left: 60,
+                cont: 110,
+                right: 250 },
+
+              {
+                left: 30,
+                cont: 75,
+                right: 180 }],
 
 
-              _http.default.get(_http_req_list.url_getUserbloodSugar + id).then(function (res) {
-
-                console.log('血糖');
-                console.log(res);
-                // 储存到本地用户store_userSignData中
-                // if(res.data.user.xx!==null) {
-                // 	store.commit('setUserSignData_bloodSugar', xx)	
-                // }
-
-                // 模拟
-                _index.default.commit('setUserSignData_bloodSugar', {
-                  title: '血糖',
-                  editBTN: 1,
-                  dataNum: '5.6',
-                  dataTips: '清晨空腹',
-                  dataCompany: 'mmol/L',
-                  dataTime: '2020-01-09 15:30',
-                  // 添加数据的滑尺范围
-                  rulerRange: [{
-                    left: 1,
-                    cont: 5.2,
-                    right: 33.3 }],
-
-                  // 测量时段 1是清晨空腹, 2是餐后一小时, 3是餐后两小时
-                  measureTime: 1,
-                  dataRange: [{
-                    low: '2.8', // 低于范围
-                    nor: '2.8-6.0', // 正常范围
-                    hig: '6.0' // 高于范围
-                  }],
-                  editId: 3 });
+              cursorSuffix: ['收缩压', '舒张压'],
+              dataRange: [{
+                low: '90', // 低于范围
+                nor: '90-140', // 正常范围
+                hig: '140' // 高于范围
+              },
+              {
+                low: '60', // 低于范围
+                nor: '60-90', // 正常范围
+                hig: '90' // 高于范围
+              }],
+              editId: 2 });
 
 
-              }).catch(function (error) {
-              }).finally(function () {
-              }));case 9:bloodSugar = _context.sent;return _context.abrupt("return",
+            // 模拟设置血糖
+            _index.default.commit('setUserSignData_bloodSugar', {
+              title: '血糖',
+              editBTN: 1,
+              dataNum: '5.6',
+              dataTips: '清晨空腹',
+              dataCompany: 'mmol/L',
+              dataTime: '2020-01-09 15:30',
+              // 添加数据的滑尺范围
+              rulerRange: [{
+                left: 1,
+                cont: 5.2,
+                right: 33.3 }],
+
+              // 测量时段 1是清晨空腹, 2是餐后一小时, 3是餐后两小时
+              measureTime: 1,
+              dataRange: [{
+                low: '2.8', // 低于范围
+                nor: '2.8-6.0', // 正常范围
+                hig: '6.0' // 高于范围
+              }],
+              editId: 3 });
 
 
 
-            true);case 11:case "end":return _context.stop();}}}, _callee, this);}));return function http_getIndexUserSignData() {return _ref.apply(this, arguments);};}();exports.http_getIndexUserSignData = http_getIndexUserSignData;
+            // todo:接口写好之后,把下边注释打开,然后删除上边的模拟设置数据
+            // let weight = await http.get(url_getUserWeight+id).then(res => {
+
+            // 		console.log('体重')
+            // 		console.log(res)
+            // 		// 获取后更新本地用户所有准确体征数据中的 - 体重
+            // 		// 设置体重
+            // 		// if(res.data.user.weight!==null) {
+            // 		// 	store.commit('setUserSignData_weight', res.data.user.weight)	
+            // 		// }
+
+            // 		// 模拟设置体重
+            // 		store.commit('setUserSignData_weight', {
+            // 				title: '体重',
+            // 				editBTN: 1,
+            // 				dataNum: '60',
+            // 				dataCompany: 'kg',
+            // 				dataTips: 'BMI:16.8',
+            // 				dataTime:'2020-01-09 15:30',
+            // 				// 添加数据的滑尺范围
+            // 				rulerRange: [{
+            // 					// 男体重
+            // 					left: 50,
+            // 					cont: 60,
+            // 					right: 150
+            // 				}],
+            // 				// 数值衡量标准范围
+            // 				dataRange: [{
+            // 						low: '53.5', // 低于范围
+            // 						nor: '53.5-69.1', // 正常范围
+            // 						hig: '69.1'  // 高于范围
+            // 					}],
+            // 				editId: 1
+            // 		})	
+
+            // }).catch(error => {
+            // }).finally(() => {
+            // })
+
+            // // 获取用户血压
+            // let bloodPressure = await http.get(url_getUserbloodPressure+id).then(res => {
+
+            // 		console.log('血压')
+            // 		console.log(res)
+            // 		// 设置用户准确体征 - 血压
+            // 		// if(res.data.user.xx!==null) {
+            // 		// 	store.commit('setUserSignData_bloodPressure', xx)	
+            // 		// }
+
+            // 		// 模拟
+            // 		store.commit('setUserSignData_bloodPressure', {
+            // 			title: '血压',
+            // 			editBTN: 1,
+            // 			// dataNum: '-1',
+            // 			dataNum: '120/80',
+            // 			dataCompany: 'mmHg',
+            // 			dataTime:'2020-01-09 15:30',
+            // 			// 添加数据的滑尺范围
+            // 			rulerRange: [
+            // 				{
+            // 					left: 60,
+            // 					cont: 110,
+            // 					right: 250
+            // 				},
+            // 				{
+            // 					left: 30,
+            // 					cont: 75,
+            // 					right: 180
+            // 				}
+            // 			],
+            // 			cursorSuffix: ['收缩压', '舒张压'],
+            // 			dataRange: [{
+            // 					low: '90', // 低于范围
+            // 					nor: '90-140', // 正常范围
+            // 					hig: '140'  // 高于范围
+            // 				},
+            // 				{
+            // 					low: '60', // 低于范围
+            // 					nor: '60-90', // 正常范围
+            // 					hig: '90'  // 高于范围
+            // 				}],
+            // 		  editId: 2
+            // 		})	
+
+
+            // }).catch(error => {
+            // }).finally(() => {
+            // })
+
+            // // 获取用户血糖
+            // let bloodSugar = await http.get(url_getUserbloodSugar+id).then(res => {
+
+            // 		console.log('血糖')
+            // 		console.log(res)
+            // 		// 储存到本地用户store_userSignData中
+            // 		// if(res.data.user.xx!==null) {
+            // 		// 	store.commit('setUserSignData_bloodSugar', xx)	
+            // 		// }
+
+            // 		// 模拟
+            // 		store.commit('setUserSignData_bloodSugar', {
+            // 			title: '血糖',
+            // 			editBTN: 1,
+            // 			dataNum: '5.6',
+            // 			dataTips: '清晨空腹',
+            // 			dataCompany: 'mmol/L',
+            // 			dataTime:'2020-01-09 15:30',
+            // 			// 添加数据的滑尺范围
+            // 			rulerRange: [{
+            // 				left: 1,
+            // 				cont: 5.2,
+            // 				right: 33.3
+            // 			}],
+            // 			// 测量时段 1是清晨空腹, 2是餐后一小时, 3是餐后两小时
+            // 			measureTime: 1,
+            // 			dataRange: [{
+            // 					low: '2.8', // 低于范围
+            // 					nor: '2.8-6.0', // 正常范围
+            // 					hig: '6.0'  // 高于范围
+            // 				}],
+            // 		  editId: 3
+            // 		})	
+
+            // }).catch(error => {
+            // }).finally(() => {
+            // })
+
+            // // todo:
+            return _context.abrupt("return",
+            true);case 5:case "end":return _context.stop();}}}, _callee, this);}));return function http_getIndexUserSignData() {return _ref.apply(this, arguments);};}();exports.http_getIndexUserSignData = http_getIndexUserSignData;
 
 /***/ }),
 /* 54 */
-/*!*******************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http.js ***!
-  \*******************************************************/
+/*!**********************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/utils/http.js ***!
+  \**********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12187,9 +12277,9 @@ http;exports.default = _default;
 
 /***/ }),
 /* 55 */
-/*!******************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/js_sdk/gangdiedao-uni-axios/index.js ***!
-  \******************************************************************************/
+/*!*********************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/js_sdk/gangdiedao-uni-axios/index.js ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12199,9 +12289,9 @@ _uniAxios.axios;exports.default = _default;
 
 /***/ }),
 /* 56 */
-/*!**********************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/js_sdk/gangdiedao-uni-axios/uni-axios.js ***!
-  \**********************************************************************************/
+/*!*************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/js_sdk/gangdiedao-uni-axios/uni-axios.js ***!
+  \*************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12248,13 +12338,13 @@ Object.defineProperty(exports, "__esModule", { value: true });var _exportNames =
 
 
 
-Object.keys(_axios).forEach(function (key) {if (key === "default" || key === "__esModule") return;if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;Object.defineProperty(exports, key, { enumerable: true, get: function get() {return _axios[key];} });});var _utils = _interopRequireDefault(__webpack_require__(/*! axios/lib/utils */ 59));var _adapter = __webpack_require__(/*! ./adapter */ 85);var _normalizeHeaderName = _interopRequireDefault(__webpack_require__(/*! axios/lib/helpers/normalizeHeaderName */ 71));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) {var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {};if (desc.get || desc.set) {Object.defineProperty(newObj, key, desc);} else {newObj[key] = obj[key];}}}}newObj.default = obj;return newObj;}}function setContentTypeIfUnset(headers, value) {if (!_utils.default.isUndefined(headers) && _utils.default.isUndefined(headers['Content-Type'])) {headers['Content-Type'] = value;}}_axios.default.defaults.transformRequest = [function transformRequest(data, headers) {(0, _normalizeHeaderName.default)(headers, 'Accept');(0, _normalizeHeaderName.default)(headers, 'Content-Type');if (_utils.default.isFormData(data) || _utils.default.isArrayBuffer(data) || _utils.default.isBuffer(data) || _utils.default.isStream(data) || _utils.default.isFile(data) || _utils.default.isBlob(data)) {return data;}if (_utils.default.isArrayBufferView(data)) {return data.buffer;}if (_utils.default.isURLSearchParams(data)) {setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');return data.toString();}if (_utils.default.isObject(data)) {setContentTypeIfUnset(headers, 'application/json;charset=utf-8');return JSON.stringify(data);}return data;}];_axios.default.defaults.adapter = _adapter.adapter;
+Object.keys(_axios).forEach(function (key) {if (key === "default" || key === "__esModule") return;if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;Object.defineProperty(exports, key, { enumerable: true, get: function get() {return _axios[key];} });});var _utils = _interopRequireDefault(__webpack_require__(/*! axios/lib/utils */ 59));var _adapter = __webpack_require__(/*! ./adapter */ 85);var _normalizeHeaderName = _interopRequireDefault(__webpack_require__(/*! axios/lib/helpers/normalizeHeaderName */ 70));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) {var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {};if (desc.get || desc.set) {Object.defineProperty(newObj, key, desc);} else {newObj[key] = obj[key];}}}}newObj.default = obj;return newObj;}}function setContentTypeIfUnset(headers, value) {if (!_utils.default.isUndefined(headers) && _utils.default.isUndefined(headers['Content-Type'])) {headers['Content-Type'] = value;}}_axios.default.defaults.transformRequest = [function transformRequest(data, headers) {(0, _normalizeHeaderName.default)(headers, 'Accept');(0, _normalizeHeaderName.default)(headers, 'Content-Type');if (_utils.default.isFormData(data) || _utils.default.isArrayBuffer(data) || _utils.default.isBuffer(data) || _utils.default.isStream(data) || _utils.default.isFile(data) || _utils.default.isBlob(data)) {return data;}if (_utils.default.isArrayBufferView(data)) {return data.buffer;}if (_utils.default.isURLSearchParams(data)) {setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');return data.toString();}if (_utils.default.isObject(data)) {setContentTypeIfUnset(headers, 'application/json;charset=utf-8');return JSON.stringify(data);}return data;}];_axios.default.defaults.adapter = _adapter.adapter;
 
 /***/ }),
 /* 57 */
-/*!*********************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/index.js ***!
-  \*********************************************************************/
+/*!************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/axios/index.js ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12263,9 +12353,9 @@ module.exports = __webpack_require__(/*! ./lib/axios */ 58);
 
 /***/ }),
 /* 58 */
-/*!*************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/axios.js ***!
-  \*************************************************************************/
+/*!****************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/axios/lib/axios.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12274,9 +12364,9 @@ module.exports = __webpack_require__(/*! ./lib/axios */ 58);
 
 var utils = __webpack_require__(/*! ./utils */ 59);
 var bind = __webpack_require__(/*! ./helpers/bind */ 60);
-var Axios = __webpack_require__(/*! ./core/Axios */ 62);
+var Axios = __webpack_require__(/*! ./core/Axios */ 61);
 var mergeConfig = __webpack_require__(/*! ./core/mergeConfig */ 81);
-var defaults = __webpack_require__(/*! ./defaults */ 68);
+var defaults = __webpack_require__(/*! ./defaults */ 67);
 
 /**
                                        * Create an instance of Axios
@@ -12311,7 +12401,7 @@ axios.create = function create(instanceConfig) {
 // Expose Cancel & CancelToken
 axios.Cancel = __webpack_require__(/*! ./cancel/Cancel */ 82);
 axios.CancelToken = __webpack_require__(/*! ./cancel/CancelToken */ 83);
-axios.isCancel = __webpack_require__(/*! ./cancel/isCancel */ 67);
+axios.isCancel = __webpack_require__(/*! ./cancel/isCancel */ 66);
 
 // Expose all/spread
 axios.all = function all(promises) {
@@ -12326,9 +12416,9 @@ module.exports.default = axios;
 
 /***/ }),
 /* 59 */
-/*!*************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/utils.js ***!
-  \*************************************************************************/
+/*!****************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/axios/lib/utils.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12336,7 +12426,6 @@ module.exports.default = axios;
 
 
 var bind = __webpack_require__(/*! ./helpers/bind */ 60);
-var isBuffer = __webpack_require__(/*! is-buffer */ 61);
 
 /*global toString:true*/
 
@@ -12352,6 +12441,27 @@ var toString = Object.prototype.toString;
                                            */
 function isArray(val) {
   return toString.call(val) === '[object Array]';
+}
+
+/**
+   * Determine if a value is undefined
+   *
+   * @param {Object} val The value to test
+   * @returns {boolean} True if the value is undefined, otherwise false
+   */
+function isUndefined(val) {
+  return typeof val === 'undefined';
+}
+
+/**
+   * Determine if a value is a Buffer
+   *
+   * @param {Object} val The value to test
+   * @returns {boolean} True if value is a Buffer, otherwise false
+   */
+function isBuffer(val) {
+  return val !== null && !isUndefined(val) && val.constructor !== null && !isUndefined(val.constructor) &&
+  typeof val.constructor.isBuffer === 'function' && val.constructor.isBuffer(val);
 }
 
 /**
@@ -12408,16 +12518,6 @@ function isString(val) {
    */
 function isNumber(val) {
   return typeof val === 'number';
-}
-
-/**
-   * Determine if a value is undefined
-   *
-   * @param {Object} val The value to test
-   * @returns {boolean} True if the value is undefined, otherwise false
-   */
-function isUndefined(val) {
-  return typeof val === 'undefined';
 }
 
 /**
@@ -12669,9 +12769,9 @@ module.exports = {
 
 /***/ }),
 /* 60 */
-/*!********************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/helpers/bind.js ***!
-  \********************************************************************************/
+/*!***********************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/axios/lib/helpers/bind.js ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12690,40 +12790,9 @@ module.exports = function bind(fn, thisArg) {
 
 /***/ }),
 /* 61 */
-/*!*****************************************!*\
-  !*** ./node_modules/is-buffer/index.js ***!
-  \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/*!
- * Determine if an object is a Buffer
- *
- * @author   Feross Aboukhadijeh <https://feross.org>
- * @license  MIT
- */
-
-// The _isBuffer check is for Safari 5-7 support, because it's missing
-// Object.prototype.constructor. Remove this eventually
-module.exports = function (obj) {
-  return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer)
-}
-
-function isBuffer (obj) {
-  return !!obj.constructor && typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
-}
-
-// For Node v0.10 support. Remove this eventually.
-function isSlowBuffer (obj) {
-  return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
-}
-
-
-/***/ }),
-/* 62 */
-/*!******************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/core/Axios.js ***!
-  \******************************************************************************/
+/*!*********************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/axios/lib/core/Axios.js ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12731,9 +12800,9 @@ function isSlowBuffer (obj) {
 
 
 var utils = __webpack_require__(/*! ./../utils */ 59);
-var buildURL = __webpack_require__(/*! ../helpers/buildURL */ 63);
-var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ 64);
-var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ 65);
+var buildURL = __webpack_require__(/*! ../helpers/buildURL */ 62);
+var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ 63);
+var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ 64);
 var mergeConfig = __webpack_require__(/*! ./mergeConfig */ 81);
 
 /**
@@ -12765,7 +12834,15 @@ Axios.prototype.request = function request(config) {
   }
 
   config = mergeConfig(this.defaults, config);
-  config.method = config.method ? config.method.toLowerCase() : 'get';
+
+  // Set config.method
+  if (config.method) {
+    config.method = config.method.toLowerCase();
+  } else if (this.defaults.method) {
+    config.method = this.defaults.method.toLowerCase();
+  } else {
+    config.method = 'get';
+  }
 
   // Hook up interceptors middleware
   var chain = [dispatchRequest, undefined];
@@ -12816,10 +12893,10 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 module.exports = Axios;
 
 /***/ }),
-/* 63 */
-/*!************************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/helpers/buildURL.js ***!
-  \************************************************************************************/
+/* 62 */
+/*!***************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/axios/lib/helpers/buildURL.js ***!
+  \***************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12897,10 +12974,10 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 };
 
 /***/ }),
-/* 64 */
-/*!*******************************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/core/InterceptorManager.js ***!
-  \*******************************************************************************************/
+/* 63 */
+/*!**********************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/axios/lib/core/InterceptorManager.js ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12959,10 +13036,10 @@ InterceptorManager.prototype.forEach = function forEach(fn) {
 module.exports = InterceptorManager;
 
 /***/ }),
-/* 65 */
-/*!****************************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/core/dispatchRequest.js ***!
-  \****************************************************************************************/
+/* 64 */
+/*!*******************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/axios/lib/core/dispatchRequest.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12970,15 +13047,13 @@ module.exports = InterceptorManager;
 
 
 var utils = __webpack_require__(/*! ./../utils */ 59);
-var transformData = __webpack_require__(/*! ./transformData */ 66);
-var isCancel = __webpack_require__(/*! ../cancel/isCancel */ 67);
-var defaults = __webpack_require__(/*! ../defaults */ 68);
-var isAbsoluteURL = __webpack_require__(/*! ./../helpers/isAbsoluteURL */ 79);
-var combineURLs = __webpack_require__(/*! ./../helpers/combineURLs */ 80);
+var transformData = __webpack_require__(/*! ./transformData */ 65);
+var isCancel = __webpack_require__(/*! ../cancel/isCancel */ 66);
+var defaults = __webpack_require__(/*! ../defaults */ 67);
 
 /**
-                                                        * Throws a `Cancel` if cancellation has been requested.
-                                                        */
+                                        * Throws a `Cancel` if cancellation has been requested.
+                                        */
 function throwIfCancellationRequested(config) {
   if (config.cancelToken) {
     config.cancelToken.throwIfRequested();
@@ -12994,11 +13069,6 @@ function throwIfCancellationRequested(config) {
 module.exports = function dispatchRequest(config) {
   throwIfCancellationRequested(config);
 
-  // Support baseURL config
-  if (config.baseURL && !isAbsoluteURL(config.url)) {
-    config.url = combineURLs(config.baseURL, config.url);
-  }
-
   // Ensure headers exist
   config.headers = config.headers || {};
 
@@ -13013,7 +13083,7 @@ module.exports = function dispatchRequest(config) {
   config.headers = utils.merge(
   config.headers.common || {},
   config.headers[config.method] || {},
-  config.headers || {});
+  config.headers);
 
 
   utils.forEach(
@@ -13055,10 +13125,10 @@ module.exports = function dispatchRequest(config) {
 };
 
 /***/ }),
-/* 66 */
-/*!**************************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/core/transformData.js ***!
-  \**************************************************************************************/
+/* 65 */
+/*!*****************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/axios/lib/core/transformData.js ***!
+  \*****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13085,10 +13155,10 @@ module.exports = function transformData(data, headers, fns) {
 };
 
 /***/ }),
-/* 67 */
-/*!***********************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/cancel/isCancel.js ***!
-  \***********************************************************************************/
+/* 66 */
+/*!**************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/axios/lib/cancel/isCancel.js ***!
+  \**************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13100,10 +13170,10 @@ module.exports = function isCancel(value) {
 };
 
 /***/ }),
-/* 68 */
-/*!****************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/defaults.js ***!
-  \****************************************************************************/
+/* 67 */
+/*!*******************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/axios/lib/defaults.js ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13111,7 +13181,7 @@ module.exports = function isCancel(value) {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(/*! ./utils */ 59);
-var normalizeHeaderName = __webpack_require__(/*! ./helpers/normalizeHeaderName */ 71);
+var normalizeHeaderName = __webpack_require__(/*! ./helpers/normalizeHeaderName */ 70);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded' };
@@ -13125,13 +13195,12 @@ function setContentTypeIfUnset(headers, value) {
 
 function getDefaultAdapter() {
   var adapter;
-  // Only Node.JS has a process variable that is of [[Class]] process
-  if (typeof process !== 'undefined' && Object.prototype.toString.call(process) === '[object process]') {
-    // For node use HTTP adapter
-    adapter = __webpack_require__(/*! ./adapters/http */ 72);
-  } else if (typeof XMLHttpRequest !== 'undefined') {
+  if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(/*! ./adapters/xhr */ 72);
+    adapter = __webpack_require__(/*! ./adapters/xhr */ 71);
+  } else if (typeof process !== 'undefined' && Object.prototype.toString.call(process) === '[object process]') {
+    // For node use HTTP adapter
+    adapter = __webpack_require__(/*! ./adapters/http */ 71);
   }
   return adapter;
 }
@@ -13206,10 +13275,10 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 });
 
 module.exports = defaults;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/node-libs-browser/mock/process.js */ 69)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/node-libs-browser/mock/process.js */ 68)))
 
 /***/ }),
-/* 69 */
+/* 68 */
 /*!********************************************************!*\
   !*** ./node_modules/node-libs-browser/mock/process.js ***!
   \********************************************************/
@@ -13236,7 +13305,7 @@ exports.binding = function (name) {
     var path;
     exports.cwd = function () { return cwd };
     exports.chdir = function (dir) {
-        if (!path) path = __webpack_require__(/*! path */ 70);
+        if (!path) path = __webpack_require__(/*! path */ 69);
         cwd = path.resolve(dir, cwd);
     };
 })();
@@ -13249,7 +13318,7 @@ exports.features = {};
 
 
 /***/ }),
-/* 70 */
+/* 69 */
 /*!***********************************************!*\
   !*** ./node_modules/path-browserify/index.js ***!
   \***********************************************/
@@ -13481,13 +13550,13 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 69)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 68)))
 
 /***/ }),
-/* 71 */
-/*!***********************************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/helpers/normalizeHeaderName.js ***!
-  \***********************************************************************************************/
+/* 70 */
+/*!**************************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/axios/lib/helpers/normalizeHeaderName.js ***!
+  \**************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13506,10 +13575,10 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 };
 
 /***/ }),
-/* 72 */
-/*!********************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/adapters/xhr.js ***!
-  \********************************************************************************/
+/* 71 */
+/*!***********************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/axios/lib/adapters/xhr.js ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13517,11 +13586,12 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 var utils = __webpack_require__(/*! ./../utils */ 59);
-var settle = __webpack_require__(/*! ./../core/settle */ 73);
-var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ 63);
-var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ 76);
-var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ 77);
-var createError = __webpack_require__(/*! ../core/createError */ 74);
+var settle = __webpack_require__(/*! ./../core/settle */ 72);
+var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ 62);
+var buildFullPath = __webpack_require__(/*! ../core/buildFullPath */ 75);
+var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ 78);
+var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ 79);
+var createError = __webpack_require__(/*! ../core/createError */ 73);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -13541,7 +13611,8 @@ module.exports = function xhrAdapter(config) {
       requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
     }
 
-    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
+    var fullPath = buildFullPath(config.baseURL, config.url);
+    request.open(config.method.toUpperCase(), buildURL(fullPath, config.params, config.paramsSerializer), true);
 
     // Set the request timeout in MS
     request.timeout = config.timeout;
@@ -13602,7 +13673,11 @@ module.exports = function xhrAdapter(config) {
 
     // Handle timeout
     request.ontimeout = function handleTimeout() {
-      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED',
+      var timeoutErrorMessage = 'timeout of ' + config.timeout + 'ms exceeded';
+      if (config.timeoutErrorMessage) {
+        timeoutErrorMessage = config.timeoutErrorMessage;
+      }
+      reject(createError(timeoutErrorMessage, config, 'ECONNABORTED',
       request));
 
       // Clean up request
@@ -13613,10 +13688,10 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(/*! ./../helpers/cookies */ 78);
+      var cookies = __webpack_require__(/*! ./../helpers/cookies */ 80);
 
       // Add xsrf header
-      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
+      var xsrfValue = (config.withCredentials || isURLSameOrigin(fullPath)) && config.xsrfCookieName ?
       cookies.read(config.xsrfCookieName) :
       undefined;
 
@@ -13639,8 +13714,8 @@ module.exports = function xhrAdapter(config) {
     }
 
     // Add withCredentials to request if needed
-    if (config.withCredentials) {
-      request.withCredentials = true;
+    if (!utils.isUndefined(config.withCredentials)) {
+      request.withCredentials = !!config.withCredentials;
     }
 
     // Add responseType to request if needed
@@ -13690,17 +13765,17 @@ module.exports = function xhrAdapter(config) {
 };
 
 /***/ }),
-/* 73 */
-/*!*******************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/core/settle.js ***!
-  \*******************************************************************************/
+/* 72 */
+/*!**********************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/axios/lib/core/settle.js ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createError = __webpack_require__(/*! ./createError */ 74);
+var createError = __webpack_require__(/*! ./createError */ 73);
 
 /**
                                              * Resolve or reject a Promise based on response status.
@@ -13725,17 +13800,17 @@ module.exports = function settle(resolve, reject, response) {
 };
 
 /***/ }),
-/* 74 */
-/*!************************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/core/createError.js ***!
-  \************************************************************************************/
+/* 73 */
+/*!***************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/axios/lib/core/createError.js ***!
+  \***************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var enhanceError = __webpack_require__(/*! ./enhanceError */ 75);
+var enhanceError = __webpack_require__(/*! ./enhanceError */ 74);
 
 /**
                                                * Create an Error with the specified message, config, error code, request and response.
@@ -13753,10 +13828,10 @@ module.exports = function createError(message, config, code, request, response) 
 };
 
 /***/ }),
-/* 75 */
-/*!*************************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/core/enhanceError.js ***!
-  \*************************************************************************************/
+/* 74 */
+/*!****************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/axios/lib/core/enhanceError.js ***!
+  \****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13805,10 +13880,88 @@ module.exports = function enhanceError(error, config, code, request, response) {
 };
 
 /***/ }),
+/* 75 */
+/*!*****************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/axios/lib/core/buildFullPath.js ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var isAbsoluteURL = __webpack_require__(/*! ../helpers/isAbsoluteURL */ 76);
+var combineURLs = __webpack_require__(/*! ../helpers/combineURLs */ 77);
+
+/**
+                                                      * Creates a new URL by combining the baseURL with the requestedURL,
+                                                      * only when the requestedURL is not already an absolute URL.
+                                                      * If the requestURL is absolute, this function returns the requestedURL untouched.
+                                                      *
+                                                      * @param {string} baseURL The base URL
+                                                      * @param {string} requestedURL Absolute or relative URL to combine
+                                                      * @returns {string} The combined full path
+                                                      */
+module.exports = function buildFullPath(baseURL, requestedURL) {
+  if (baseURL && !isAbsoluteURL(requestedURL)) {
+    return combineURLs(baseURL, requestedURL);
+  }
+  return requestedURL;
+};
+
+/***/ }),
 /* 76 */
-/*!****************************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/helpers/parseHeaders.js ***!
-  \****************************************************************************************/
+/*!********************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/axios/lib/helpers/isAbsoluteURL.js ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+               * Determines whether the specified URL is absolute
+               *
+               * @param {string} url The URL to test
+               * @returns {boolean} True if the specified URL is absolute, otherwise false
+               */
+module.exports = function isAbsoluteURL(url) {
+  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
+  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
+  // by any combination of letters, digits, plus, period, or hyphen.
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+};
+
+/***/ }),
+/* 77 */
+/*!******************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/axios/lib/helpers/combineURLs.js ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+               * Creates a new URL by combining the specified URLs
+               *
+               * @param {string} baseURL The base URL
+               * @param {string} relativeURL The relative URL
+               * @returns {string} The combined URL
+               */
+module.exports = function combineURLs(baseURL, relativeURL) {
+  return relativeURL ?
+  baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '') :
+  baseURL;
+};
+
+/***/ }),
+/* 78 */
+/*!*******************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/axios/lib/helpers/parseHeaders.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13868,10 +14021,10 @@ module.exports = function parseHeaders(headers) {
 };
 
 /***/ }),
-/* 77 */
-/*!*******************************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/helpers/isURLSameOrigin.js ***!
-  \*******************************************************************************************/
+/* 79 */
+/*!**********************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/axios/lib/helpers/isURLSameOrigin.js ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13945,10 +14098,10 @@ function nonStandardBrowserEnv() {
 }();
 
 /***/ }),
-/* 78 */
-/*!***********************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/helpers/cookies.js ***!
-  \***********************************************************************************/
+/* 80 */
+/*!**************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/axios/lib/helpers/cookies.js ***!
+  \**************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14007,58 +14160,10 @@ function nonStandardBrowserEnv() {
 }();
 
 /***/ }),
-/* 79 */
-/*!*****************************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/helpers/isAbsoluteURL.js ***!
-  \*****************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
-               * Determines whether the specified URL is absolute
-               *
-               * @param {string} url The URL to test
-               * @returns {boolean} True if the specified URL is absolute, otherwise false
-               */
-module.exports = function isAbsoluteURL(url) {
-  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
-  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
-  // by any combination of letters, digits, plus, period, or hyphen.
-  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
-};
-
-/***/ }),
-/* 80 */
-/*!***************************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/helpers/combineURLs.js ***!
-  \***************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
-               * Creates a new URL by combining the specified URLs
-               *
-               * @param {string} baseURL The base URL
-               * @param {string} relativeURL The relative URL
-               * @returns {string} The combined URL
-               */
-module.exports = function combineURLs(baseURL, relativeURL) {
-  return relativeURL ?
-  baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '') :
-  baseURL;
-};
-
-/***/ }),
 /* 81 */
-/*!************************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/core/mergeConfig.js ***!
-  \************************************************************************************/
+/*!***************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/axios/lib/core/mergeConfig.js ***!
+  \***************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14080,13 +14185,23 @@ module.exports = function mergeConfig(config1, config2) {
   config2 = config2 || {};
   var config = {};
 
-  utils.forEach(['url', 'method', 'params', 'data'], function valueFromConfig2(prop) {
+  var valueFromConfig2Keys = ['url', 'method', 'params', 'data'];
+  var mergeDeepPropertiesKeys = ['headers', 'auth', 'proxy'];
+  var defaultToConfig2Keys = [
+  'baseURL', 'url', 'transformRequest', 'transformResponse', 'paramsSerializer',
+  'timeout', 'withCredentials', 'adapter', 'responseType', 'xsrfCookieName',
+  'xsrfHeaderName', 'onUploadProgress', 'onDownloadProgress',
+  'maxContentLength', 'validateStatus', 'maxRedirects', 'httpAgent',
+  'httpsAgent', 'cancelToken', 'socketPath'];
+
+
+  utils.forEach(valueFromConfig2Keys, function valueFromConfig2(prop) {
     if (typeof config2[prop] !== 'undefined') {
       config[prop] = config2[prop];
     }
   });
 
-  utils.forEach(['headers', 'auth', 'proxy'], function mergeDeepProperties(prop) {
+  utils.forEach(mergeDeepPropertiesKeys, function mergeDeepProperties(prop) {
     if (utils.isObject(config2[prop])) {
       config[prop] = utils.deepMerge(config1[prop], config2[prop]);
     } else if (typeof config2[prop] !== 'undefined') {
@@ -14098,13 +14213,25 @@ module.exports = function mergeConfig(config1, config2) {
     }
   });
 
-  utils.forEach([
-  'baseURL', 'transformRequest', 'transformResponse', 'paramsSerializer',
-  'timeout', 'withCredentials', 'adapter', 'responseType', 'xsrfCookieName',
-  'xsrfHeaderName', 'onUploadProgress', 'onDownloadProgress', 'maxContentLength',
-  'validateStatus', 'maxRedirects', 'httpAgent', 'httpsAgent', 'cancelToken',
-  'socketPath'],
-  function defaultToConfig2(prop) {
+  utils.forEach(defaultToConfig2Keys, function defaultToConfig2(prop) {
+    if (typeof config2[prop] !== 'undefined') {
+      config[prop] = config2[prop];
+    } else if (typeof config1[prop] !== 'undefined') {
+      config[prop] = config1[prop];
+    }
+  });
+
+  var axiosKeys = valueFromConfig2Keys.
+  concat(mergeDeepPropertiesKeys).
+  concat(defaultToConfig2Keys);
+
+  var otherKeys = Object.
+  keys(config2).
+  filter(function filterAxiosKeys(key) {
+    return axiosKeys.indexOf(key) === -1;
+  });
+
+  utils.forEach(otherKeys, function otherKeysDefaultToConfig2(prop) {
     if (typeof config2[prop] !== 'undefined') {
       config[prop] = config2[prop];
     } else if (typeof config1[prop] !== 'undefined') {
@@ -14117,9 +14244,9 @@ module.exports = function mergeConfig(config1, config2) {
 
 /***/ }),
 /* 82 */
-/*!*********************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/cancel/Cancel.js ***!
-  \*********************************************************************************/
+/*!************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/axios/lib/cancel/Cancel.js ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14146,9 +14273,9 @@ module.exports = Cancel;
 
 /***/ }),
 /* 83 */
-/*!**************************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/cancel/CancelToken.js ***!
-  \**************************************************************************************/
+/*!*****************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/axios/lib/cancel/CancelToken.js ***!
+  \*****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14213,9 +14340,9 @@ module.exports = CancelToken;
 
 /***/ }),
 /* 84 */
-/*!**********************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/node_modules/axios/lib/helpers/spread.js ***!
-  \**********************************************************************************/
+/*!*************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/node_modules/axios/lib/helpers/spread.js ***!
+  \*************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14250,9 +14377,9 @@ module.exports = function spread(callback) {
 
 /***/ }),
 /* 85 */
-/*!********************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/js_sdk/gangdiedao-uni-axios/adapter.js ***!
-  \********************************************************************************/
+/*!***********************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/js_sdk/gangdiedao-uni-axios/adapter.js ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14262,9 +14389,9 @@ module.exports = function spread(callback) {
 
 
 
-var _createError = _interopRequireDefault(__webpack_require__(/*! axios/lib/core/createError */ 74));
-var _buildURL = _interopRequireDefault(__webpack_require__(/*! axios/lib/helpers/buildURL */ 63));
-var _settle = _interopRequireDefault(__webpack_require__(/*! axios/lib/core/settle */ 73));
+var _createError = _interopRequireDefault(__webpack_require__(/*! axios/lib/core/createError */ 73));
+var _buildURL = _interopRequireDefault(__webpack_require__(/*! axios/lib/helpers/buildURL */ 62));
+var _settle = _interopRequireDefault(__webpack_require__(/*! axios/lib/core/settle */ 72));
 var _awaitTimeout = _interopRequireDefault(__webpack_require__(/*! ./await-timeout */ 86));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
 var timer = new _awaitTimeout.default();
@@ -14317,9 +14444,9 @@ var adapter = function adapter(config) {
 
 /***/ }),
 /* 86 */
-/*!**************************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/js_sdk/gangdiedao-uni-axios/await-timeout.js ***!
-  \**************************************************************************************/
+/*!*****************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/js_sdk/gangdiedao-uni-axios/await-timeout.js ***!
+  \*****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14406,9 +14533,9 @@ function _classCallCheck(instance, Constructor) {if (!(instance instanceof Const
 
 /***/ }),
 /* 87 */
-/*!****************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http_req_list.js ***!
-  \****************************************************************/
+/*!*******************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/utils/http_req_list.js ***!
+  \*******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14470,9 +14597,9 @@ exports.url_getUserbloodSugar = url_getUserbloodSugar;var url_setUserBloodPressu
 
 /***/ }),
 /* 88 */
-/*!*************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http_getHomeBannerList.js ***!
-  \*************************************************************************/
+/*!****************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/utils/http_getHomeBannerList.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14535,9 +14662,9 @@ var http_getHomeBannerList = function http_getHomeBannerList() {
 
 /***/ }),
 /* 89 */
-/*!***********************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http_getHomeNewsList.js ***!
-  \***********************************************************************/
+/*!**************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/utils/http_getHomeNewsList.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14554,28 +14681,189 @@ var URLD = 'https://api.douban.com/v2/book/isbn/9787506394864?apikey=0df993c66c0
 
 // 获取首页新闻列表
 // 返回 OBJ
-var http_getHomeNewsList = /*#__PURE__*/function () {var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(page) {var offset, limit, pageObj;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+var http_getHomeNewsList = /*#__PURE__*/function () {var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(page, offset, limit) {var list;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
 
-            offset = 5;
-            limit = 5;
-            pageObj = {};_context.next = 5;return (
-              _http.default.get(_http_req_list.url_getHomeNewsList, { params: {
-                  page: page,
-                  limit: limit } }).
-              then(function (res) {
-                console.log('-----------------');
-                console.log(res.data);
-                if (res.data.code === 0) {
-                  pageObj = res.data.page;
-                }
-              }));case 5:return _context.abrupt("return",
-            pageObj);case 6:case "end":return _context.stop();}}}, _callee, this);}));return function http_getHomeNewsList(_x) {return _ref.apply(this, arguments);};}();exports.http_getHomeNewsList = http_getHomeNewsList;
+            // let pageObj = {}
+            // await http.get(url_getHomeNewsList, {params:{
+            // 	page,
+            // 	limit
+            // }}).then(res => {
+            // 		console.log('-----------------')
+            // 		console.log(res.data)
+            // 		if(res.data.code === 0) {
+            // 			pageObj =  res.data.page
+            // 		}
+            // 	})
+            // return pageObj
+
+            // todo: 接口写好后,解开上边注释,注释下边模拟数据
+
+            // 新闻内容数据结构↓
+            // createTime: "2020-01-15 15:42:14"
+            // dataSort: 0
+            // id: 1
+            // isDelete: 0
+            // newsAuthor: "神译局"
+            // newsContent: "&amp;nbsp;神译局是36氪旗下编译团队，关注科技、商业、职场、生活等领域，重点介绍国外的新技术、新观点、新风向。编者按：投资人是最接近预言家的人，在 2020 年这个重要的年份，硅谷顶级投资人 Fred Wilson 写下了自己对未来十年的思考和预测，在他眼中，未来十年世界会发生什么样的变化？有哪些新的领域值得关注？一起来阅读。文章译自 Fred Wilson 的博客 AVC，原标题为 What will happen in the 2020s。我最喜欢比尔·盖茨的一句话：“<strong>人们往往高估了一年内发生的事情，却低估了未来十年内发生的事情。</strong>”对人类而言，未来十年非常重要。在未来的十年里，我们需要找到一直萦绕在我们心中的问题的答案。我是一个乐观主义者，我相信人们有直面挑战的勇气，也有找到解决方案的智慧。所以，对于2020年这个开局之年，我持乐观的态度。以下是我对未来十年的展望。1、气候危机迫在眉睫，就像两次世界大战爆发的前夜。应对气候危机需要各国、各机构调动各个领域重新配置资金，对抗全球变暖。未来十年，我们会看到：资本将重新配置；碳排放征税政策收紧，世界上大多数国家，包括美国在内，都将对碳排放征税；受气候变化影响严重的地区，其房地产价格将出现暴跌；因气候变暖而受益的地区，其房地产价格会出现上涨；未来，大量的资本将会投资用于保护关键地区和基础设施；核能将在全球范围内复兴，尤其是那些更容易建造、操作更安全的小型反应堆将会大受欢迎；到2030年，全球太阳能装机容量将从目前的650 GW增加到2万GW以上。所有这些事情都将会导致资本市场更加关注气候问题并为其提供资金，而用于其他领域的资金将会减少。2、自动化将继续降低我们赖以生存和生产的许多服务和系统的运营成本。谁将获得如此巨大的消费者剩余，将决定未来十年的政治格局。我们将看到资本主义会受到越来越多的审视，为了更公平地重新分配财富和收入而进行的试验将产生新一代的世界领导人，他们将在这股浪潮中备受欢迎。3、中国将凭借其技术实力和快速适应新变化的能力，成为世界上占主导地位的全球超级大国。相反，美国将变得越来越注重内部事务和孤立主义。4、各国将发行并推广本国的数字/加密版本法定货币，中国将成为第一个吃螃蟹的国家，并从中受益最多。美国因为受到监管的束缚，行动迟缓，从而让其它国家和地区在加密领域占据领先地位。亚洲的加密资产交易所由于不会受到欧洲和美国繁琐的监管限制，通过利用去中心化的金融技术，将成为所有类型金融工具的主要资本市场。5、去中心化的互联网将会出现，最初的呈现形式是去中心化的基础设施服务，如存储、带宽、计算等。去中心化的消费级应用程序发展是缓慢的，杀手级的消费级应用程序直到2025年以后才会出现。6、十年后，植物性饮食将主宰世界。吃肉将成为一种稀有的佳肴，就像今天吃鱼子酱一样。世界上大部分的粮食生产将从农场转移到实验室。7 .对外太空的探索和商业化将由私营公司主导，因为各国政府不愿在该领域进行投资。在未来十年的前几年，将产生一波对太空商业的炒作和投资，但投资回报是缓慢的，到2030年，人们将处在对太空商业的幻想破灭的低谷。8、政府和公司的大规模监测将成为常态，预计在未来十年中，人们将越来越多地求助于新产品和新服务，以保护自己不受监测。未来十年，最大的消费级科技产品将出现在隐私领域。9、我们最终将告别婴儿潮一代掌握着美国和世界各地话语权的时代，千禧一代和 Z 世代将在2030年掌管大量公司或机构。股东、选民和其他利益相关者将不再看重人的年龄和经验，而更看重远见和勇气。10、遗传学的不断进步将在未来十年中大获成功，癌症和其他不治之症会被更好地认识和治疗。生育情况也将发生重大改变。然而，遗传学也会产生新的疾病和道德/伦理问题，使社会变得混乱。平衡好遗传学带来的得与失将是我们在未来十年中面临的最大挑战。以上十个预测，对现在来说足够了，对我来说也足够了。我希望这篇文章能引发你的思考，这是这篇文章的目的。这些预测不可能都是正确的，但重要的是你要思考这些问题。&amp;nbsp;译者：杨志芳"
+            // newsDate: "2020-01-15 12:56:06"
+            // newsImgUrl: "https://pic.36krcnd.com/avatar/201906/14092708/q42867125b5hasjf!120"
+            // newsSource: "36kr"
+            // newsSourceId: 1
+            // newsSourceUrl: "http://localhost:8080"
+            // newsStatus: 1
+            // newsTitle: "硅谷顶级投资人 Fred Wilson 的未来十年预测"
+            // newsType: 1
+            // status: 0
+            // updateTime: "2020-01-15 15:42:14"
+
+            // 模拟数据
+            list = [
+            {
+              newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+              newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+              id: '111',
+              newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png' },
+            {
+              newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+              newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+              id: '222',
+              newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png' },
+            {
+              newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+              newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+              id: '333',
+              newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png' },
+            {
+              newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+              newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+              id: '444',
+              newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png' },
+            {
+              newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+              newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+              id: '5',
+              newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png' },
+            {
+              newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+              newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+              id: '6',
+              newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png' },
+            {
+              newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+              newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+              id: '7',
+              newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png' },
+            {
+              newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+              newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+              id: '8',
+              newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png' },
+            {
+              newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+              newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+              id: '9',
+              newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png' },
+            {
+              newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+              newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+              id: '10',
+              newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png' },
+            {
+              newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+              newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+              id: '11',
+              newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png' },
+            {
+              newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+              newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+              id: '12',
+              newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png' },
+            {
+              newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+              newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+              id: '13',
+              newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png' },
+            {
+              newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+              newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+              id: '111',
+              newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png' },
+            {
+              newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+              newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+              id: '14',
+              newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png' },
+            {
+              newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+              newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+              id: '15',
+              newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png' },
+            {
+              newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+              newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+              id: '16',
+              newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png' },
+            {
+              newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+              newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+              id: '111',
+              newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png' },
+            {
+              newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+              newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+              id: '111',
+              newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png' },
+            {
+              newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+              newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+              id: '111',
+              newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png' },
+            {
+              newsTitle: '武汉不明原因肺炎增长至59例，SARS已被排除SARS已被排除SARS已被排除SARS已被排除SARS已被排被排被排被排被排被排除',
+              newsContent: '武汉卫健委针对本次不明原因肺炎时间发出最新通告通告通告通告通告',
+              id: '111',
+              newsImgUrl: 'http://image.mishi.cn/r/yry_h5_test/detail/3_1535359279285.png' }];return _context.abrupt("return",
+
+
+            {
+              'totalCount': list.length,
+              'totalPage': Math.ceil(list.length / offset),
+              'list': list.slice((page - 1) * offset, page * offset)
+
+
+
+
+
+              // 注意,这里用get请求,如果是要修改请求头,那么就需要在http.js中if (config.method == 'get') {config.data = 'true'} ,并且,get请求的第二个参数,是设置请求头;
+              // http.get(url_getPhone,{params:{
+              //      encryptedData,
+              // 		iv
+              //    }}).then(res => {
+              // http.get(URLD,{headers: {'Content-Type': 'application/text'}}).then(res => {
+
+              // // 直接在getURL资源路径中添加请求体参数axios会出错,所以还是用params:{data}		
+              // // http.get(url_getPhone+`?encryptedData=${encryptedData}&iv=${iv}`).then(res => {
+
+              // 	// 由于不是vue组件,所以不能拿到this的vue实例,
+              // 	// 所以这里操作store就用原始的方法,直接操作文件;
+              // 	// 其他vue文件还是用...mutations映射方法操作
+              // 	// console.log('换取用户手机号↓')
+              // 	// console.log(res)
+
+              // 	store.commit('setUserPhone', '18801228710')
+              // 	// store.commit('setUserPhone', res.data.data.phoneNumber)
+              // 	console.log(store.getters.store_UserPhone)
+
+              // }).catch(error => {
+              // }).finally(() => {
+              // })
+            });case 2:case "end":return _context.stop();}}}, _callee, this);}));return function http_getHomeNewsList(_x, _x2, _x3) {return _ref.apply(this, arguments);};}();exports.http_getHomeNewsList = http_getHomeNewsList;
 
 /***/ }),
 /* 90 */
-/*!*****************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http_getWXStep.js ***!
-  \*****************************************************************/
+/*!********************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/utils/http_getWXStep.js ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14630,9 +14918,9 @@ var http_getWXStep = function http_getWXStep(encryptedData, iv) {
 
 /***/ }),
 /* 91 */
-/*!**************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/wxcomponents/vant/toast/toast.js ***!
-  \**************************************************************************/
+/*!*****************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/wxcomponents/vant/toast/toast.js ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14706,9 +14994,9 @@ Toast;exports.default = _default;
 
 /***/ }),
 /* 92 */
-/*!***************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/wxcomponents/vant/common/utils.js ***!
-  \***************************************************************************/
+/*!******************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/wxcomponents/vant/common/utils.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14748,9 +15036,9 @@ function addUnit(value) {
 
 /***/ }),
 /* 93 */
-/*!****************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/wxcomponents/vant/dialog/dialog.js ***!
-  \****************************************************************************/
+/*!*******************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/wxcomponents/vant/dialog/dialog.js ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14829,9 +15117,9 @@ Dialog;exports.default = _default;
 /* 100 */,
 /* 101 */,
 /* 102 */
-/*!***************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http_getStep.js ***!
-  \***************************************************************/
+/*!******************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/utils/http_getStep.js ***!
+  \******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14912,9 +15200,9 @@ var http_getStep = function http_getStep() {
 /* 127 */,
 /* 128 */,
 /* 129 */
-/*!*************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/static/images/login/ds-logo.svg ***!
-  \*************************************************************************/
+/*!****************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/static/images/login/ds-logo.svg ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14924,9 +15212,9 @@ module.exports = __webpack_require__.p + "static/img/ds-logo.8b1afe3e.svg";
 /* 130 */,
 /* 131 */,
 /* 132 */
-/*!**********************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http_login_setToken.js ***!
-  \**********************************************************************/
+/*!*************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/utils/http_login_setToken.js ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -15055,9 +15343,9 @@ var http_login_setToken = /*#__PURE__*/function () {var _ref = _asyncToGenerator
 
 /***/ }),
 /* 133 */
-/*!****************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http_getPhone.js ***!
-  \****************************************************************/
+/*!*******************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/utils/http_getPhone.js ***!
+  \*******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -15123,9 +15411,9 @@ var http_getPhone = /*#__PURE__*/function () {var _ref = _asyncToGenerator( /*#_
 /* 140 */,
 /* 141 */,
 /* 142 */
-/*!***********************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/utils/http_setUserBaseSign.js ***!
-  \***********************************************************************/
+/*!**************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/utils/http_setUserBaseSign.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -15193,9 +15481,9 @@ var http_setUserBaseSign = /*#__PURE__*/function () {var _ref = _asyncToGenerato
 /* 147 */,
 /* 148 */,
 /* 149 */
-/*!***********************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/static/images/addData/arr.png ***!
-  \***********************************************************************/
+/*!**************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/static/images/addData/arr.png ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -15230,9 +15518,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAtCAYAAAC0
 /* 175 */,
 /* 176 */,
 /* 177 */
-/*!***************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/static/images/health/editIcon.png ***!
-  \***************************************************************************/
+/*!******************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/static/images/health/editIcon.png ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -15240,9 +15528,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM
 
 /***/ }),
 /* 178 */
-/*!*************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/static/images/health/switch.png ***!
-  \*************************************************************************/
+/*!****************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/static/images/health/switch.png ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -15250,9 +15538,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7
 
 /***/ }),
 /* 179 */
-/*!***********************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/static/images/health/help.png ***!
-  \***********************************************************************/
+/*!**************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/static/images/health/help.png ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -15285,9 +15573,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7
 /* 203 */,
 /* 204 */,
 /* 205 */
-/*!****************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/wxcomponents/vant/loading/index.js ***!
-  \****************************************************************************/
+/*!*******************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/wxcomponents/vant/loading/index.js ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -15306,9 +15594,9 @@ var _component = __webpack_require__(/*! ../common/component */ 206);
 
 /***/ }),
 /* 206 */
-/*!*******************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/wxcomponents/vant/common/component.js ***!
-  \*******************************************************************************/
+/*!**********************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/wxcomponents/vant/common/component.js ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -15363,9 +15651,9 @@ function VantComponent() {var vantOptions = arguments.length > 0 && arguments[0]
 
 /***/ }),
 /* 207 */
-/*!***************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/wxcomponents/vant/mixins/basic.js ***!
-  \***************************************************************************/
+/*!******************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/wxcomponents/vant/mixins/basic.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -15393,9 +15681,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.basic = vo
 
 /***/ }),
 /* 208 */
-/*!************************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/wxcomponents/vant/mixins/observer/index.js ***!
-  \************************************************************************************/
+/*!***************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/wxcomponents/vant/mixins/observer/index.js ***!
+  \***************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -15422,9 +15710,9 @@ function observe(vantOptions, options) {var
 
 /***/ }),
 /* 209 */
-/*!***************************************************************************************!*\
-  !*** D:/JK-WorkFile/Code/DSJK/DSJK-uni/wxcomponents/vant/mixins/observer/behavior.js ***!
-  \***************************************************************************************/
+/*!******************************************************************************!*\
+  !*** J:/homeWorkFile/DSJK-uni/wxcomponents/vant/mixins/observer/behavior.js ***!
+  \******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
